@@ -1,0 +1,17 @@
+name: CatSeedLogin
+main: cc.baka9.catseedlogin.CatSeedLogin
+author: CatSeed
+version: 1.0.0
+commands:
+  login:
+    description: 使用密码登录
+    usage: /<command> 密码
+    aliases: [l]
+  register:
+    description: 注册密码
+    usage: /<command> 密码 重复密码
+    aliases: [reg]
+  changepassword:
+    description: 修改密码
+    usage: /<command> 旧密码 新密码 重复新密码
+    aliases: [changepw]
