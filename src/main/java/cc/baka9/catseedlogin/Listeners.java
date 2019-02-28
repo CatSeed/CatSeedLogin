@@ -17,8 +17,13 @@ import java.util.regex.Pattern;
 public class Listeners implements Listener {
     Pattern[] commandWhitelists = new Pattern[]{Pattern.compile("/l(ogin)?(\\z| .*)"), Pattern.compile("/reg(ister)?(\\z| .*)")};
 
+    private boolean playerIsCitizensNPC(Player p){
+        return p.getClass().getName().matches("^net\\.citizensnpcs.*?EntityHumanNPC.*");
+    }
+
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event){
+        if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         String input = event.getMessage().toLowerCase();
         for (Pattern regex : commandWhitelists) {
@@ -48,12 +53,14 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event){
+        if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
+        if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
@@ -73,24 +80,29 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event){
-        if (!(event.getDamager() instanceof Player) || LoginPlayerHelper.isLogin(event.getDamager().getName())) return;
+        if (!(event.getDamager() instanceof Player)) return;
+        if (playerIsCitizensNPC((Player) event.getDamager())) return;
+        if (LoginPlayerHelper.isLogin(event.getDamager().getName())) return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event){
+        if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event){
+        if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
+        if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         if ((Math.abs(event.getFrom().getZ()) - Math.abs(event.getTo().getZ())) == 0
                 && (Math.abs(event.getFrom().getX()) - Math.abs(event.getTo().getX())) == 0) return;

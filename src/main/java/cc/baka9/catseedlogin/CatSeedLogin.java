@@ -59,6 +59,10 @@ public class CatSeedLogin extends JavaPlugin {
 
     @Override
     public void onDisable(){
+        Bukkit.getOnlinePlayers().forEach(p -> {
+            p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+            LoginPlayerHelper.remove(p.getName());
+        });
         try {
             sql.getConnection().close();
         } catch (Exception e) {
