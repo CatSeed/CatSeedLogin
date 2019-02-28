@@ -19,7 +19,7 @@ public class CommandChangePassword implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String lable, String[] args){
         if (args.length != 3) return false;
         String name = sender.getName();
-        LoginPlayer lp = Cache.get(name);
+        LoginPlayer lp = Cache.getIgnoreCase(name);
         if (lp == null) {
             sender.sendMessage("§c你还未注册无法修改密码");
             return true;
@@ -38,7 +38,7 @@ public class CommandChangePassword implements CommandExecutor {
             return true;
         }
         if (!Util.passwordIsDifficulty(args[1])) {
-            sender.sendMessage("§c密码太简单啦!");
+            sender.sendMessage("§c密码必须是6~16位之间的数字和字母组成");
             return true;
         }
         if (!Cache.isLoaded) {

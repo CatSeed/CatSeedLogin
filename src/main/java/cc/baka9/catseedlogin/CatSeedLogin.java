@@ -1,5 +1,6 @@
 package cc.baka9.catseedlogin;
 
+import cc.baka9.catseedlogin.command.CommandAdminSetPassword;
 import cc.baka9.catseedlogin.command.CommandChangePassword;
 import cc.baka9.catseedlogin.command.CommandLogin;
 import cc.baka9.catseedlogin.command.CommandRegister;
@@ -29,10 +30,14 @@ public class CatSeedLogin extends JavaPlugin {
             getLogger().warning("§c加载数据库时出错");
             e.printStackTrace();
         }
+        //Listeners
         getServer().getPluginManager().registerEvents(new Listeners(), this);
+        //Commands
         getServer().getPluginCommand("login").setExecutor(new CommandLogin());
         getServer().getPluginCommand("register").setExecutor(new CommandRegister());
         getServer().getPluginCommand("changepassword").setExecutor(new CommandChangePassword());
+        getServer().getPluginCommand("adminsetpassword").setExecutor(new CommandAdminSetPassword());
+        //Task
         getServer().getScheduler().runTaskTimer(this, () -> {
             if (!Cache.isLoaded) return;
             for (Player player : Bukkit.getOnlinePlayers()) {

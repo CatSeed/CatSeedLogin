@@ -1,6 +1,5 @@
 package cc.baka9.catseedlogin.object;
 
-import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.database.Cache;
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class LoginPlayerHelper {
 
     public static boolean isRegister(String name){
 
-        return Cache.get(name) != null;
+        return Cache.getIgnoreCase(name) != null;
 
     }
 }

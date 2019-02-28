@@ -20,10 +20,19 @@ public class Cache {
 
     }
 
-    public static LoginPlayer get(String name){
+    public static LoginPlayer getIgnoreCase(String name){
         synchronized (set) {
             for (LoginPlayer lp : set) {
                 if (lp.getName().equalsIgnoreCase(name)) return lp;
+            }
+        }
+        return null;
+    }
+
+    public static LoginPlayer get(String name){
+        synchronized (set) {
+            for (LoginPlayer lp : set) {
+                if (lp.getName().equals(name)) return lp;
             }
         }
         return null;
@@ -51,7 +60,7 @@ public class Cache {
             try {
                 LoginPlayer newLp = CatSeedLogin.sql.get(name);
                 synchronized (set) {
-                    set.remove(get(name));
+                    set.remove(getIgnoreCase(name));
                     if (newLp != null) set.add(newLp);
                     CatSeedLogin.getInstance().getLogger().info("缓存加载 " + set.size() + " 个数据");
                 }

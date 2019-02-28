@@ -2,6 +2,7 @@ name: CatSeedLogin
 main: cc.baka9.catseedlogin.CatSeedLogin
 author: CatSeed
 version: 1.0.0
+api-version: 1.13
 commands:
   login:
     description: 使用密码登录
@@ -15,3 +16,8 @@ commands:
     description: 修改密码
     usage: /<command> 旧密码 新密码 重复新密码
     aliases: [changepw]
+  adminsetpassword:
+    description: 管理员强制设置玩家密码
+    usage: /<command> 玩家名 密码
+    aliases: [adminsetpw]
+    permission: catseedlogin.command.adminsetpassword

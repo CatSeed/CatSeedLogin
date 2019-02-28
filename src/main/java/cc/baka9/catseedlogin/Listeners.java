@@ -29,19 +29,18 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerLogin(AsyncPlayerPreLoginEvent event){
-        if(!Cache.isLoaded){
+        if (!Cache.isLoaded) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "服务器还在初始化..");
             return;
         }
         String name = event.getName();
-        LoginPlayer lp = Cache.get(name);
-        if (lp != null && !lp.getName().equals(name)) {
+        LoginPlayer lp = Cache.getIgnoreCase(name);
+        if (lp == null) return;
+        if (!lp.getName().equals(name)) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "游戏名字母大小写不匹配,请使用游戏名" + lp.getName() + "重新尝试登录");
             return;
         }
         if (LoginPlayerHelper.isLogin(name)) {
-            System.out.println(22);
-            assert lp != null;
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "玩家 " + lp.getName() + " 已经在线了!");
         }
 
