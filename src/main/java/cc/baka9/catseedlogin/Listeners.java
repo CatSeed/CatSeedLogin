@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
@@ -30,6 +31,7 @@ public class Listeners implements Listener {
             if (regex.matcher(input).find()) return;
         }
         event.setCancelled(true);
+
     }
 
     @EventHandler
@@ -48,6 +50,18 @@ public class Listeners implements Listener {
         if (LoginPlayerHelper.isLogin(name)) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "玩家 " + lp.getName() + " 已经在线了!");
         }
+        int count = 0;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            String ip = p.getAddress().getAddress().getHostAddress();
+            if (ip.equals(event.getAddress().getHostAddress())) {
+                count++;
+            }
+            if (count >= 2) {
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "太多相同ip的账号同时在线了!");
+                return;
+            }
+        }
+
 
     }
 
@@ -97,6 +111,15 @@ public class Listeners implements Listener {
     public void onPlayerDropItem(PlayerDropItemEvent event){
         if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityPickupItem(EntityPickupItemEvent event){
+        if (!(event.getEntity() instanceof Player)) return;
+        Player player = (Player) event.getEntity();
+        if (playerIsCitizensNPC(player)) return;
+        if (LoginPlayerHelper.isLogin(player.getName())) return;
         event.setCancelled(true);
     }
 

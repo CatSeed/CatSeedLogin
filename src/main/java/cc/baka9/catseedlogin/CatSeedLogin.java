@@ -12,6 +12,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class CatSeedLogin extends JavaPlugin {
 
     private static CatSeedLogin instance;
@@ -34,8 +37,14 @@ public class CatSeedLogin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Listeners(), this);
         //Commands
         getServer().getPluginCommand("login").setExecutor(new CommandLogin());
+        getServer().getPluginCommand("login").setTabCompleter((commandSender, command, s, args)
+                -> args.length == 1 ? Collections.singletonList("密码") : new ArrayList<>(0));
         getServer().getPluginCommand("register").setExecutor(new CommandRegister());
+        getServer().getPluginCommand("register").setTabCompleter((commandSender, command, s, args)
+                -> args.length == 1 ? Collections.singletonList("密码 重复密码") : new ArrayList<>(0));
         getServer().getPluginCommand("changepassword").setExecutor(new CommandChangePassword());
+        getServer().getPluginCommand("changepassword").setTabCompleter((commandSender, command, s, args)
+                -> args.length == 1 ? Collections.singletonList("旧密码 新密码 重复新密码") : new ArrayList<>(0));
         getServer().getPluginCommand("adminsetpassword").setExecutor(new CommandAdminSetPassword());
         //Task
         getServer().getScheduler().runTaskTimer(this, () -> {
@@ -75,4 +84,5 @@ public class CatSeedLogin extends JavaPlugin {
     public static CatSeedLogin getInstance(){
         return instance;
     }
+
 }
