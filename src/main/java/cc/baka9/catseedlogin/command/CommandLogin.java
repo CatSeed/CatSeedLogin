@@ -1,5 +1,6 @@
 package cc.baka9.catseedlogin.command;
 
+import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.Crypt;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
@@ -7,6 +8,7 @@ import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Objects;
 
@@ -26,6 +28,7 @@ public class CommandLogin implements CommandExecutor {
         }
         if (Objects.equals(Crypt.encrypt(name, args[0]), lp.getPassword().trim())) {
             LoginPlayerHelper.add(lp);
+            ((Player)sender).teleport(Config.getOfflineLocation((Player) sender));
             sender.sendMessage("§a已成功登录!");
         } else {
             sender.sendMessage("§c密码错误!");

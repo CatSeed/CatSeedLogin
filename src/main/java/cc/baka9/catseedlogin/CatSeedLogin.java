@@ -51,7 +51,6 @@ public class CatSeedLogin extends JavaPlugin {
             if (!Cache.isLoaded) return;
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!LoginPlayerHelper.isLogin(player.getName())) {
-
                     if (!LoginPlayerHelper.isRegister(player.getName())) {
                         player.sendMessage("§a你还没有注册,请输入§e/reg 密码 重复密码 §a来注册");
                         continue;
@@ -62,16 +61,18 @@ public class CatSeedLogin extends JavaPlugin {
                 }
             }
         }, 0, 20 * 5);
+        //Config
+        Config.load();
 
 
     }
 
     @Override
     public void onDisable(){
-        Bukkit.getOnlinePlayers().forEach(p -> {
+/*        Bukkit.getOnlinePlayers().forEach(p -> {
             p.teleport(Bukkit.getWorld("world").getSpawnLocation());
             LoginPlayerHelper.remove(p.getName());
-        });
+        });*/
         try {
             sql.getConnection().close();
         } catch (Exception e) {

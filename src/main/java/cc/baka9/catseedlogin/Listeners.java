@@ -4,6 +4,7 @@ import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class Listeners implements Listener {
     Pattern[] commandWhitelists = new Pattern[]{Pattern.compile("/l(ogin)?(\\z| .*)"), Pattern.compile("/reg(ister)?(\\z| .*)")};
-
+    Location spawnLoc = Bukkit.getWorld("world").getSpawnLocation();
     private boolean playerIsCitizensNPC(Player p){
         return p.getClass().getName().matches("^net\\.citizensnpcs.*?EntityHumanNPC.*");
     }
@@ -57,7 +58,7 @@ public class Listeners implements Listener {
                 count++;
             }
             if (count >= 2) {
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "太多相同ip的账号同时在线了!");
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "太多相同ip的账号同时在线!");
                 return;
             }
         }
@@ -102,6 +103,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event){
+        if(event.getTo().equals(spawnLoc)) return;
         if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
@@ -134,9 +136,17 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
-        event.getPlayer().teleport(Bukkit.getWorld("world").getSpawnLocation());
-        Bukkit.getScheduler().runTaskLater(CatSeedLogin.getInstance(), () -> LoginPlayerHelper.remove(event.getPlayer().getName()), 20 * 3);
+        //event.getPlayer().teleport(Bukkit.getWorld("world").getSpawnLocation());
+        Player player = event.getPlayer();
+        if (!LoginPlayerHelper.isLogin(player.getName())) return;
+        Config.setOfflineLocation(player);
+        Bukkit.getScheduler().runTaskLater(CatSeedLogin.getInstance(), () -> LoginPlayerHelper.remove(player.getName()), 20 * 3);
 
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event){
+        event.getPlayer().teleport(spawnLoc);
     }
 
 }

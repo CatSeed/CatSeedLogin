@@ -45,9 +45,9 @@ public class Cache {
                 synchronized (set) {
                     set.clear();
                     set.addAll(newCache);
-                    CatSeedLogin.getInstance().getLogger().info("缓存加载 " + set.size() + " 个数据");
-                    isLoaded = true;
                 }
+                CatSeedLogin.getInstance().getLogger().info("缓存加载 " + set.size() + " 个数据");
+                isLoaded = true;
             } catch (Exception e) {
                 CatSeedLogin.getInstance().getLogger().warning("数据库错误,无法更新缓存!");
                 e.printStackTrace();
@@ -62,8 +62,8 @@ public class Cache {
                 synchronized (set) {
                     set.remove(getIgnoreCase(name));
                     if (newLp != null) set.add(newLp);
-                    CatSeedLogin.getInstance().getLogger().info("缓存加载 " + set.size() + " 个数据");
                 }
+                CatSeedLogin.getInstance().getLogger().info("缓存加载 " + set.size() + " 个数据");
             } catch (Exception e) {
                 CatSeedLogin.getInstance().getLogger().warning("数据库错误,无法更新缓存!");
                 e.printStackTrace();
