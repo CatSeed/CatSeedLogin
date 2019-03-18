@@ -11,28 +11,28 @@ import java.util.Map;
 
 public class Config {
     private static CatSeedLogin plugin = CatSeedLogin.getInstance();
-    private static Map<String, Location> offlineLocations = new HashMap<>();
+    private static Map<String, String> offlineLocations = new HashMap<>();
 
     public static void load(){
         plugin.saveDefaultConfig();
         FileConfiguration config = plugin.getConfig();
         if (config.contains("offlineLocations"))
             config.getConfigurationSection("offlineLocations").getKeys(false).forEach(key ->
-                    offlineLocations.put(key, str2Location(config.getString("offlineLocations." + key)))
+                    offlineLocations.put(key, config.getString("offlineLocations." + key))
             );
 
     }
 
     public static Location getOfflineLocation(Player player){
-        Location loc = offlineLocations.get(player.getName());
-        return loc == null ? Bukkit.getWorld("world").getSpawnLocation() : loc;
+        String data = offlineLocations.get(player.getName());
+        return str2Location(data);
     }
 
     public static void setOfflineLocation(Player player){
         String name = player.getName();
-        Location loc = player.getLocation();
-        offlineLocations.put(name, loc);
-        plugin.getConfig().set("offlineLocations." + name, loc2String(loc));
+        String data = loc2String(player.getLocation());
+        offlineLocations.put(name, data);
+        plugin.getConfig().set("offlineLocations." + name, data);
         plugin.saveConfig();
     }
 

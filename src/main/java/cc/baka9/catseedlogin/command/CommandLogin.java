@@ -15,8 +15,9 @@ import java.util.Objects;
 public class CommandLogin implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String lable, String[] args){
-        if (args.length == 0) return false;
-        String name = sender.getName();
+        if (args.length == 0 || !(sender instanceof Player)) return false;
+        Player player = (Player) sender;
+        String name = player .getName();
         if (LoginPlayerHelper.isLogin(name)) {
             sender.sendMessage("§c你已经登录了,不需要再次登录");
             return true;
@@ -28,7 +29,7 @@ public class CommandLogin implements CommandExecutor {
         }
         if (Objects.equals(Crypt.encrypt(name, args[0]), lp.getPassword().trim())) {
             LoginPlayerHelper.add(lp);
-            ((Player)sender).teleport(Config.getOfflineLocation((Player) sender));
+            player.teleport(Config.getOfflineLocation(player));
             sender.sendMessage("§a已成功登录!");
         } else {
             sender.sendMessage("§c密码错误!");
