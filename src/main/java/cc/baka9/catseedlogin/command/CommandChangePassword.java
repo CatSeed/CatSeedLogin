@@ -50,11 +50,18 @@ public class CommandChangePassword implements CommandExecutor {
                 lp.setPassword(args[1]);
                 lp.crypt();
                 CatSeedLogin.sql.edit(lp);
-                sender.sendMessage("§a修改成功! 请重新登录~");
-                if(sender instanceof Player){
-                    ((Player)sender).teleport(Bukkit.getWorld("world").getSpawnLocation());
-                }
                 LoginPlayerHelper.remove(lp);
+                if (sender instanceof Player) {
+                    Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
+                        Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
+                        if (player != null && player.isOnline()) {
+                            player.sendMessage("§a修改成功! 请重新登录~");
+                            player.teleport(Bukkit.getWorld("world").getSpawnLocation());
+
+                        }
+                    });
+
+                }
 
 
             } catch (Exception e) {
