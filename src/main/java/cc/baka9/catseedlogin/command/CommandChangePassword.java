@@ -1,6 +1,7 @@
 package cc.baka9.catseedlogin.command;
 
 import cc.baka9.catseedlogin.CatSeedLogin;
+import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.Crypt;
 import cc.baka9.catseedlogin.Util;
 import cc.baka9.catseedlogin.database.Cache;
@@ -56,6 +57,7 @@ public class CommandChangePassword implements CommandExecutor {
                         Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
                         if (player != null && player.isOnline()) {
                             player.sendMessage("§a修改成功! 请重新登录~");
+                            Config.setOfflineLocation(player);
                             player.teleport(Bukkit.getWorld("world").getSpawnLocation());
 
                         }
