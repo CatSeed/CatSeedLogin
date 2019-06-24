@@ -5,23 +5,78 @@ import cc.baka9.catseedlogin.object.LoginPlayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public abstract class SQL {
 
-    public abstract void createBD() throws Exception;
+    public void createBD() throws Exception{
+        flush(new BufferStatement("CREATE TABLE accounts (name CHAR(255),password CHAR(255),lastAction TIMESTAMP)"));
+    }
 
-    public abstract void add(LoginPlayer lp) throws Exception;
 
-    public abstract void del(String name) throws Exception;
+    public void add(LoginPlayer lp) throws Exception{
+        flush(new BufferStatement("INSERT INTO accounts VALUES(?,?,?)",
+                lp.getName(), lp.getPassword(), new Date()));
+        Cache.refresh(lp.getName());
+    }
 
-    public abstract void edit(LoginPlayer lp) throws Exception;
+    public void del(String name) throws Exception{
+        flush(new BufferStatement("DELETE FROM accounts WHERE name = ?",
+                name));
+        Cache.refresh(name);
+    }
 
-    public abstract LoginPlayer get(String name) throws Exception;
+    public void edit(LoginPlayer lp) throws Exception{
+        flush(new BufferStatement("UPDATE accounts SET password = ?, lastAction = ? WHERE name= ?"
+                , lp.getPassword(), new Date(), lp.getName()));
+        Cache.refresh(lp.getName());
+    }
 
-    public abstract List<LoginPlayer> getAll() throws Exception;
+    public LoginPlayer get(String name) throws Exception{
+        PreparedStatement ps = new BufferStatement("SELECT * FROM accounts WHERE name = ?",
+                name).prepareStatement(getConnection());
 
-    public abstract LoginPlayer getLike(String name) throws Exception;
+        ResultSet resultSet = ps.executeQuery();
+        LoginPlayer lp = null;
+        if (resultSet.next()) {
+            lp = new LoginPlayer(name, resultSet.getString(2));
+            lp.setLastAction(resultSet.getLong(3));
+        }
+        resultSet.close();
+        ps.close();
+        return lp;
+    }
+
+    public List<LoginPlayer> getAll() throws Exception{
+        PreparedStatement ps = new BufferStatement("SELECT * FROM accounts").prepareStatement(getConnection());
+        ResultSet resultSet = ps.executeQuery();
+        List<LoginPlayer> lps = new ArrayList<>();
+        LoginPlayer lp;
+        while (resultSet.next()) {
+            lp = new LoginPlayer(resultSet.getString(1), resultSet.getString(2));
+            lp.setLastAction(resultSet.getLong(3));
+            lps.add(lp);
+        }
+        return lps;
+
+    }
+
+    public LoginPlayer getLike(String name) throws Exception{
+        PreparedStatement ps = new BufferStatement("SELECT * FROM accounts WHERE name like ?",
+                name).prepareStatement(getConnection());
+
+        ResultSet resultSet = ps.executeQuery();
+        LoginPlayer lp = null;
+        if (resultSet.next()) {
+            lp = new LoginPlayer(name, resultSet.getString(2));
+            lp.setLastAction(resultSet.getLong(3));
+        }
+        resultSet.close();
+        ps.close();
+        return lp;
+    }
 
     public abstract Connection getConnection() throws Exception;
 

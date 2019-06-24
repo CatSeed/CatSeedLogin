@@ -1,19 +1,16 @@
 package cc.baka9.catseedlogin.database;
 
 import cc.baka9.catseedlogin.CatSeedLogin;
+import cc.baka9.catseedlogin.Config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SQLite extends SQL {
+public class MySQL extends SQL {
     CatSeedLogin plugin = CatSeedLogin.getInstance();
     private Connection connection;
 
-    @Override
-    public void createBD() throws Exception{
-        flush(new BufferStatement("CREATE TABLE accounts (name CHAR(255),password CHAR(255),lastAction TIMESTAMP)"));
-    }
 
     @Override
     public Connection getConnection() throws SQLException{
@@ -23,8 +20,11 @@ public class SQLite extends SQL {
         }
         if (plugin.getDataFolder().exists()) {
             try {
-                Class.forName("org.sqlite.JDBC");
-                this.connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "/accounts.db");
+                Class.forName("com.mysql.jdbc.Driver");
+                this.connection = DriverManager.getConnection(
+                        "jdbc:mysql://" + Config.MySQL.Host + ":" + Config.MySQL.Port + "/" + Config.MySQL.Database + "?characterEncoding=UTF-8",
+                        Config.MySQL.User, Config.MySQL.Password
+                );
                 return this.connection;
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();

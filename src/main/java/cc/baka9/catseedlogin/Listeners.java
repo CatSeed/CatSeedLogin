@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 public class Listeners implements Listener {
     Pattern[] commandWhitelists = new Pattern[]{Pattern.compile("/l(ogin)?(\\z| .*)"), Pattern.compile("/reg(ister)?(\\z| .*)")};
     Location spawnLoc = Bukkit.getWorld("world").getSpawnLocation();
+
     private boolean playerIsCitizensNPC(Player p){
         return p.getClass().getName().matches("^net\\.citizensnpcs.*?EntityHumanNPC.*");
     }
@@ -103,7 +104,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event){
-        if(event.getTo().equals(spawnLoc)) return;
+        if (event.getTo().equals(spawnLoc)) return;
         if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
@@ -146,7 +147,9 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        event.getPlayer().teleport(spawnLoc);
+        Player p = event.getPlayer();
+        Cache.refresh(p.getName());
+        p.teleport(spawnLoc);
     }
 
 }

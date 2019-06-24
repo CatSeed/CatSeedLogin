@@ -5,6 +5,7 @@ import cc.baka9.catseedlogin.command.CommandChangePassword;
 import cc.baka9.catseedlogin.command.CommandLogin;
 import cc.baka9.catseedlogin.command.CommandRegister;
 import cc.baka9.catseedlogin.database.Cache;
+import cc.baka9.catseedlogin.database.MySQL;
 import cc.baka9.catseedlogin.database.SQL;
 import cc.baka9.catseedlogin.database.SQLite;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
@@ -23,7 +24,9 @@ public class CatSeedLogin extends JavaPlugin {
     @Override
     public void onEnable(){
         instance = this;
-        sql = new SQLite();
+        //Config
+        Config.load();
+        sql = Config.MySQL.Enable ?new MySQL() :new SQLite();
         try {
             if (!sql.hasTable("accounts")) {
                 sql.createBD();
@@ -61,8 +64,6 @@ public class CatSeedLogin extends JavaPlugin {
                 }
             }
         }, 0, 20 * 5);
-        //Config
-        Config.load();
 
 
     }
