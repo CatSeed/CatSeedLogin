@@ -53,12 +53,13 @@ public class Listeners implements Listener {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "玩家 " + lp.getName() + " 已经在线了!");
         }
         int count = 0;
+        String hostAddress = event.getAddress().getHostAddress();
         for (Player p : Bukkit.getOnlinePlayers()) {
             String ip = p.getAddress().getAddress().getHostAddress();
-            if (ip.equals(event.getAddress().getHostAddress())) {
+            if (ip.equals(hostAddress)) {
                 count++;
             }
-            if (count >= 2) {
+            if (count >= Config.Settings.IpCountLimit) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "太多相同ip的账号同时在线!");
                 return;
             }

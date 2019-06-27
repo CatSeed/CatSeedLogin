@@ -22,6 +22,31 @@ public class Config {
         public static String Database;
         public static String User;
         public static String Password;
+
+        public static void load(){
+            FileConfiguration config = getConfig("sql.yml");
+            MySQL.Enable = config.getBoolean("MySQL.Enable");
+            MySQL.Host = config.getString("MySQL.Host");
+            MySQL.Port = config.getString("MySQL.Port");
+            MySQL.Database = config.getString("MySQL.Database");
+            MySQL.User = config.getString("MySQL.User");
+            MySQL.Password = config.getString("MySQL.Password");
+        }
+    }
+
+    public static class Settings {
+        public static int IpCountLimit;
+        public static void load(){
+            FileConfiguration config = getConfig("settings.yml");
+            IpCountLimit = config.getInt("IpCountLimit");
+        }
+    }
+
+    public static FileConfiguration getConfig(String yamlFileName){
+        File file = new File(plugin.getDataFolder(), yamlFileName);
+        if (!file.exists())
+            plugin.saveResource(yamlFileName, false);
+        return YamlConfiguration.loadConfiguration(file);
     }
 
     public static void load(){
@@ -32,16 +57,8 @@ public class Config {
                     offlineLocations.put(key, config.getString("offlineLocations." + key))
             );
         }
-        File sqlConfigFile = new File(plugin.getDataFolder(), "sql.yml");
-        if (!sqlConfigFile.exists())
-            plugin.saveResource("sql.yml", false);
-        FileConfiguration sqlConfig = YamlConfiguration.loadConfiguration(sqlConfigFile);
-        MySQL.Enable = sqlConfig.getBoolean("MySQL.Enable");
-        MySQL.Host = sqlConfig.getString("MySQL.Host");
-        MySQL.Port = sqlConfig.getString("MySQL.Port");
-        MySQL.Database = sqlConfig.getString("MySQL.Database");
-        MySQL.User = sqlConfig.getString("MySQL.User");
-        MySQL.Password = sqlConfig.getString("MySQL.Password");
+        MySQL.load();
+        Settings.load();
 
     }
 
