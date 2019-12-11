@@ -24,7 +24,8 @@ public class BufferStatement {
 	public BufferStatement(String query, Object... values) {
 		this.query = query;
 		this.values = values;
-		this.stacktrace = new Exception(); // For error handling
+		// For error handling
+		this.stacktrace = new Exception();
 		this.stacktrace.fillInStackTrace(); // We can declare where this
 											// statement came from.
 	}

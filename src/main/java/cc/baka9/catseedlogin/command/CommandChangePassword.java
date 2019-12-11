@@ -18,7 +18,9 @@ import java.util.Objects;
 public class CommandChangePassword implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String lable, String[] args){
-        if (args.length != 3) return false;
+        if (args.length != 3 || !(sender instanceof Player)) {
+            return false;
+        }
         String name = sender.getName();
         LoginPlayer lp = Cache.getIgnoreCase(name);
         if (lp == null) {
@@ -52,18 +54,16 @@ public class CommandChangePassword implements CommandExecutor {
                 lp.crypt();
                 CatSeedLogin.sql.edit(lp);
                 LoginPlayerHelper.remove(lp);
-                if (sender instanceof Player) {
-                    Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
-                        Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
-                        if (player != null && player.isOnline()) {
-                            player.sendMessage("§a修改成功! 请重新登录~");
-                            Config.setOfflineLocation(player);
-                            player.teleport(Bukkit.getWorld("world").getSpawnLocation());
 
-                        }
-                    });
+                Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
+                    Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
+                    if (player != null && player.isOnline()) {
+                        player.sendMessage("§a修改成功! 请重新登录~");
+                        Config.setOfflineLocation(player);
+                        player.teleport(Bukkit.getWorld("world").getSpawnLocation());
 
-                }
+                    }
+                });
 
 
             } catch (Exception e) {

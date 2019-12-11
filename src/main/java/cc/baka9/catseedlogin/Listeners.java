@@ -152,5 +152,14 @@ public class Listeners implements Listener {
         Cache.refresh(p.getName());
         p.teleport(spawnLoc);
     }
+    //id只能下划线字母数字
+    @EventHandler
+    public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event){
+        if (!event.getName().matches("^[0-9a-zA-Z_]{2,15}$")) {
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
+                    "请使用由数字,字母和下划线组成2~15长度的游戏名,才能进入游戏");
+        }
+
+    }
 
 }

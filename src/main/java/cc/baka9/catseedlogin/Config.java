@@ -44,8 +44,9 @@ public class Config {
 
     public static FileConfiguration getConfig(String yamlFileName){
         File file = new File(plugin.getDataFolder(), yamlFileName);
-        if (!file.exists())
+        if (!file.exists()) {
             plugin.saveResource(yamlFileName, false);
+        }
         return YamlConfiguration.loadConfiguration(file);
     }
 

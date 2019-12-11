@@ -18,22 +18,19 @@ public class MySQL extends SQL {
         if (this.connection != null && !this.connection.isClosed()) {
             return this.connection;
         }
-        if (plugin.getDataFolder().exists()) {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                this.connection = DriverManager.getConnection(
-                        "jdbc:mysql://" + Config.MySQL.Host + ":" + Config.MySQL.Port + "/" + Config.MySQL.Database + "?characterEncoding=UTF-8",
-                        Config.MySQL.User, Config.MySQL.Password
-                );
-                return this.connection;
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else {
-            final boolean mkdir = plugin.getDataFolder().mkdir();
-            return this.getConnection();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            this.connection = DriverManager.getConnection(
+                    "jdbc:mysql://" + Config.MySQL.Host + ":" + Config.MySQL.Port + "/" + Config.MySQL.Database + "?characterEncoding=UTF-8",
+                    Config.MySQL.User, Config.MySQL.Password
+            );
+            return this.connection;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
+
     }
 
 }
