@@ -1,4 +1,4 @@
-package cc.baka9.catseedlogin;
+package cc.baka9.catseedlogin.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
