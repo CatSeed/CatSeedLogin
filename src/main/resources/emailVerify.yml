@@ -1,0 +1,8 @@
+Enable: false
+EmailAccount: "763737569@qq.com"
+EmailPassword: "123456"
+EmailSmtpHost: "smtp.qq.com"
+EmailSmtpPort: "465"
+SSLAuthVerify: false
+FromPersonal: "xxx服务器"
+Subject: "xxx服务器-密码重置"

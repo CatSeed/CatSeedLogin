@@ -36,10 +36,36 @@ public class Config {
 
     public static class Settings {
         public static int IpCountLimit;
+
         public static void load(){
             FileConfiguration config = getConfig("settings.yml");
             IpCountLimit = config.getInt("IpCountLimit");
         }
+    }
+
+    public static class EmailVerify {
+
+        public static boolean Enable;
+        public static String EmailAccount;
+        public static String EmailPassword;
+        public static String EmailSmtpHost;
+        public static String EmailSmtpPort;
+        public static boolean SSLAuthVerify;
+        public static String FromPersonal;
+        public static String Subject;
+
+        public static void load(){
+            FileConfiguration config = getConfig("emailVerify.yml");
+            Enable = config.getBoolean("Enable");
+            EmailAccount = config.getString("EmailAccount");
+            EmailPassword = config.getString("EmailPassword");
+            EmailSmtpHost = config.getString("EmailSmtpHost");
+            EmailSmtpPort = config.getString("EmailSmtpPort");
+            SSLAuthVerify = config.getBoolean("SSLAuthVerify");
+            FromPersonal = config.getString("FromPersonal");
+            Subject = config.getString("Subject");
+        }
+
     }
 
     public static FileConfiguration getConfig(String yamlFileName){
@@ -60,6 +86,7 @@ public class Config {
         }
         MySQL.load();
         Settings.load();
+        EmailVerify.load();
 
     }
 
