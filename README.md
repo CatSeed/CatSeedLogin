@@ -33,12 +33,12 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * catseedlogin.command.adminsetpassword 管理员强制设置玩家密码指令使用权限/adminsetpassword
 ## 配置文件
 ### settings.yml
->  相同ip限制<br/>
+> #相同ip限制<br/>
 IpCountLimit: 2
 ### sql.yml
 > 如果不使用mysql数据库储存，就请无视此配置<br/>
 MySQL:<br/>
-是否开启数据库功能（false = 不开启）<br/>
+#是否开启数据库功能（false = 不开启）<br/>
   Enable: false<br/>
   Host: 127.0.0.1<br/>
   Port: '3306'<br/>
