@@ -1,19 +1,18 @@
 package cc.baka9.catseedlogin.database;
 
-import cc.baka9.catseedlogin.CatSeedLogin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLite extends SQL {
-    CatSeedLogin plugin = CatSeedLogin.getInstance();
     private Connection connection;
 
-    @Override
-    public void createBD() throws Exception{
-        flush(new BufferStatement("CREATE TABLE accounts (name CHAR(255),password CHAR(255),lastAction TIMESTAMP)"));
+    public SQLite(JavaPlugin javaPlugin){
+        super(javaPlugin);
     }
+
 
     @Override
     public Connection getConnection() throws SQLException{

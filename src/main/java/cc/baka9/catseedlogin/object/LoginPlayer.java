@@ -1,12 +1,19 @@
 package cc.baka9.catseedlogin.object;
 
 import cc.baka9.catseedlogin.Crypt;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
+@ToString
+@Getter
+@Setter
 public class LoginPlayer {
     private String name;
     private String password;
+    private String email;
     private long lastAction;
 
     @Override
@@ -22,15 +29,6 @@ public class LoginPlayer {
         return Objects.hash(name);
     }
 
-    @Override
-    public String toString(){
-        return "LoginPlayer{" +
-                "name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", lastAction=" + lastAction +
-                '}';
-    }
-
     public LoginPlayer(String name, String password){
         this.name = name;
         this.password = password;
@@ -40,24 +38,5 @@ public class LoginPlayer {
         password = Crypt.encrypt(name, password);
     }
 
-    public String getName(){
-        return name;
-    }
 
-    public String getPassword(){
-        return password;
-    }
-
-    public void setPassword(String encryptedPassword){
-        this.password = encryptedPassword;
-    }
-
-
-    public long getLastAction(){
-        return lastAction;
-    }
-
-    public void setLastAction(long lastAction){
-        this.lastAction = lastAction;
-    }
 }

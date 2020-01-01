@@ -1,19 +1,18 @@
 package cc.baka9.catseedlogin;
 
-import cc.baka9.catseedlogin.command.CommandAdminSetPassword;
-import cc.baka9.catseedlogin.command.CommandChangePassword;
-import cc.baka9.catseedlogin.command.CommandLogin;
-import cc.baka9.catseedlogin.command.CommandRegister;
+import cc.baka9.catseedlogin.command.*;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.database.MySQL;
 import cc.baka9.catseedlogin.database.SQL;
 import cc.baka9.catseedlogin.database.SQLite;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class CatSeedLogin extends JavaPlugin {
@@ -23,14 +22,38 @@ public class CatSeedLogin extends JavaPlugin {
 
     @Override
     public void onEnable(){
+        getServer().getLogger().info("                                                                                 \n" +
+                "                                                                                 \n" +
+                "  ______   ______   ______   ______   ______   ______   ______   ______   ______ \n" +
+                " /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/ \n" +
+                "                                                                                 \n" +
+                "                                                                                 \n" +
+                "_________         __   _________                 .___                            \n" +
+                "\\_   ___ \\_____ _/  |_/   _____/ ____   ____   __| _/                            \n" +
+                "/    \\  \\/\\__  \\\\   __\\_____  \\_/ __ \\_/ __ \\ / __ |                             \n" +
+                "\\     \\____/ __ \\|  | /        \\  ___/\\  ___// /_/ |                             \n" +
+                " \\______  (____  /__|/_______  /\\___  >\\___  >____ |                             \n" +
+                "        \\/     \\/            \\/     \\/     \\/     \\/                             \n" +
+                ".____                 .__                                                        \n" +
+                "|    |    ____   ____ |__| ____                                                  \n" +
+                "|    |   /  _ \\ / ___\\|  |/    \\                                                 \n" +
+                "|    |__(  <_> ) /_/  >  |   |  \\                                                \n" +
+                "|_______ \\____/\\___  /|__|___|  /                                                \n" +
+                "        \\/    /_____/         \\/                                                 \n" +
+                "                                                                                 \n" +
+                "                                                                                 \n" +
+                "  ______   ______   ______   ______   ______   ______   ______   ______   ______ \n" +
+                " /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/ \n" +
+                "                                                                                 \n" +
+                "                                                                                 ");
         instance = this;
         //Config
         Config.load();
-        sql = Config.MySQL.Enable ?new MySQL() :new SQLite();
+        sql = Config.MySQL.Enable ? new MySQL(this) : new SQLite(this);
         try {
-            if (!sql.hasTable("accounts")) {
-                sql.createBD();
-            }
+
+            sql.init();
+
             Cache.refreshAll();
         } catch (Exception e) {
             getLogger().warning("§c加载数据库时出错");
@@ -42,13 +65,34 @@ public class CatSeedLogin extends JavaPlugin {
         getServer().getPluginCommand("login").setExecutor(new CommandLogin());
         getServer().getPluginCommand("login").setTabCompleter((commandSender, command, s, args)
                 -> args.length == 1 ? Collections.singletonList("密码") : new ArrayList<>(0));
+
         getServer().getPluginCommand("register").setExecutor(new CommandRegister());
         getServer().getPluginCommand("register").setTabCompleter((commandSender, command, s, args)
                 -> args.length == 1 ? Collections.singletonList("密码 重复密码") : new ArrayList<>(0));
+
         getServer().getPluginCommand("changepassword").setExecutor(new CommandChangePassword());
         getServer().getPluginCommand("changepassword").setTabCompleter((commandSender, command, s, args)
                 -> args.length == 1 ? Collections.singletonList("旧密码 新密码 重复新密码") : new ArrayList<>(0));
+
         getServer().getPluginCommand("adminsetpassword").setExecutor(new CommandAdminSetPassword());
+
+        PluginCommand bindemail = getServer().getPluginCommand("bindemail");
+        bindemail.setExecutor(new CommandBindEmail());
+        bindemail.setTabCompleter((commandSender, command, s, args) -> {
+            if (args.length == 1) {
+                return Arrays.asList("set 需要绑定的邮箱", "verify 邮箱验证码");
+            }
+            if (args.length == 2) {
+                if (args[0].equals("set")) {
+                    return Collections.singletonList("需要绑定的邮箱");
+                }
+                if (args[0].equals("verify")) {
+                    return Collections.singletonList("邮箱获取的验证码");
+                }
+            }
+            return Collections.emptyList();
+        });
+
         //Task
         getServer().getScheduler().runTaskTimer(this, () -> {
             if (!Cache.isLoaded) return;

@@ -7,6 +7,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Properties;
 
@@ -15,7 +17,7 @@ public class Mail {
     private Mail(){
     }
 
-    public static void sendMail(String receiveMailAccount, String content) throws Exception{
+    public static void sendMail(String receiveMailAccount,String subject, String content) throws Exception{
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -43,8 +45,8 @@ public class Mail {
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(emailAccount, Config.EmailVerify.FromPersonal, "UTF-8"));
         message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMailAccount, "", "UTF-8"));
-        message.setSubject(Config.EmailVerify.Subject, "UTF-8");
-        message.setContent(content, "text/html;charset=UTF-8");
+        message.setSubject(subject, "UTF-8");
+        message.setContent(content, "text/html;charset=gbk");
         message.setSentDate(new Date());
         message.saveChanges();
 

@@ -52,7 +52,7 @@ public class Config {
         public static String EmailSmtpPort;
         public static boolean SSLAuthVerify;
         public static String FromPersonal;
-        public static String Subject;
+
 
         public static void load(){
             FileConfiguration config = getConfig("emailVerify.yml");
@@ -63,7 +63,7 @@ public class Config {
             EmailSmtpPort = config.getString("EmailSmtpPort");
             SSLAuthVerify = config.getBoolean("SSLAuthVerify");
             FromPersonal = config.getString("FromPersonal");
-            Subject = config.getString("Subject");
+
         }
 
     }

@@ -1,16 +1,18 @@
 package cc.baka9.catseedlogin.database;
 
-import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.Config;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySQL extends SQL {
-    CatSeedLogin plugin = CatSeedLogin.getInstance();
     private Connection connection;
 
+    public MySQL(JavaPlugin javaPlugin){
+        super(javaPlugin);
+    }
 
     @Override
     public Connection getConnection() throws SQLException{
