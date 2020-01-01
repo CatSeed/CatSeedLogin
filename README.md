@@ -45,5 +45,5 @@ MySQL:<br/>
   Database: databaseName<br/>
   User: root<br/>
   Password: root<br/>
-  
-# [点击进入 QQ交流群839815243](http://shang.qq.com/wpa/qunwpa?idkey=91199801a9406f659c7add6fb87b03ca071b199b36687c62a3ac51bec2f258a3)
+## 联系
+[点击进入 QQ交流群839815243](http://shang.qq.com/wpa/qunwpa?idkey=91199801a9406f659c7add6fb87b03ca071b199b36687c62a3ac51bec2f258a3)
