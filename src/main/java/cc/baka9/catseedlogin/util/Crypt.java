@@ -1,4 +1,4 @@
-package cc.baka9.catseedlogin;
+package cc.baka9.catseedlogin.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -35,4 +35,5 @@ public class Crypt {
             return false;
         }
     }
+
 }

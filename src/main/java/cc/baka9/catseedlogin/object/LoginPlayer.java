@@ -1,6 +1,6 @@
 package cc.baka9.catseedlogin.object;
 
-import cc.baka9.catseedlogin.Crypt;
+import cc.baka9.catseedlogin.util.Crypt;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,7 +1,7 @@
 package cc.baka9.catseedlogin.command;
 
 import cc.baka9.catseedlogin.Config;
-import cc.baka9.catseedlogin.Crypt;
+import cc.baka9.catseedlogin.util.Crypt;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
