@@ -62,14 +62,13 @@ MySQL:<br/>
   Password: root<br/>
 ### emailVerify.yml
 > 如果不使用邮箱一系列功能，就请无视此配置<br/>
-MySQL:<br/>
 #是否开启邮箱系列的功能（false = 不开启）<br/>
- Enable: false<br/>
- EmailAccount: "763737569@qq.com"<br/>
- EmailPassword: "123456"<br/>
- EmailSmtpHost: "smtp.qq.com"<br/>
- EmailSmtpPort: "465"<br/>
- SSLAuthVerify: true<br/>
+Enable: false<br/>
+EmailAccount: "763737569@qq.com"<br/>
+EmailPassword: "123456"<br/>
+EmailSmtpHost: "smtp.qq.com"<br/>
+EmailSmtpPort: "465"<br/>
+SSLAuthVerify: true<br/>
 #发件人的名字<br/>
  FromPersonal: "xxx服务器"<br/>
 ## 联系
