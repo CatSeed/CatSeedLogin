@@ -92,6 +92,23 @@ public class CatSeedLogin extends JavaPlugin {
             }
             return Collections.emptyList();
         });
+        PluginCommand resetpassword = getServer().getPluginCommand("resetpassword");
+        resetpassword.setExecutor(new CommandResetPassword());
+        resetpassword.setTabCompleter((commandSender, command, s, args) -> {
+            if (args.length == 1) {
+                return Arrays.asList("forget", "re 验证码 新密码");
+            }
+            if (args[0].equals("re")) {
+                if (args.length == 2) {
+                    return Collections.singletonList("验证码 新密码");
+                }
+                if (args.length == 3) {
+                    return Collections.singletonList("新密码");
+                }
+            }
+            return Collections.emptyList();
+        });
+
 
         //Task
         getServer().getScheduler().runTaskTimer(this, () -> {

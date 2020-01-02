@@ -33,6 +33,9 @@ public class CommandLogin implements CommandExecutor {
             sender.sendMessage("§a已成功登录!");
         } else {
             sender.sendMessage("§c密码错误!");
+            if(Config.EmailVerify.Enable){
+                sender.sendMessage("§c密码错误,如果忘记密码需要重置密码请输入/resetpassword forget");
+            }
         }
         return true;
     }

@@ -33,7 +33,7 @@ public abstract class SQL {
         try {
             flush(new BufferStatement("ALTER TABLE accounts ADD email CHAR(255)"));
         } catch (Exception e) {
-            if (!e.getMessage().equals("Duplicate column name 'email'")) {
+            if (!e.getMessage().toLowerCase().contains("duplicate column name")) {
                 throw e;
             }
         }

@@ -16,9 +16,16 @@ commands:
     description: 绑定邮箱,重置密码
     usage:
       |
-      /<command> email set 邮箱
-      /<command> email verify 验证码
+      /<command> set 邮箱
+      /<command> verify 验证码
     aliases: [bdmail]
+  resetpassword:
+    description: 忘记密码,重置密码
+    usage:
+      |
+      /<command> forget
+      /<command> re 验证码 新密码
+    aliases: [repw]
   changepassword:
     description: 修改密码
     usage: /<command> 旧密码 新密码 重复新密码

@@ -17,7 +17,12 @@ import org.bukkit.event.player.*;
 import java.util.regex.Pattern;
 
 public class Listeners implements Listener {
-    Pattern[] commandWhitelists = new Pattern[]{Pattern.compile("/l(ogin)?(\\z| .*)"), Pattern.compile("/reg(ister)?(\\z| .*)")};
+    Pattern[] commandWhitelists = new Pattern[]{
+            Pattern.compile("/(?i)l(ogin)?(\\z| .*)")
+            , Pattern.compile("/(?i)reg(ister)?(\\z| .*)")
+            , Pattern.compile("/(?i)resetpassword?(\\z| .*)")
+            , Pattern.compile("/(?i)repw?(\\z| .*)")
+    };
     Location spawnLoc = Bukkit.getWorld("world").getSpawnLocation();
 
     private boolean playerIsCitizensNPC(Player p){
