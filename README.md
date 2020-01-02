@@ -51,8 +51,8 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 > #相同ip限制<br/>
 IpCountLimit: 2
 ### sql.yml
-> 如果不使用mysql数据库储存，就请无视此配置<br/>
-MySQL:<br/>
+如果不使用mysql数据库储存，就请无视此配置<br/>
+> MySQL:<br/>
 #是否开启数据库功能（false = 不开启）<br/>
   Enable: false<br/>
   Host: 127.0.0.1<br/>
@@ -60,9 +60,9 @@ MySQL:<br/>
   Database: databaseName<br/>
   User: root<br/>
   Password: root<br/>
-### emailVerify.yml
-> 如果不使用邮箱一系列功能，就请无视此配置<br/>
-#是否开启邮箱系列的功能（false = 不开启）<br/>
+### emailVerify.yml 
+如果不使用邮箱一系列功能，就请无视此配置<br/>
+> #是否开启邮箱系列的功能（false = 不开启）<br/>
 Enable: false<br/>
 EmailAccount: "763737569@qq.com"<br/>
 EmailPassword: "123456"<br/>
