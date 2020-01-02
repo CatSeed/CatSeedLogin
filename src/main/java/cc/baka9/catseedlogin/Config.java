@@ -36,10 +36,12 @@ public class Config {
 
     public static class Settings {
         public static int IpCountLimit;
+        public static String spawnWorld;
 
         public static void load(){
             FileConfiguration config = getConfig("settings.yml");
             IpCountLimit = config.getInt("IpCountLimit");
+            spawnWorld = config.getString("SpawnWorld");
         }
     }
 
@@ -116,7 +118,7 @@ public class Config {
             float pitch = Float.valueOf(locStrs[5]);
             loc = new Location(world, x, y, z, yaw, pitch);
         } catch (Exception ignored) {
-            loc = Bukkit.getWorld("world").getSpawnLocation();
+            loc = Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation();
         }
         return loc;
 

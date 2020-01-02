@@ -23,7 +23,6 @@ public class Listeners implements Listener {
             , Pattern.compile("/(?i)resetpassword?(\\z| .*)")
             , Pattern.compile("/(?i)repw?(\\z| .*)")
     };
-    Location spawnLoc = Bukkit.getWorld("world").getSpawnLocation();
 
     private boolean playerIsCitizensNPC(Player p){
         return p.getClass().getName().matches("^net\\.citizensnpcs.*?EntityHumanNPC.*");
@@ -110,7 +109,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event){
-        if (event.getTo().equals(spawnLoc)) return;
+        if (event.getTo().equals(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation())) return;
         if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
@@ -143,7 +142,6 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
-        //event.getPlayer().teleport(Bukkit.getWorld("world").getSpawnLocation());
         Player player = event.getPlayer();
         if (!LoginPlayerHelper.isLogin(player.getName())) return;
         Config.setOfflineLocation(player);
@@ -155,7 +153,7 @@ public class Listeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
-        p.teleport(spawnLoc);
+        p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
     }
     //id只能下划线字母数字
     @EventHandler

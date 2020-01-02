@@ -90,7 +90,7 @@ public class CommandResetPassword implements CommandExecutor {
                                     if (p != null && p.isOnline()) {
                                         if (LoginPlayerHelper.isLogin(name)) {
                                             p.sendMessage("§c密码已重置，请重新登陆");
-                                            p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+                                            p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
                                             LoginPlayerHelper.remove(lp);
 
                                         } else {

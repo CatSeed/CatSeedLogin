@@ -1,6 +1,7 @@
 package cc.baka9.catseedlogin.command;
 
 import cc.baka9.catseedlogin.CatSeedLogin;
+import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.util.Util;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
@@ -44,7 +45,7 @@ public class CommandAdminSetPassword implements CommandExecutor {
                         Player p = Bukkit.getPlayer(finalLp.getName());
                         if (p != null && p.isOnline()) {
                             p.sendMessage("§c密码已被管理员重新设置,请重新登录");
-                            p.teleport(Bukkit.getWorld("world").getSpawnLocation());
+                            p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
                             LoginPlayerHelper.remove(finalLp);
                         }
 

@@ -60,7 +60,7 @@ public class CommandChangePassword implements CommandExecutor {
                     if (player != null && player.isOnline()) {
                         player.sendMessage("§a修改成功! 请重新登录~");
                         Config.setOfflineLocation(player);
-                        player.teleport(Bukkit.getWorld("world").getSpawnLocation());
+                        player.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
 
                     }
                 });

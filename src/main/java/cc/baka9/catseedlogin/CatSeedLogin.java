@@ -131,10 +131,6 @@ public class CatSeedLogin extends JavaPlugin {
 
     @Override
     public void onDisable(){
-/*        Bukkit.getOnlinePlayers().forEach(p -> {
-            p.teleport(Bukkit.getWorld("world").getSpawnLocation());
-            LoginPlayerHelper.remove(p.getName());
-        });*/
         Bukkit.getOnlinePlayers().forEach(p -> {
             if (!LoginPlayerHelper.isLogin(p.getName())) return;
             Config.setOfflineLocation(p);
