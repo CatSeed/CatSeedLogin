@@ -4,7 +4,6 @@ import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -155,12 +154,24 @@ public class Listeners implements Listener {
         Cache.refresh(p.getName());
         p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
     }
+
     //id只能下划线字母数字
     @EventHandler
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event){
-        if (!event.getName().matches("^[0-9a-zA-Z_]{2,15}$")) {
+        String name = event.getName();
+        if (Config.Settings.LimitChineseID) {
+            if (!name.matches("^[0-9a-zA-Z_]+$")) {
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
+                        "请使用由数字,字母和下划线组成的游戏名,才能进入游戏");
+            }
+        }
+        if (name.length() < Config.Settings.MinLengthID) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    "请使用由数字,字母和下划线组成2~15长度的游戏名,才能进入游戏");
+                    "你的游戏名太短了,至少需要 " + Config.Settings.MinLengthID + " 个字符的长度");
+        }
+        if (name.length() > Config.Settings.MaxLengthID) {
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
+                    "你的游戏名太长了,最长只能到达 " + Config.Settings.MaxLengthID + " 个字符的长度");
         }
 
     }

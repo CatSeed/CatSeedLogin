@@ -53,6 +53,12 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 IpCountLimit: 2<br/>
 #登录时在哪个世界的出生点<br/>
 SpawnWorld: "world"<br/>
+#是否限制中文ID<br/>
+LimitChineseID: true
+#游戏ID最小长度<br/>
+MinLengthID: 2
+#游戏ID最大长度<br/>
+MaxLengthID: 15
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>

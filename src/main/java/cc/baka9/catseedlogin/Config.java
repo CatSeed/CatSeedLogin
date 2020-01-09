@@ -37,11 +37,17 @@ public class Config {
     public static class Settings {
         public static int IpCountLimit;
         public static String spawnWorld;
+        public static boolean LimitChineseID;
+        public static int MaxLengthID;
+        public static int MinLengthID;
 
         public static void load(){
             FileConfiguration config = getConfig("settings.yml");
             IpCountLimit = config.getInt("IpCountLimit");
-            spawnWorld = config.getString("SpawnWorld");
+            spawnWorld = config.getString("SpawnWorld", "world");
+            LimitChineseID = config.getBoolean("LimitChineseID", true);
+            MinLengthID = config.getInt("MinLengthID", 2);
+            MaxLengthID = config.getInt("MaxLengthID", 15);
         }
     }
 

@@ -1,2 +1,5 @@
 IpCountLimit: 2
 SpawnWorld: "world"
+LimitChineseID: true
+MinLengthID: 2
+MaxLengthID: 15
