@@ -54,11 +54,11 @@ IpCountLimit: 2<br/>
 #登录时在哪个世界的出生点<br/>
 SpawnWorld: "world"<br/>
 #是否限制中文ID<br/>
-LimitChineseID: true
+LimitChineseID: true<br/>
 #游戏ID最小长度<br/>
-MinLengthID: 2
+MinLengthID: 2<br/>
 #游戏ID最大长度<br/>
-MaxLengthID: 15
+MaxLengthID: 15<br/>
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>
