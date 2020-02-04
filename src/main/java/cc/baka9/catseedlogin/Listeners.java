@@ -4,10 +4,12 @@ import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -98,12 +100,30 @@ public class Listeners implements Listener {
         event.setCancelled(true);
     }
 
+    //登陆之前不能攻击
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event){
         if (!(event.getDamager() instanceof Player)) return;
         if (playerIsCitizensNPC((Player) event.getDamager())) return;
         if (LoginPlayerHelper.isLogin(event.getDamager().getName())) return;
         event.setCancelled(true);
+    }
+
+    //登陆之前不会受到伤害
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event){
+        if(Config.Settings.BeforeLoginNoDamage){
+
+            Entity entity = event.getEntity();
+            if (entity instanceof Player && !playerIsCitizensNPC((Player) entity)) {
+                if (!LoginPlayerHelper.isLogin(entity.getName())) {
+                    event.setCancelled(true);
+                }
+
+            }
+
+        }
+
     }
 
     @EventHandler

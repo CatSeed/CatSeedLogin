@@ -59,6 +59,8 @@ LimitChineseID: true<br/>
 MinLengthID: 2<br/>
 #游戏ID最大长度<br/>
 MaxLengthID: 15<br/>
+#登陆之前不受到伤害<br/>
+BeforeLoginNoDamage: true<br/>
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>

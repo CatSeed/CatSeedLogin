@@ -3,3 +3,4 @@ SpawnWorld: "world"
 LimitChineseID: true
 MinLengthID: 2
 MaxLengthID: 15
+BeforeLoginNoDamage: true
