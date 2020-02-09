@@ -42,7 +42,7 @@ public class CommandBindEmail implements CommandExecutor {
 
         // command set email
         if (args[0].equalsIgnoreCase("set") && args.length > 1) {
-            if (lp.getEmail() != null) {
+            if (lp.getEmail() != null && Mail.strIsEmail(lp.getEmail())) {
                 sender.sendMessage("§c你已经绑定过邮箱了!");
             } else {
                 String mail = args[1];
@@ -81,7 +81,7 @@ public class CommandBindEmail implements CommandExecutor {
 
         // command verify code
         if (args[0].equalsIgnoreCase("verify") && args.length > 1) {
-            if (lp.getEmail() != null) {
+            if (lp.getEmail() != null && Mail.strIsEmail(lp.getEmail())) {
                 sender.sendMessage("§c你已经绑定过邮箱了!");
             } else {
                 Optional<EmailCode> emailOptional = EmailCode.getByName(name, EmailCode.Type.Bind);

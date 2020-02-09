@@ -42,7 +42,7 @@ public abstract class SQL {
 
 
     public void add(LoginPlayer lp) throws Exception{
-        flush(new BufferStatement("INSERT INTO accounts VALUES(?,?,?,?)",
+        flush(new BufferStatement("INSERT INTO accounts (name,password,lastAction,email) VALUES(?,?,?,?)",
                 lp.getName(), lp.getPassword(), new Date(), lp.getEmail()));
         Cache.refresh(lp.getName());
     }

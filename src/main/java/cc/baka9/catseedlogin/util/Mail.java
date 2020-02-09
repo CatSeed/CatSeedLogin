@@ -7,17 +7,23 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class Mail {
 
     private Mail(){
     }
 
-    public static void sendMail(String receiveMailAccount,String subject, String content) throws Exception{
+    private static Pattern emailRegex = Pattern.compile("^[A-Za-z0-9]+([_.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\\.)+[A-Za-z]{2,6}$");
+
+    public static boolean strIsEmail(String email){
+        return emailRegex.matcher(email).find();
+
+    }
+
+    public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception{
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
