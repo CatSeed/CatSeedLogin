@@ -66,9 +66,9 @@ public abstract class SQL {
         ResultSet resultSet = ps.executeQuery();
         LoginPlayer lp = null;
         if (resultSet.next()) {
-            lp = new LoginPlayer(name, resultSet.getString(2));
-            lp.setLastAction(resultSet.getLong(3));
-            lp.setEmail(resultSet.getString(4));
+            lp = new LoginPlayer(name, resultSet.getString("password"));
+            lp.setLastAction(resultSet.getLong("lastAction"));
+            lp.setEmail(resultSet.getString("email"));
         }
         resultSet.close();
         ps.close();
@@ -81,9 +81,9 @@ public abstract class SQL {
         List<LoginPlayer> lps = new ArrayList<>();
         LoginPlayer lp;
         while (resultSet.next()) {
-            lp = new LoginPlayer(resultSet.getString(1), resultSet.getString(2));
-            lp.setLastAction(resultSet.getLong(3));
-            lp.setEmail(resultSet.getString(4));
+            lp = new LoginPlayer(resultSet.getString("name"), resultSet.getString("password"));
+            lp.setLastAction(resultSet.getLong("lastAction"));
+            lp.setEmail(resultSet.getString("email"));
             lps.add(lp);
         }
         return lps;
@@ -97,9 +97,9 @@ public abstract class SQL {
         ResultSet resultSet = ps.executeQuery();
         LoginPlayer lp = null;
         if (resultSet.next()) {
-            lp = new LoginPlayer(name, resultSet.getString(2));
-            lp.setLastAction(resultSet.getLong(3));
-            lp.setEmail(resultSet.getString(4));
+            lp = new LoginPlayer(name, resultSet.getString("password"));
+            lp.setLastAction(resultSet.getLong("lastAction"));
+            lp.setEmail(resultSet.getString("email"));
         }
         resultSet.close();
         ps.close();

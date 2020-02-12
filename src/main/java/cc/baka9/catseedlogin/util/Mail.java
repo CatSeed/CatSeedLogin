@@ -16,12 +16,12 @@ public class Mail {
     private Mail(){
     }
 
-    private static Pattern emailRegex = Pattern.compile("^[A-Za-z0-9]+([_.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\\.)+[A-Za-z]{2,6}$");
-
-    public static boolean strIsEmail(String email){
-        return emailRegex.matcher(email).find();
-
-    }
+//    private static Pattern emailRegex = Pattern.compile("^[A-Za-z0-9]+([_.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\\.)+[A-Za-z]{2,6}$");
+//
+//    public static boolean strIsEmail(String email){
+//        return emailRegex.matcher(email).find();
+//
+//    }
 
     public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception{
 
