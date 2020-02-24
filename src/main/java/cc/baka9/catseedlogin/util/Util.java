@@ -2,6 +2,7 @@ package cc.baka9.catseedlogin.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -18,7 +19,7 @@ public class Util {
         return sdf.format(new Date(time));
     }
 
-    public static boolean checkMail(String e_mail) {
+    public static boolean checkMail(String e_mail){
         return e_mail.matches("[a-zA-Z0-9_]+@[a-zA-Z0-9_]+(\\.[a-zA-Z0-9_]+)+");
     }
 
@@ -36,5 +37,12 @@ public class Util {
 
         return buffer.toString();
     }
+
+    public static boolean isOSLinux(){
+        Properties prop = System.getProperties();
+        String os = prop.getProperty("os.name");
+        return os != null && os.toLowerCase().contains("linux");
+    }
+
 
 }

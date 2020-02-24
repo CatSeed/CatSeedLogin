@@ -1,14 +1,17 @@
 package cc.baka9.catseedlogin.command;
 
 import cc.baka9.catseedlogin.CatSeedLogin;
-import cc.baka9.catseedlogin.util.Util;
+import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
+import cc.baka9.catseedlogin.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
 
 public class CommandRegister implements CommandExecutor {
 
@@ -44,6 +47,10 @@ public class CommandRegister implements CommandExecutor {
                 CatSeedLogin.sql.add(lp);
                 LoginPlayerHelper.add(lp);
                 sender.sendMessage("§a注册成功!");
+                if (Config.Settings.BeforeLoginBlindness) {
+
+                    ((Player) sender).removePotionEffect(PotionEffectType.BLINDNESS);
+                }
 
 
             } catch (Exception e) {

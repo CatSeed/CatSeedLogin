@@ -4,3 +4,6 @@ LimitChineseID: true
 MinLengthID: 2
 MaxLengthID: 15
 BeforeLoginNoDamage: true
+BeforeLoginBlindness: true
+ReenterInterval: 60
+AfterLoginBack: true

@@ -45,8 +45,12 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 ### 用邮箱收到的验证码重置密码
 * /bindemail re 验证码 新密码
 * /bdmail re 验证码 新密码
+### 管理员重载配置文件
+* /catseedlogin reload
+* /cslogin reload
 ## 权限
 * catseedlogin.command.adminsetpassword 管理员强制设置玩家密码指令使用权限/adminsetpassword
+* catseedlogin.command.catseedlogin 管理员重载配置文件指令使用权限/catseedlogin reload
 ## 配置文件
 ### settings.yml
 > #相同ip限制<br/>
@@ -61,6 +65,12 @@ MinLengthID: 2<br/>
 MaxLengthID: 15<br/>
 #登陆之前不受到伤害<br/>
 BeforeLoginNoDamage: true<br/>
+#登陆之前给予失明效果<br/>
+BeforeLoginBlindness: true<br/>
+#离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）<br/>
+ReenterInterval: 60<br/>
+#登陆之后是否返回退出地点<br/>
+AfterLoginBack: true<br/>
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>

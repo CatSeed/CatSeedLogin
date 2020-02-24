@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,30 +24,6 @@ public class CatSeedLogin extends JavaPlugin {
 
     @Override
     public void onEnable(){
-        getServer().getLogger().info("                                                                                 \n" +
-                "                                                                                 \n" +
-                "  ______   ______   ______   ______   ______   ______   ______   ______   ______ \n" +
-                " /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/ \n" +
-                "                                                                                 \n" +
-                "                                                                                 \n" +
-                "_________         __   _________                 .___                            \n" +
-                "\\_   ___ \\_____ _/  |_/   _____/ ____   ____   __| _/                            \n" +
-                "/    \\  \\/\\__  \\\\   __\\_____  \\_/ __ \\_/ __ \\ / __ |                             \n" +
-                "\\     \\____/ __ \\|  | /        \\  ___/\\  ___// /_/ |                             \n" +
-                " \\______  (____  /__|/_______  /\\___  >\\___  >____ |                             \n" +
-                "        \\/     \\/            \\/     \\/     \\/     \\/                             \n" +
-                ".____                 .__                                                        \n" +
-                "|    |    ____   ____ |__| ____                                                  \n" +
-                "|    |   /  _ \\ / ___\\|  |/    \\                                                 \n" +
-                "|    |__(  <_> ) /_/  >  |   |  \\                                                \n" +
-                "|_______ \\____/\\___  /|__|___|  /                                                \n" +
-                "        \\/    /_____/         \\/                                                 \n" +
-                "                                                                                 \n" +
-                "                                                                                 \n" +
-                "  ______   ______   ______   ______   ______   ______   ______   ______   ______ \n" +
-                " /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/  /_____/ \n" +
-                "                                                                                 \n" +
-                "                                                                                 ");
         instance = this;
         //Config
         Config.load();
@@ -108,6 +86,14 @@ public class CatSeedLogin extends JavaPlugin {
             }
             return Collections.emptyList();
         });
+        PluginCommand catseedlogin = getServer().getPluginCommand("catseedlogin");
+        catseedlogin.setExecutor(new CommandCatSeedLogin());
+        catseedlogin.setTabCompleter((commandSender, command, s, args) -> {
+            if (args.length == 1) {
+                return Collections.singletonList("reload 重载配置文件");
+            }
+            return Collections.emptyList();
+        });
 
 
         //Task
@@ -121,6 +107,9 @@ public class CatSeedLogin extends JavaPlugin {
                     }
                     player.sendMessage("§a请输入§e/l 密码 §a来登录游戏");
                     player.sendMessage("§b如果你从未注册,请换个游戏名!");
+                    if (Config.Settings.BeforeLoginBlindness) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 6, 0), true);
+                    }
 
                 }
             }

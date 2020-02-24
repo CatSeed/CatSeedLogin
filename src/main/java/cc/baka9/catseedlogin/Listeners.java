@@ -14,6 +14,8 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.regex.Pattern;
 
@@ -112,7 +114,7 @@ public class Listeners implements Listener {
     //登陆之前不会受到伤害
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event){
-        if(Config.Settings.BeforeLoginNoDamage){
+        if (Config.Settings.BeforeLoginNoDamage) {
 
             Entity entity = event.getEntity();
             if (entity instanceof Player && !playerIsCitizensNPC((Player) entity)) {
@@ -164,7 +166,7 @@ public class Listeners implements Listener {
         Player player = event.getPlayer();
         if (!LoginPlayerHelper.isLogin(player.getName())) return;
         Config.setOfflineLocation(player);
-        Bukkit.getScheduler().runTaskLater(CatSeedLogin.getInstance(), () -> LoginPlayerHelper.remove(player.getName()), 20 * 3);
+        Bukkit.getScheduler().runTaskLater(CatSeedLogin.getInstance(), () -> LoginPlayerHelper.remove(player.getName()), Config.Settings.ReenterInterval);
 
     }
 
@@ -173,6 +175,9 @@ public class Listeners implements Listener {
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
         p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
+        if (Config.Settings.BeforeLoginBlindness) {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 6, 0),true);
+        }
     }
 
     //id只能下划线字母数字

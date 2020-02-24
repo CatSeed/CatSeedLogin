@@ -9,19 +9,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 public class Mail {
 
     private Mail(){
     }
 
-//    private static Pattern emailRegex = Pattern.compile("^[A-Za-z0-9]+([_.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\\.)+[A-Za-z]{2,6}$");
-//
-//    public static boolean strIsEmail(String email){
-//        return emailRegex.matcher(email).find();
-//
-//    }
 
     public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception{
 
@@ -52,7 +45,7 @@ public class Mail {
         message.setFrom(new InternetAddress(emailAccount, Config.EmailVerify.FromPersonal, "UTF-8"));
         message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMailAccount, "", "UTF-8"));
         message.setSubject(subject, "UTF-8");
-        message.setContent(content, "text/html;charset=gbk");
+        message.setContent(content, Util.isOSLinux() ? "text/html; charset=UTF-8" : "text/html; charset=GBK");
         message.setSentDate(new Date());
         message.saveChanges();
 
