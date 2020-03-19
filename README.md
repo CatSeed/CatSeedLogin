@@ -53,28 +53,26 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * catseedlogin.command.catseedlogin 管理员重载配置文件指令使用权限/catseedlogin reload
 ## 配置文件
 ### settings.yml
-> #相同ip限制<br/>
+> \#相同ip限制<br/>
 IpCountLimit: 2<br/>
-#登录时在哪个世界的出生点<br/>
+\#登录时在哪个世界的出生点<br/>
 SpawnWorld: "world"<br/>
-#是否限制中文ID<br/>
+\#是否限制中文ID<br/>
 LimitChineseID: true<br/>
-#游戏ID最小长度<br/>
+\#游戏ID最小长度<br/>
 MinLengthID: 2<br/>
-#游戏ID最大长度<br/>
+\#游戏ID最大长度<br/>
 MaxLengthID: 15<br/>
-#登陆之前不受到伤害<br/>
+\#登陆之前不受到伤害<br/>
 BeforeLoginNoDamage: true<br/>
-#登陆之前给予失明效果<br/>
-BeforeLoginBlindness: true<br/>
-#离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）<br/>
+\#离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）<br/>
 ReenterInterval: 60<br/>
-#登陆之后是否返回退出地点<br/>
+\#登陆之后是否返回退出地点<br/>
 AfterLoginBack: true<br/>
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>
-#是否开启数据库功能（false = 不开启）<br/>
+\#是否开启数据库功能（false = 不开启）<br/>
   Enable: false<br/>
   Host: 127.0.0.1<br/>
   Port: '3306'<br/>
@@ -83,14 +81,22 @@ AfterLoginBack: true<br/>
   Password: root<br/>
 ### emailVerify.yml 
 如果不使用邮箱一系列功能，就请无视此配置<br/>
-> #是否开启邮箱系列的功能（false = 不开启）<br/>
+> \#是否开启邮箱系列的功能（false = 不开启）<br/>
 Enable: false<br/>
 EmailAccount: "763737569@qq.com"<br/>
 EmailPassword: "123456"<br/>
 EmailSmtpHost: "smtp.qq.com"<br/>
 EmailSmtpPort: "465"<br/>
 SSLAuthVerify: true<br/>
-#发件人的名字<br/>
+\#发件人的名字<br/>
  FromPersonal: "xxx服务器"<br/>
+## 开发者部分
+### 事件
+CatSeedPlayerLoginEvent
+<br/>
+CatSeedPlayerRegisterEvent
+### API
+CatSeedLoginAPI
+### 登录玩家管理
 ## 联系
 [点击进入 QQ交流群839815243](http://shang.qq.com/wpa/qunwpa?idkey=91199801a9406f659c7add6fb87b03ca071b199b36687c62a3ac51bec2f258a3)

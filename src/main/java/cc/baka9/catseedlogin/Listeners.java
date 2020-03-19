@@ -14,8 +14,6 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.regex.Pattern;
 
@@ -175,9 +173,6 @@ public class Listeners implements Listener {
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
         p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
-        if (Config.Settings.BeforeLoginBlindness) {
-            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 6, 0),true);
-        }
     }
 
     //id只能下划线字母数字

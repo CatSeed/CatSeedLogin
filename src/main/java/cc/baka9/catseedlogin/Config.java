@@ -41,7 +41,6 @@ public class Config {
         public static int MaxLengthID;
         public static int MinLengthID;
         public static boolean BeforeLoginNoDamage;
-        public static boolean BeforeLoginBlindness;
         public static long ReenterInterval;
         public static boolean AfterLoginBack;
 
@@ -53,7 +52,6 @@ public class Config {
             MinLengthID = config.getInt("MinLengthID", 2);
             MaxLengthID = config.getInt("MaxLengthID", 15);
             BeforeLoginNoDamage = config.getBoolean("BeforeLoginNoDamage");
-            BeforeLoginBlindness = config.getBoolean("BeforeLoginBlindness");
             ReenterInterval = config.getLong("ReenterInterval");
             AfterLoginBack = config.getBoolean("AfterLoginBack", true);
         }

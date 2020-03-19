@@ -10,8 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,9 +105,6 @@ public class CatSeedLogin extends JavaPlugin {
                     }
                     player.sendMessage("§a请输入§e/l 密码 §a来登录游戏");
                     player.sendMessage("§b如果你从未注册,请换个游戏名!");
-                    if (Config.Settings.BeforeLoginBlindness) {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 6, 0), true);
-                    }
 
                 }
             }

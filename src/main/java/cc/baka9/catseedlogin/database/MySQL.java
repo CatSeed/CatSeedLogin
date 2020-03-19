@@ -17,7 +17,7 @@ public class MySQL extends SQL {
     @Override
     public Connection getConnection() throws SQLException{
 
-        if (this.connection != null && !this.connection.isClosed()) {
+        if (this.connection != null && !this.connection.isClosed() && this.connection.isValid(10)) {
             return this.connection;
         }
 
