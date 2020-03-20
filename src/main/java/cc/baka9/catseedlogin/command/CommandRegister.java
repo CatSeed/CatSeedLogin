@@ -1,7 +1,6 @@
 package cc.baka9.catseedlogin.command;
 
 import cc.baka9.catseedlogin.CatSeedLogin;
-import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.event.CatSeedPlayerRegisterEvent;
 import cc.baka9.catseedlogin.object.LoginPlayer;
@@ -11,8 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
 
 public class CommandRegister implements CommandExecutor {
 
@@ -47,8 +44,10 @@ public class CommandRegister implements CommandExecutor {
                 lp.crypt();
                 CatSeedLogin.sql.add(lp);
                 LoginPlayerHelper.add(lp);
-                CatSeedPlayerRegisterEvent event = new CatSeedPlayerRegisterEvent((Player) sender);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
+                    CatSeedPlayerRegisterEvent event = new CatSeedPlayerRegisterEvent(Bukkit.getPlayer(sender.getName()));
+                    Bukkit.getServer().getPluginManager().callEvent(event);
+                });
                 sender.sendMessage("§a注册成功!");
 
 
