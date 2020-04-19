@@ -30,9 +30,6 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 ### 修改密码
 * /changepassword 旧密码 新密码 重复新密码
 * /changepw 旧密码 新密码 重复新密码
-### 管理员强制设置玩家密码
-* /adminsetpassword 游戏名 密码
-* /adminsetpw 游戏名 密码
 ### 绑定邮箱
 * /bindemail set 邮箱
 * /bdmail set 邮箱
@@ -45,18 +42,28 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 ### 用邮箱收到的验证码重置密码
 * /bindemail re 验证码 新密码
 * /bdmail re 验证码 新密码
-### 管理员重载配置文件
-* /catseedlogin reload
-* /cslogin reload
+### 管理指令
+* /catseedlogin commandWhiteListAdd 指令 添加登陆之前允许执行的指令 (支持正则表达式)
+* /catseedlogin commandWhiteListDel 指令 删除登陆之前允许执行的指令 (支持正则表达式)
+* /catseedlogin commandWhiteListInfo 查看登陆之前允许执行的指令 (支持正则表达式)
+* /catseedlogin setIpCountLimit 数量 设置相同ip限制 （默认数量2）
+* /catseedlogin setIdLength 最短 最长 设置游戏名最小和最大长度 (默认最小是2 最大是15)
+* /catseedlogin setReenterInterval 间隔 离开服务器重新进入间隔限制 单位：tick (1秒等于20tick) (默认60tick)
+* /catseedlogin setSpawnLocation 设置玩家登陆地点为你站着的位置 (默认登陆地点为world世界的出生点)
+* /catseedlogin limitChineseID  打开/关闭 限制中文游戏名 (默认打开)
+* /catseedlogin beforeLoginNoDamage §9打开/关闭 登陆之前是否受到伤害 (默认登陆之前不受到伤害)
+* /catseedlogin afterLoginBack 打开/关闭 登陆之后是否返回退出地点 (默认打开)
+* /catseedlogin delPlayer 玩家名 管理员强制删除账户
+* /catseedlogin setPwd 玩家名 密码 管理员强制设置玩家密码
+* /catseedlogin reload 重载配置文件
 ## 权限
-* catseedlogin.command.adminsetpassword 管理员强制设置玩家密码指令使用权限/adminsetpassword
-* catseedlogin.command.catseedlogin 管理员重载配置文件指令使用权限/catseedlogin reload
+* catseedlogin.command.catseedlogin 管理员指令/catseedlogin 使用权限
 ## 配置文件
 ### settings.yml
 > \#相同ip限制<br/>
 IpCountLimit: 2<br/>
-\#登录时在哪个世界的出生点<br/>
-SpawnWorld: "world"<br/>
+\#登录点,默认是world主世界出生点,推荐用指令设置<br/>
+SpawnLocation: 世界:x:y:z:yaw:pitch<br/>
 \#是否限制中文ID<br/>
 LimitChineseID: true<br/>
 \#游戏ID最小长度<br/>
@@ -69,6 +76,13 @@ BeforeLoginNoDamage: true<br/>
 ReenterInterval: 60<br/>
 \#登陆之后是否返回退出地点<br/>
 AfterLoginBack: true<br/>
+\#登陆之前允许执行的指令 (支持正则表达式)<br/>
+CommandWhiteList:<br/>
+  \- /(?i)l(ogin)?(\z| .\*)<br/>
+  \- /(?i)reg(ister)?(\z| .\*)<br/>
+  \- /(?i)resetpassword?(\z| .\*)<br/>
+  \- /(?i)repw?(\z| .\*)<br/>
+  \- /(?i)worldedit cui
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>
@@ -90,6 +104,9 @@ EmailSmtpPort: "465"<br/>
 SSLAuthVerify: true<br/>
 \#发件人的名字<br/>
  FromPersonal: "xxx服务器"<br/>
+### language.yml
+语言文件<br/>
+内容省略...
 ## 开发者部分
 ### 事件
 CatSeedPlayerLoginEvent

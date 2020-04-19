@@ -18,12 +18,6 @@ import org.bukkit.event.player.*;
 import java.util.regex.Pattern;
 
 public class Listeners implements Listener {
-    Pattern[] commandWhitelists = new Pattern[]{
-            Pattern.compile("/(?i)l(ogin)?(\\z| .*)")
-            , Pattern.compile("/(?i)reg(ister)?(\\z| .*)")
-            , Pattern.compile("/(?i)resetpassword?(\\z| .*)")
-            , Pattern.compile("/(?i)repw?(\\z| .*)")
-    };
 
     private boolean playerIsCitizensNPC(Player p){
         return p.getClass().getName().matches("^net\\.citizensnpcs.*?EntityHumanNPC.*");
@@ -34,7 +28,7 @@ public class Listeners implements Listener {
         if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         String input = event.getMessage().toLowerCase();
-        for (Pattern regex : commandWhitelists) {
+        for (Pattern regex : Config.Settings.commandWhiteList) {
             if (regex.matcher(input).find()) return;
         }
         event.setCancelled(true);
@@ -128,7 +122,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event){
-        if (event.getTo().equals(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation())) return;
+        if (event.getTo().equals(Config.Settings.SpawnLocation)) return;
         if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
@@ -172,7 +166,8 @@ public class Listeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
-        p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
+        //p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
+        p.teleport(Config.Settings.SpawnLocation);
     }
 
     //id只能下划线字母数字

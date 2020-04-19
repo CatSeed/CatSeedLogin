@@ -11,7 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Objects;
 
@@ -22,28 +21,28 @@ public class CommandLogin implements CommandExecutor {
         Player player = (Player) sender;
         String name = player.getName();
         if (LoginPlayerHelper.isLogin(name)) {
-            sender.sendMessage("§c你已经登录了,不需要再次登录");
+            sender.sendMessage(Config.Language.LOGIN_REPEAT);
             return true;
         }
         LoginPlayer lp = Cache.getIgnoreCase(name);
         if (lp == null) {
-            sender.sendMessage("§c请先注册!");
+            sender.sendMessage(Config.Language.LOGIN_NOREGISTER);
             return true;
         }
         if (Objects.equals(Crypt.encrypt(name, args[0]), lp.getPassword().trim())) {
             LoginPlayerHelper.add(lp);
             CatSeedPlayerLoginEvent loginEvent = new CatSeedPlayerLoginEvent(player, lp.getEmail(), CatSeedPlayerLoginEvent.Result.SUCCESS);
             Bukkit.getServer().getPluginManager().callEvent(loginEvent);
-            sender.sendMessage("§a已成功登录!");
+            sender.sendMessage(Config.Language.LOGIN_SUCCESS);
             if (Config.Settings.AfterLoginBack) {
-                player.teleport(Config.getOfflineLocation(player));
+                Config.getOfflineLocation(player).ifPresent(player::teleport);
             }
         } else {
-            sender.sendMessage("§c密码错误!");
+            sender.sendMessage(Config.Language.LOGIN_FAIL);
             CatSeedPlayerLoginEvent loginEvent = new CatSeedPlayerLoginEvent(player, lp.getEmail(), CatSeedPlayerLoginEvent.Result.FAIL);
             Bukkit.getServer().getPluginManager().callEvent(loginEvent);
             if (Config.EmailVerify.Enable) {
-                sender.sendMessage("§c密码错误,如果忘记密码需要重置密码请输入/resetpassword forget");
+                sender.sendMessage(Config.Language.LOGIN_FAIL_IF_FORGET);
             }
         }
         return true;

@@ -1,6 +1,7 @@
 package cc.baka9.catseedlogin.command;
 
 import cc.baka9.catseedlogin.CatSeedLogin;
+import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.event.CatSeedPlayerRegisterEvent;
 import cc.baka9.catseedlogin.object.LoginPlayer;
@@ -19,19 +20,19 @@ public class CommandRegister implements CommandExecutor {
 
         String name = sender.getName();
         if (LoginPlayerHelper.isLogin(name)) {
-            sender.sendMessage("§a你已经注册过了,需要修改密码请输入 §e/changepw 旧密码 新密码 重复新密码");
+            sender.sendMessage(Config.Language.REGISTER_AFTER_LOGIN_ALREADY);
             return true;
         }
         if (Cache.getIgnoreCase(name) != null) {
-            sender.sendMessage("§c注册失败!这个游戏名已经被人注册了,如果不是你注册的请换个游戏名吧!");
+            sender.sendMessage(Config.Language.REGISTER_BEFORE_LOGIN_ALREADY);
             return true;
         }
         if (!args[0].equals(args[1])) {
-            sender.sendMessage("§c你两次输入的密码不一样!");
+            sender.sendMessage(Config.Language.REGISTER_PASSWORD_CONFIRM_FAIL);
             return true;
         }
         if (!Util.passwordIsDifficulty(args[0])) {
-            sender.sendMessage("§c密码必须是6~16位之间的数字和字母组成");
+            sender.sendMessage(Config.Language.COMMON_PASSWORD_SO_SIMPLE);
             return true;
         }
         if (!Cache.isLoaded) {
@@ -48,7 +49,7 @@ public class CommandRegister implements CommandExecutor {
                     CatSeedPlayerRegisterEvent event = new CatSeedPlayerRegisterEvent(Bukkit.getPlayer(sender.getName()));
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 });
-                sender.sendMessage("§a注册成功!");
+                sender.sendMessage(Config.Language.REGISTER_SUCCESS);
 
 
             } catch (Exception e) {

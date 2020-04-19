@@ -15,29 +15,39 @@ public class LoginPlayerHelper {
     }
 
     public static void add(LoginPlayer lp){
-        set.add(lp);
+        synchronized (set) {
+
+            set.add(lp);
+        }
     }
 
     public static void remove(LoginPlayer lp){
-        set.remove(lp);
+        synchronized (set) {
+
+            set.remove(lp);
+        }
     }
 
     public static void remove(String name){
-        for (LoginPlayer lp : set) {
-            if (lp.getName().equals(name)) {
-                set.remove(lp);
-                break;
+        synchronized (set) {
+            for (LoginPlayer lp : set) {
+                if (lp.getName().equals(name)) {
+                    set.remove(lp);
+                    break;
+                }
             }
         }
     }
 
     public static boolean isLogin(String name){
-        for (LoginPlayer lp : set) {
-            if (lp.getName().equals(name)) {
-                return true;
+        synchronized (set) {
+            for (LoginPlayer lp : set) {
+                if (lp.getName().equals(name)) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     public static boolean isRegister(String name){

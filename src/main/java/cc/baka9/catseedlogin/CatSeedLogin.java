@@ -25,6 +25,7 @@ public class CatSeedLogin extends JavaPlugin {
         instance = this;
         //Config
         Config.load();
+        Config.save();
         sql = Config.MySQL.Enable ? new MySQL(this) : new SQLite(this);
         try {
 
@@ -49,8 +50,6 @@ public class CatSeedLogin extends JavaPlugin {
         getServer().getPluginCommand("changepassword").setExecutor(new CommandChangePassword());
         getServer().getPluginCommand("changepassword").setTabCompleter((commandSender, command, s, args)
                 -> args.length == 1 ? Collections.singletonList("旧密码 新密码 重复新密码") : new ArrayList<>(0));
-
-        getServer().getPluginCommand("adminsetpassword").setExecutor(new CommandAdminSetPassword());
 
         PluginCommand bindemail = getServer().getPluginCommand("bindemail");
         bindemail.setExecutor(new CommandBindEmail());
@@ -86,12 +85,12 @@ public class CatSeedLogin extends JavaPlugin {
         });
         PluginCommand catseedlogin = getServer().getPluginCommand("catseedlogin");
         catseedlogin.setExecutor(new CommandCatSeedLogin());
-        catseedlogin.setTabCompleter((commandSender, command, s, args) -> {
-            if (args.length == 1) {
-                return Collections.singletonList("reload 重载配置文件");
-            }
-            return Collections.emptyList();
-        });
+//        catseedlogin.setTabCompleter((commandSender, command, s, args) -> {
+//            if (args.length == 1) {
+//                return Collections.singletonList("reload 重载配置文件");
+//            }
+//            return Collections.emptyList();
+//        });
 
 
         //Task
@@ -100,11 +99,10 @@ public class CatSeedLogin extends JavaPlugin {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!LoginPlayerHelper.isLogin(player.getName())) {
                     if (!LoginPlayerHelper.isRegister(player.getName())) {
-                        player.sendMessage("§a你还没有注册,请输入§e/reg 密码 重复密码 §a来注册");
+                        player.sendMessage(Config.Language.REGISTER_REQUEST);
                         continue;
                     }
-                    player.sendMessage("§a请输入§e/l 密码 §a来登录游戏");
-                    player.sendMessage("§b如果你从未注册,请换个游戏名!");
+                    player.sendMessage(Config.Language.LOGIN_REQUEST);
 
                 }
             }

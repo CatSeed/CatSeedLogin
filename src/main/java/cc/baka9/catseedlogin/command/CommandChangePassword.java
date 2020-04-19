@@ -24,24 +24,24 @@ public class CommandChangePassword implements CommandExecutor {
         String name = sender.getName();
         LoginPlayer lp = Cache.getIgnoreCase(name);
         if (lp == null) {
-            sender.sendMessage("§c你还未注册无法修改密码");
+            sender.sendMessage(Config.Language.CHANGEPASSWORD_NOREGISTER);
             return true;
         }
         if (!LoginPlayerHelper.isLogin(name)) {
-            sender.sendMessage("§c你还未登陆无法修改密码");
+            sender.sendMessage(Config.Language.CHANGEPASSWORD_NOLOGIN);
             return true;
         }
         if (!Objects.equals(Crypt.encrypt(name, args[0]), lp.getPassword().trim())) {
-            sender.sendMessage("§c旧密码输入错误!");
+            sender.sendMessage(Config.Language.CHANGEPASSWORD_OLDPASSWORD_INCORRECT);
             return true;
 
         }
         if (!args[1].equals(args[2])) {
-            sender.sendMessage("§c你两次输入的密码不一样!");
+            sender.sendMessage(Config.Language.CHANGEPASSWORD_PASSWORD_CONFIRM_FAIL);
             return true;
         }
         if (!Util.passwordIsDifficulty(args[1])) {
-            sender.sendMessage("§c密码必须是6~16位之间的数字和字母组成");
+            sender.sendMessage(Config.Language.COMMON_PASSWORD_SO_SIMPLE);
             return true;
         }
         if (!Cache.isLoaded) {
@@ -58,9 +58,10 @@ public class CommandChangePassword implements CommandExecutor {
                 Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
                     Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
                     if (player != null && player.isOnline()) {
-                        player.sendMessage("§a修改成功! 请重新登录~");
+                        player.sendMessage(Config.Language.CHANGEPASSWORD_SUCCESS);
                         Config.setOfflineLocation(player);
-                        player.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
+                        //player.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
+                        player.teleport(Config.Settings.SpawnLocation);
 
                     }
                 });

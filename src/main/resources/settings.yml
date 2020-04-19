@@ -1,8 +1,13 @@
 IpCountLimit: 2
-SpawnWorld: "world"
 LimitChineseID: true
 MinLengthID: 2
 MaxLengthID: 15
 BeforeLoginNoDamage: true
 ReenterInterval: 60
 AfterLoginBack: true
+CommandWhiteList:
+  - /(?i)l(ogin)?(\z| .*)
+  - /(?i)reg(ister)?(\z| .*)
+  - /(?i)resetpassword?(\z| .*)
+  - /(?i)repw?(\z| .*)
+  - /(?i)worldedit cui
