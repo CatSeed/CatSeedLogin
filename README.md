@@ -49,12 +49,12 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * /catseedlogin commandWhiteListDel 指令
 ### 查看登陆之前允许执行的指令 (支持正则表达式)
 * /catseedlogin commandWhiteListInfo
-### 数量 设置相同ip限制 （默认数量2）
-* /catseedlogin setIpCountLimit
-### 最短 最长 设置游戏名最小和最大长度 (默认最小是2 最大是15)
-* /catseedlogin setIdLength
-### 间隔 离开服务器重新进入间隔限制 单位：tick (1秒等于20tick) (默认60tick)
-* /catseedlogin setReenterInterval
+### 设置相同ip限制 （默认数量2）
+* /catseedlogin setIpCountLimit 数量
+### 设置游戏名最小和最大长度 (默认最小是2 最大是15)
+* /catseedlogin setIdLength 最短 最长
+### 离开服务器重新进入间隔限制 单位：tick (1秒等于20tick) (默认60tick)
+* /catseedlogin setReenterInterval 间隔
 ### 设置玩家登陆地点为你站着的位置 (默认登陆地点为world世界的出生点)
 * /catseedlogin setSpawnLocation
 ### 打开/关闭 限制中文游戏名 (默认打开)
