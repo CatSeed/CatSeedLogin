@@ -76,7 +76,7 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 > \#相同ip限制<br/>
 IpCountLimit: 2<br/>
 \#登录点,默认是world主世界出生点,推荐用指令设置<br/>
-SpawnLocation: 世界\:x:y:z:yaw:pitch<br/>
+SpawnLocation: 世界\:x\:y:z:yaw:pitch<br/>
 \#是否限制中文ID<br/>
 LimitChineseID: true<br/>
 \#游戏ID最小长度<br/>
