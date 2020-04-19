@@ -63,10 +63,10 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * /catseedlogin beforeLoginNoDamage
 ### 打开/关闭 登陆之后是否返回退出地点 (默认打开)
 * /catseedlogin afterLoginBack
-### 玩家名 管理员强制删除账户
-* /catseedlogin delPlayer
-### 玩家名 密码 管理员强制设置玩家密码
-* /catseedlogin setPwd
+### 管理员强制删除账户
+* /catseedlogin delPlayer 玩家名
+### 管理员强制设置玩家密码
+* /catseedlogin setPwd 玩家名 密码
 ### 重载配置文件
 * /catseedlogin reload
 ## 权限
