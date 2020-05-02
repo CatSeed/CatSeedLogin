@@ -51,6 +51,7 @@ public class Config {
         public static boolean BeforeLoginNoDamage;
         public static long ReenterInterval;
         public static boolean AfterLoginBack;
+        public static boolean CanTpSpawnLocation;
         public static List<Pattern> commandWhiteList;
 
         public static void load(){
@@ -72,6 +73,7 @@ public class Config {
             BeforeLoginNoDamage = config.getBoolean("BeforeLoginNoDamage", resourceConfig.getBoolean("BeforeLoginNoDamage"));
             ReenterInterval = config.getLong("ReenterInterval", resourceConfig.getLong("ReenterInterval"));
             AfterLoginBack = config.getBoolean("AfterLoginBack", resourceConfig.getBoolean("AfterLoginBack"));
+            CanTpSpawnLocation = config.getBoolean("CanTpSpawnLocation", resourceConfig.getBoolean("CanTpSpawnLocation"));
             List<String> commandWhiteList = config.getStringList("CommandWhiteList");
             if (commandWhiteList.size() == 0) {
                 commandWhiteList = resourceConfig.getStringList("CommandWhiteList");

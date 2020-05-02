@@ -5,6 +5,7 @@ MaxLengthID: 15
 BeforeLoginNoDamage: true
 ReenterInterval: 60
 AfterLoginBack: true
+CanTpSpawnLocation: true
 CommandWhiteList:
   - /(?i)l(ogin)?(\z| .*)
   - /(?i)reg(ister)?(\z| .*)

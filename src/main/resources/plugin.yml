@@ -31,7 +31,7 @@ commands:
     usage: /<command> 旧密码 新密码 重复新密码
     aliases: [changepw]
   catseedlogin:
-    description: 其他指令
+    description: 管理员管理指令
     usage:
       |
       §d§lCatSeedLogin 管理指令:
@@ -45,6 +45,7 @@ commands:
       §c/<command> limitChineseID  §9打开/关闭 限制中文游戏名 (默认打开)
       §c/<command> beforeLoginNoDamage §9打开/关闭 登陆之前是否受到伤害 (默认登陆之前不受到伤害)
       §c/<command> afterLoginBack §9打开/关闭 登陆之后是否返回退出地点 (默认打开)
+      §c/<command> canTpSpawnLocation §9打开/关闭 登录之前是否强制在登陆地点 (默认打开)
       §e/<command> delPlayer [玩家名] §9管理员强制删除账户
       §e/<command> setPwd [玩家名] [密码] §9管理员强制设置玩家密码
       §3/<command> reload §9重载配置文件

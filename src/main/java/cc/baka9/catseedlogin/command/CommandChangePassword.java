@@ -61,7 +61,9 @@ public class CommandChangePassword implements CommandExecutor {
                         player.sendMessage(Config.Language.CHANGEPASSWORD_SUCCESS);
                         Config.setOfflineLocation(player);
                         //player.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
-                        player.teleport(Config.Settings.SpawnLocation);
+                        if (Config.Settings.CanTpSpawnLocation) {
+                            player.teleport(Config.Settings.SpawnLocation);
+                        }
 
                     }
                 });

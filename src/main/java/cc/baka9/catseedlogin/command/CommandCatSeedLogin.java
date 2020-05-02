@@ -33,7 +33,18 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || setSpawnLocation(sender, args)
                 || commandWhiteListInfo(sender, args)
                 || commandWhiteListAdd(sender, args)
-                || commandWhiteListDel(sender, args);
+                || commandWhiteListDel(sender, args)
+                || canTpSpawnLocation(sender, args);
+    }
+
+    private boolean canTpSpawnLocation(CommandSender sender, String[] args){
+        if (args.length > 0 && args[0].equalsIgnoreCase("canTpSpawnLocation")) {
+            Config.Settings.CanTpSpawnLocation = !Config.Settings.CanTpSpawnLocation;
+            Config.Settings.save();
+            sender.sendMessage("§e登录之前强制在登陆地点 " + (Config.Settings.CanTpSpawnLocation ? "§a开启" : "§8关闭"));
+            return true;
+        }
+        return false;
     }
 
     private boolean commandWhiteListDel(CommandSender sender, String[] args){
@@ -64,7 +75,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
             List<String> collect = Config.Settings.commandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList());
             if (collect.contains(regex)) {
                 sender.sendMessage("§c已经存在 " + regex);
-            }else {
+            } else {
                 Config.Settings.commandWhiteList.add(pattern);
                 Config.Settings.save();
                 sender.sendMessage("§e已添加登录前可执行指令 " + regex);
@@ -244,7 +255,9 @@ public class CommandCatSeedLogin implements CommandExecutor {
                             if (p != null && p.isOnline()) {
                                 p.sendMessage("§c密码已被管理员重新设置,请重新登录");
                                 //p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
-                                p.teleport(Config.Settings.SpawnLocation);
+                                if (Config.Settings.CanTpSpawnLocation) {
+                                    p.teleport(Config.Settings.SpawnLocation);
+                                }
                             }
 
                         });

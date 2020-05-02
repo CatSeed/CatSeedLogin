@@ -63,6 +63,8 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * /catseedlogin beforeLoginNoDamage
 ### 打开/关闭 登陆之后是否返回退出地点 (默认打开)
 * /catseedlogin afterLoginBack
+### 打开/关闭 登录之前是否强制在登陆地点 (默认打开)
+* /catseedlogin canTpSpawnLocation
 ### 管理员强制删除账户
 * /catseedlogin delPlayer 玩家名
 ### 管理员强制设置玩家密码
@@ -73,57 +75,59 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * catseedlogin.command.catseedlogin 管理员指令/catseedlogin 使用权限
 ## 配置文件
 ### settings.yml
-> \#相同ip限制<br/>
-IpCountLimit: 2<br/>
-\#登录点,默认是world主世界出生点,推荐用指令设置<br/>
-SpawnLocation: 世界名:x轴:y轴:z轴:yaw:pitch<br/>
-\#是否限制中文ID<br/>
-LimitChineseID: true<br/>
-\#游戏ID最小长度<br/>
-MinLengthID: 2<br/>
-\#游戏ID最大长度<br/>
-MaxLengthID: 15<br/>
-\#登陆之前不受到伤害<br/>
-BeforeLoginNoDamage: true<br/>
-\#离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）<br/>
-ReenterInterval: 60<br/>
-\#登陆之后是否返回退出地点<br/>
-AfterLoginBack: true<br/>
-\#登陆之前允许执行的指令 (支持正则表达式)<br/>
-CommandWhiteList:<br/>
-  \- /(?i)l(ogin)?(\z| .\*)<br/>
-  \- /(?i)reg(ister)?(\z| .\*)<br/>
-  \- /(?i)resetpassword?(\z| .\*)<br/>
-  \- /(?i)repw?(\z| .\*)<br/>
+> \#相同ip限制  
+IpCountLimit: 2  
+\#登录点,默认是world主世界出生点,推荐用指令设置  
+SpawnLocation: 世界名:x轴:y轴:z轴:yaw:pitch  
+\#是否限制中文ID  
+LimitChineseID: true  
+\#游戏ID最小长度  
+MinLengthID: 2  
+\#游戏ID最大长度  
+MaxLengthID: 15  
+\#登陆之前不受到伤害  
+BeforeLoginNoDamage: true  
+\#离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）  
+ReenterInterval: 60  
+\#登陆之后是否返回退出地点  
+AfterLoginBack: true  
+\#登录之前是否强制在登陆地点  
+CanTpSpawnLocation: true  
+\#登陆之前允许执行的指令 (支持正则表达式)  
+CommandWhiteList:  
+  \- /(?i)l(ogin)?(\z| .\*)  
+  \- /(?i)reg(ister)?(\z| .\*)  
+  \- /(?i)resetpassword?(\z| .\*)  
+  \- /(?i)repw?(\z| .\*)  
   \- /(?i)worldedit cui
 ### sql.yml
-如果不使用mysql数据库储存，就请无视此配置<br/>
-> MySQL:<br/>
-\#是否开启数据库功能（false = 不开启）<br/>
-  Enable: false<br/>
-  Host: 127.0.0.1<br/>
-  Port: '3306'<br/>
-  Database: databaseName<br/>
-  User: root<br/>
-  Password: root<br/>
+如果不使用mysql数据库储存，就请无视此配置  
+> MySQL:  
+\#是否开启数据库功能（false = 不开启）  
+  Enable: false  
+  Host: 127.0.0.1  
+  Port: '3306'  
+  Database: databaseName  
+  User: root  
+  Password: root  
 ### emailVerify.yml 
-如果不使用邮箱一系列功能，就请无视此配置<br/>
-> \#是否开启邮箱系列的功能（false = 不开启）<br/>
-Enable: false<br/>
-EmailAccount: "763737569@qq.com"<br/>
-EmailPassword: "123456"<br/>
-EmailSmtpHost: "smtp.qq.com"<br/>
-EmailSmtpPort: "465"<br/>
-SSLAuthVerify: true<br/>
-\#发件人的名字<br/>
- FromPersonal: "xxx服务器"<br/>
+如果不使用邮箱一系列功能，就请无视此配置  
+> \#是否开启邮箱系列的功能（false = 不开启）  
+Enable: false  
+EmailAccount: "763737569@qq.com"  
+EmailPassword: "123456"  
+EmailSmtpHost: "smtp.qq.com"  
+EmailSmtpPort: "465"  
+SSLAuthVerify: true  
+\#发件人的名字  
+ FromPersonal: "xxx服务器"  
 ### language.yml
-语言文件<br/>
+语言文件  
 内容省略...
 ## 开发者部分
 ### 事件
 CatSeedPlayerLoginEvent
-<br/>
+  
 CatSeedPlayerRegisterEvent
 ### API
 CatSeedLoginAPI

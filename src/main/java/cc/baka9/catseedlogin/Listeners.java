@@ -167,7 +167,9 @@ public class Listeners implements Listener {
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
         //p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
-        p.teleport(Config.Settings.SpawnLocation);
+        if (Config.Settings.CanTpSpawnLocation) {
+            p.teleport(Config.Settings.SpawnLocation);
+        }
     }
 
     //id只能下划线字母数字
