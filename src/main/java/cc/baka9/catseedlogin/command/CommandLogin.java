@@ -34,7 +34,7 @@ public class CommandLogin implements CommandExecutor {
             CatSeedPlayerLoginEvent loginEvent = new CatSeedPlayerLoginEvent(player, lp.getEmail(), CatSeedPlayerLoginEvent.Result.SUCCESS);
             Bukkit.getServer().getPluginManager().callEvent(loginEvent);
             sender.sendMessage(Config.Language.LOGIN_SUCCESS);
-            if (Config.Settings.AfterLoginBack) {
+            if (Config.Settings.AfterLoginBack && Config.Settings.CanTpSpawnLocation) {
                 Config.getOfflineLocation(player).ifPresent(player::teleport);
             }
         } else {

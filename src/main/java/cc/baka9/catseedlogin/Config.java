@@ -92,6 +92,7 @@ public class Config {
             config.set("BeforeLoginNoDamage", BeforeLoginNoDamage);
             config.set("ReenterInterval", ReenterInterval);
             config.set("AfterLoginBack", AfterLoginBack);
+            config.set("CanTpSpawnLocation", CanTpSpawnLocation);
             config.set("CommandWhiteList", commandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
             try {
                 config.save(new File(CatSeedLogin.getInstance().getDataFolder(), "settings.yml"));
