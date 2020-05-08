@@ -54,21 +54,7 @@ public class Config {
             FileConfiguration resourceConfig = getResourceConfig("settings.yml");
 
             IpCountLimit = config.getInt("IpCountLimit", resourceConfig.getInt("IpCountLimit"));
-
             SpawnLocation = str2Location(config.getString("SpawnLocation"));
-            if (SpawnLocation.getWorld() == null) {
-
-                try (InputStream is = new BufferedInputStream(new FileInputStream(new File("server.properties")))) {
-                    Properties properties = new Properties();
-                    properties.load(is);
-                    String spawnWorld = config.getString("SpawnWorld", properties.getProperty("level-name"));
-                    World world = Bukkit.getWorld(spawnWorld);
-                    SpawnLocation = world.getSpawnLocation();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
 
             LimitChineseID = config.getBoolean("LimitChineseID", resourceConfig.getBoolean("LimitChineseID"));
             MinLengthID = config.getInt("MinLengthID", resourceConfig.getInt("MinLengthID"));
@@ -223,9 +209,8 @@ public class Config {
 
     private static Location str2Location(String str){
         Location loc;
-        String[] locStrs = str.split(":");
         try {
-
+            String[] locStrs = str.split(":");
             World world = Bukkit.getWorld(locStrs[0]);
             double x = Double.valueOf(locStrs[1]);
             double y = Double.valueOf(locStrs[2]);
@@ -234,15 +219,33 @@ public class Config {
             float pitch = Float.valueOf(locStrs[5]);
             loc = new Location(world, x, y, z, yaw, pitch);
         } catch (Exception ignored) {
-            loc = Settings.SpawnLocation;
+            loc = getDefaultWorld().getSpawnLocation();
         }
         return loc;
 
     }
 
     private static String loc2String(Location loc){
+        try {
+            return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch();
+        } catch (Exception ignored) {
+            loc = getDefaultWorld().getSpawnLocation();
+        }
         return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch();
 
+    }
+
+    private static World getDefaultWorld(){
+        try (InputStream is = new BufferedInputStream(new FileInputStream(new File("server.properties")))) {
+            Properties properties = new Properties();
+            properties.load(is);
+            String worldName = properties.getProperty("level-name");
+            return Bukkit.getWorld(worldName);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Bukkit.getWorlds().get(0);
     }
 
 

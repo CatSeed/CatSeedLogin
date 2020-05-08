@@ -2,6 +2,7 @@ name: CatSeedLogin
 main: cc.baka9.catseedlogin.CatSeedLogin
 author: CatSeed
 version: ${version}
+softdepend: [Multiverse-Core, Citizens, Essentials, EssentialsSpawn]
 api-version: 1.13
 commands:
   login:

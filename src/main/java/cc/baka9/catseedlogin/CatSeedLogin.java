@@ -24,8 +24,13 @@ public class CatSeedLogin extends JavaPlugin {
     public void onEnable(){
         instance = this;
         //Config
-        Config.load();
-        Config.save();
+        try{
+            Config.load();
+            Config.save();
+        }catch (Exception e){
+            e.printStackTrace();
+            getServer().getLogger().info("加载配置文件时出错，请检查你的配置文件。");
+        }
         sql = Config.MySQL.Enable ? new MySQL(this) : new SQLite(this);
         try {
 
