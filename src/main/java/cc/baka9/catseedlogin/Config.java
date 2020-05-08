@@ -8,14 +8,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -60,12 +55,20 @@ public class Config {
 
             IpCountLimit = config.getInt("IpCountLimit", resourceConfig.getInt("IpCountLimit"));
 
-            String spawnWorld = config.getString("SpawnWorld", "world");
-            World world = Bukkit.getWorld(spawnWorld);
-            if (world == null) {
-                world = Bukkit.getWorlds().get(0);
+            SpawnLocation = str2Location(config.getString("SpawnLocation"));
+            if (SpawnLocation.getWorld() == null) {
+
+                try (InputStream is = new BufferedInputStream(new FileInputStream(new File("server.properties")))) {
+                    Properties properties = new Properties();
+                    properties.load(is);
+                    String spawnWorld = config.getString("SpawnWorld", properties.getProperty("level-name"));
+                    World world = Bukkit.getWorld(spawnWorld);
+                    SpawnLocation = world.getSpawnLocation();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            SpawnLocation = str2Location(config.getString("SpawnLocation", loc2String(world.getSpawnLocation())));
 
             LimitChineseID = config.getBoolean("LimitChineseID", resourceConfig.getBoolean("LimitChineseID"));
             MinLengthID = config.getInt("MinLengthID", resourceConfig.getInt("MinLengthID"));
@@ -194,9 +197,11 @@ public class Config {
         EmailVerify.load();
         Language.load();
     }
+
     public static void save(){
         Settings.save();
     }
+
     public static void reload(){
         plugin.reloadConfig();
         load();
