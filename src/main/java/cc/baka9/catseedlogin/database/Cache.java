@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Cache {
     private static final Hashtable<String, LoginPlayer> PLAYER_HASHTABLE = new Hashtable<>();
-    public static boolean isLoaded = false;
+    public static volatile boolean isLoaded = false;
 
     public static List<LoginPlayer> getAllLoginPlayer(){
         synchronized (PLAYER_HASHTABLE) {
@@ -28,8 +28,10 @@ public class Cache {
         Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
             try {
                 List<LoginPlayer> newCache = CatSeedLogin.sql.getAll();
-                PLAYER_HASHTABLE.clear();
-                newCache.forEach(p -> PLAYER_HASHTABLE.put(p.getName().toLowerCase(), p));
+                synchronized (PLAYER_HASHTABLE) {
+                    PLAYER_HASHTABLE.clear();
+                    newCache.forEach(p -> PLAYER_HASHTABLE.put(p.getName().toLowerCase(), p));
+                }
                 CatSeedLogin.getInstance().getLogger().info("缓存加载 " + PLAYER_HASHTABLE.size() + " 个数据");
                 isLoaded = true;
             } catch (Exception e) {
@@ -44,9 +46,10 @@ public class Cache {
             try {
                 LoginPlayer newLp = CatSeedLogin.sql.get(name);
                 String key = name.toLowerCase();
-                PLAYER_HASHTABLE.remove(key);
                 if (newLp != null) {
                     PLAYER_HASHTABLE.put(key, newLp);
+                } else {
+                    PLAYER_HASHTABLE.remove(key);
                 }
                 CatSeedLogin.getInstance().getLogger().info("缓存加载 " + PLAYER_HASHTABLE.size() + " 个数据");
             } catch (Exception e) {
