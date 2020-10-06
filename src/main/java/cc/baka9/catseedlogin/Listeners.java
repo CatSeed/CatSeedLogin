@@ -166,7 +166,6 @@ public class Listeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
-        //p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
         if (Config.Settings.CanTpSpawnLocation) {
             p.teleport(Config.Settings.SpawnLocation);
         }
