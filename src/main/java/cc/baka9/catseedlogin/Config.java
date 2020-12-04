@@ -1,6 +1,5 @@
 package cc.baka9.catseedlogin;
 
-import com.google.common.base.Charsets;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -175,7 +175,7 @@ public class Config {
     }
 
     public static FileConfiguration getResourceConfig(String yamlFileName){
-        return YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(yamlFileName), Charsets.UTF_8));
+        return YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(yamlFileName), Charset.forName("UTF-8")));
     }
 
     public static void load(){
