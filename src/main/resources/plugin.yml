@@ -42,6 +42,7 @@ commands:
       §b/<command> setIpCountLimit [数量] §9设置相同ip限制 （默认数量2）
       §b/<command> setIdLength [最短] [最长] §9设置游戏名最小和最大长度 (默认最小是2 最大是15)
       §b/<command> setReenterInterval [间隔] §9离开服务器重新进入间隔限制 单位：tick (1秒等于20tick) (默认60tick)
+      §b/<command> setAutoKick [秒数] §9设置自动踢出未登录的玩家 (默认120秒，小于1秒则关闭此功能)
       §b/<command> setSpawnLocation §9设置玩家登陆地点为你站着的位置 (默认登陆地点为world世界的出生点)
       §c/<command> limitChineseID  §9打开/关闭 限制中文游戏名 (默认打开)
       §c/<command> beforeLoginNoDamage §9打开/关闭 登陆之前是否受到伤害 (默认登陆之前不受到伤害)

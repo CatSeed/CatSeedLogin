@@ -12,3 +12,4 @@ CommandWhiteList:
   - /(?i)resetpassword?(\z| .*)
   - /(?i)repw?(\z| .*)
   - /(?i)worldedit cui
+AutoKick: 120

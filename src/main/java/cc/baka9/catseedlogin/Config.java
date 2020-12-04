@@ -1,5 +1,6 @@
 package cc.baka9.catseedlogin;
 
+import com.google.common.base.Charsets;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -48,6 +49,7 @@ public class Config {
         public static boolean AfterLoginBack;
         public static boolean CanTpSpawnLocation;
         public static List<Pattern> commandWhiteList;
+        public static int AutoKick;
 
         public static void load(){
             FileConfiguration config = getConfig("settings.yml");
@@ -68,6 +70,7 @@ public class Config {
                 commandWhiteList = resourceConfig.getStringList("CommandWhiteList");
             }
             Settings.commandWhiteList = commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList());
+            AutoKick = config.getInt("AutoKick", 120);
         }
 
         public static void save(){
@@ -83,6 +86,7 @@ public class Config {
             config.set("AfterLoginBack", AfterLoginBack);
             config.set("CanTpSpawnLocation", CanTpSpawnLocation);
             config.set("CommandWhiteList", commandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
+            config.set("AutoKick", AutoKick);
             try {
                 config.save(new File(CatSeedLogin.getInstance().getDataFolder(), "settings.yml"));
             } catch (IOException e) {
@@ -119,12 +123,16 @@ public class Config {
         public static String CHANGEPASSWORD_OLDPASSWORD_INCORRECT;
         public static String CHANGEPASSWORD_PASSWORD_CONFIRM_FAIL;
         public static String CHANGEPASSWORD_SUCCESS;
+        public static String AUTO_KICK;
 
         public static void load(){
+            FileConfiguration resourceConfig = getResourceConfig("language.yml");
             FileConfiguration config = getConfig("language.yml");
             for (Field field : Language.class.getDeclaredFields()) {
                 try {
-                    field.set(null, config.getString(field.getName()).replace('&', ChatColor.COLOR_CHAR));
+                    String fieldName = field.getName();
+                    String value = config.getString(fieldName, resourceConfig.getString(fieldName));
+                    field.set(null, value.replace('&', ChatColor.COLOR_CHAR));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -167,7 +175,7 @@ public class Config {
     }
 
     public static FileConfiguration getResourceConfig(String yamlFileName){
-        return YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(yamlFileName)));
+        return YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(yamlFileName), Charsets.UTF_8));
     }
 
     public static void load(){

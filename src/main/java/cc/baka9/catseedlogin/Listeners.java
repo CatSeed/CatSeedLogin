@@ -3,6 +3,7 @@ package cc.baka9.catseedlogin;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
+import cc.baka9.catseedlogin.task.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -156,9 +157,11 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
-        if (!LoginPlayerHelper.isLogin(player.getName())) return;
-        Config.setOfflineLocation(player);
-        Bukkit.getScheduler().runTaskLater(CatSeedLogin.getInstance(), () -> LoginPlayerHelper.remove(player.getName()), Config.Settings.ReenterInterval);
+        if (LoginPlayerHelper.isLogin(player.getName())) {
+            Config.setOfflineLocation(player);
+            Bukkit.getScheduler().runTaskLater(CatSeedLogin.getInstance(), () -> LoginPlayerHelper.remove(player.getName()), Config.Settings.ReenterInterval);
+        }
+        Task.getTaskAutoKick().playerJoinTime.remove(player.getName());
 
     }
 

@@ -34,7 +34,23 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || commandWhiteListInfo(sender, args)
                 || commandWhiteListAdd(sender, args)
                 || commandWhiteListDel(sender, args)
-                || canTpSpawnLocation(sender, args);
+                || canTpSpawnLocation(sender, args)
+                || autoKick(sender, args);
+    }
+
+    private boolean autoKick(CommandSender sender, String[] args){
+        if (args.length > 0 && args[0].equalsIgnoreCase("setAutoKick")) {
+            try {
+
+                Config.Settings.AutoKick = Integer.parseInt(args[1]);
+                Config.Settings.save();
+                sender.sendMessage(Config.Settings.AutoKick > 0 ? "§e已设置未登录自动踢出累计时间为 §a" + Config.Settings.AutoKick + "秒" : "§e已关闭未登录自动踢出");
+            } catch (NumberFormatException e) {
+                sender.sendMessage("§e秒数必须是一个数字");
+            }
+            return true;
+        }
+        return false;
     }
 
     private boolean canTpSpawnLocation(CommandSender sender, String[] args){

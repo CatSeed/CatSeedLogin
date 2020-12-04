@@ -6,10 +6,11 @@ import cc.baka9.catseedlogin.database.MySQL;
 import cc.baka9.catseedlogin.database.SQL;
 import cc.baka9.catseedlogin.database.SQLite;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
+import cc.baka9.catseedlogin.task.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.Collections;
 
 public class CatSeedLogin extends JavaPlugin {
 
+    private BukkitScheduler scheduler = getServer().getScheduler();
     private static CatSeedLogin instance;
     public static SQL sql;
 
@@ -24,10 +26,10 @@ public class CatSeedLogin extends JavaPlugin {
     public void onEnable(){
         instance = this;
         //Config
-        try{
+        try {
             Config.load();
             Config.save();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             getServer().getLogger().info("加载配置文件时出错，请检查你的配置文件。");
         }
@@ -99,25 +101,14 @@ public class CatSeedLogin extends JavaPlugin {
 
 
         //Task
-        getServer().getScheduler().runTaskTimer(this, () -> {
-            if (!Cache.isLoaded) return;
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!LoginPlayerHelper.isLogin(player.getName())) {
-                    if (!LoginPlayerHelper.isRegister(player.getName())) {
-                        player.sendMessage(Config.Language.REGISTER_REQUEST);
-                        continue;
-                    }
-                    player.sendMessage(Config.Language.LOGIN_REQUEST);
-
-                }
-            }
-        }, 0, 20 * 5);
-
+        Task.runAll();
 
     }
 
+
     @Override
     public void onDisable(){
+        Task.cancelAll();
         Bukkit.getOnlinePlayers().forEach(p -> {
             if (!LoginPlayerHelper.isLogin(p.getName())) return;
             Config.setOfflineLocation(p);
