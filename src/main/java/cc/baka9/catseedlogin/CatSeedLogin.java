@@ -10,7 +10,6 @@ import cc.baka9.catseedlogin.task.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +17,6 @@ import java.util.Collections;
 
 public class CatSeedLogin extends JavaPlugin {
 
-    private BukkitScheduler scheduler = getServer().getScheduler();
     private static CatSeedLogin instance;
     public static SQL sql;
 
