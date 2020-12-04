@@ -48,7 +48,7 @@ public class Config {
         public static long ReenterInterval;
         public static boolean AfterLoginBack;
         public static boolean CanTpSpawnLocation;
-        public static List<Pattern> commandWhiteList;
+        public static List<Pattern> CommandWhiteList;
         public static int AutoKick;
 
         public static void load(){
@@ -69,7 +69,7 @@ public class Config {
             if (commandWhiteList.size() == 0) {
                 commandWhiteList = resourceConfig.getStringList("CommandWhiteList");
             }
-            Settings.commandWhiteList = commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList());
+            Settings.CommandWhiteList = commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList());
             AutoKick = config.getInt("AutoKick", 120);
         }
 
@@ -85,7 +85,7 @@ public class Config {
             config.set("ReenterInterval", ReenterInterval);
             config.set("AfterLoginBack", AfterLoginBack);
             config.set("CanTpSpawnLocation", CanTpSpawnLocation);
-            config.set("CommandWhiteList", commandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
+            config.set("CommandWhiteList", CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
             config.set("AutoKick", AutoKick);
             try {
                 config.save(new File(CatSeedLogin.getInstance().getDataFolder(), "settings.yml"));

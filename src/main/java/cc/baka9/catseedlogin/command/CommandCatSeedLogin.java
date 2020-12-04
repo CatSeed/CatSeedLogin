@@ -68,10 +68,10 @@ public class CommandCatSeedLogin implements CommandExecutor {
             String[] cmd = new String[args.length - 1];
             System.arraycopy(args, 1, cmd, 0, cmd.length);
             String regex = String.join(" ", cmd);
-            List<String> collect = Config.Settings.commandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList());
+            List<String> collect = Config.Settings.CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList());
             if (collect.contains(regex)) {
                 collect.remove(regex);
-                Config.Settings.commandWhiteList = collect.stream().map(Pattern::compile).collect(Collectors.toList());
+                Config.Settings.CommandWhiteList = collect.stream().map(Pattern::compile).collect(Collectors.toList());
                 Config.Settings.save();
                 sender.sendMessage("§e已删除登录前可执行指令 " + regex);
             } else {
@@ -88,11 +88,11 @@ public class CommandCatSeedLogin implements CommandExecutor {
             System.arraycopy(args, 1, cmd, 0, cmd.length);
             String regex = String.join(" ", cmd);
             Pattern pattern = Pattern.compile(regex);
-            List<String> collect = Config.Settings.commandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList());
+            List<String> collect = Config.Settings.CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList());
             if (collect.contains(regex)) {
                 sender.sendMessage("§c已经存在 " + regex);
             } else {
-                Config.Settings.commandWhiteList.add(pattern);
+                Config.Settings.CommandWhiteList.add(pattern);
                 Config.Settings.save();
                 sender.sendMessage("§e已添加登录前可执行指令 " + regex);
             }
@@ -104,7 +104,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
     private boolean commandWhiteListInfo(CommandSender sender, String[] args){
         if (args.length > 0 && args[0].equalsIgnoreCase("commandWhiteListInfo")) {
             sender.sendMessage("§e登录前可执行指令: ");
-            Config.Settings.commandWhiteList.forEach(cmdRegex -> sender.sendMessage(cmdRegex.toString()));
+            Config.Settings.CommandWhiteList.forEach(cmdRegex -> sender.sendMessage(cmdRegex.toString()));
             return true;
         }
         return false;

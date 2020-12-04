@@ -29,7 +29,7 @@ public class Listeners implements Listener {
         if (playerIsCitizensNPC(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         String input = event.getMessage().toLowerCase();
-        for (Pattern regex : Config.Settings.commandWhiteList) {
+        for (Pattern regex : Config.Settings.CommandWhiteList) {
             if (regex.matcher(input).find()) return;
         }
         event.setCancelled(true);
