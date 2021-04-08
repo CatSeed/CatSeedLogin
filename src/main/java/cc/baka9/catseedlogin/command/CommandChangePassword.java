@@ -48,21 +48,20 @@ public class CommandChangePassword implements CommandExecutor {
             return true;
         }
         sender.sendMessage("§e修改中..");
-        Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+        CatSeedLogin.instance.runTaskAsync(() -> {
             try {
                 lp.setPassword(args[1]);
                 lp.crypt();
                 CatSeedLogin.sql.edit(lp);
                 LoginPlayerHelper.remove(lp);
 
-                Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
+                Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
                     Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
                     if (player != null && player.isOnline()) {
                         player.sendMessage(Config.Language.CHANGEPASSWORD_SUCCESS);
                         Config.setOfflineLocation(player);
-                        //player.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
                         if (Config.Settings.CanTpSpawnLocation) {
-                            player.teleport(Config.Settings.SpawnLocation);
+                            CatSeedLogin.instance.runTaskAsync(() -> player.teleport(Config.Settings.SpawnLocation));
                         }
 
                     }

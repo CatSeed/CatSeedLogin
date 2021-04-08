@@ -25,24 +25,24 @@ public class Cache {
 
     public static void refreshAll(){
         isLoaded = false;
-        Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+        CatSeedLogin.instance.runTaskAsync(() -> {
             try {
                 List<LoginPlayer> newCache = CatSeedLogin.sql.getAll();
                 synchronized (PLAYER_HASHTABLE) {
                     PLAYER_HASHTABLE.clear();
                     newCache.forEach(p -> PLAYER_HASHTABLE.put(p.getName().toLowerCase(), p));
                 }
-                CatSeedLogin.getInstance().getLogger().info("缓存加载 " + PLAYER_HASHTABLE.size() + " 个数据");
+                CatSeedLogin.instance.getLogger().info("缓存加载 " + PLAYER_HASHTABLE.size() + " 个数据");
                 isLoaded = true;
             } catch (Exception e) {
-                CatSeedLogin.getInstance().getLogger().warning("数据库错误,无法更新缓存!");
+                CatSeedLogin.instance.getLogger().warning("数据库错误,无法更新缓存!");
                 e.printStackTrace();
             }
         });
     }
 
     public static void refresh(String name){
-        Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+        CatSeedLogin.instance.runTaskAsync(() -> {
             try {
                 LoginPlayer newLp = CatSeedLogin.sql.get(name);
                 String key = name.toLowerCase();
@@ -51,9 +51,9 @@ public class Cache {
                 } else {
                     PLAYER_HASHTABLE.remove(key);
                 }
-                CatSeedLogin.getInstance().getLogger().info("缓存加载 " + PLAYER_HASHTABLE.size() + " 个数据");
+                CatSeedLogin.instance.getLogger().info("缓存加载 " + PLAYER_HASHTABLE.size() + " 个数据");
             } catch (Exception e) {
-                CatSeedLogin.getInstance().getLogger().warning("数据库错误,无法更新缓存!");
+                CatSeedLogin.instance.getLogger().warning("数据库错误,无法更新缓存!");
                 e.printStackTrace();
             }
         });

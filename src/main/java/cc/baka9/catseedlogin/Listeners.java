@@ -159,7 +159,7 @@ public class Listeners implements Listener {
         Player player = event.getPlayer();
         if (LoginPlayerHelper.isLogin(player.getName())) {
             Config.setOfflineLocation(player);
-            Bukkit.getScheduler().runTaskLater(CatSeedLogin.getInstance(), () -> LoginPlayerHelper.remove(player.getName()), Config.Settings.ReenterInterval);
+            Bukkit.getScheduler().runTaskLater(CatSeedLogin.instance, () -> LoginPlayerHelper.remove(player.getName()), Config.Settings.ReenterInterval);
         }
         Task.getTaskAutoKick().playerJoinTime.remove(player.getName());
 
@@ -170,7 +170,7 @@ public class Listeners implements Listener {
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
         if (Config.Settings.CanTpSpawnLocation) {
-            p.teleport(Config.Settings.SpawnLocation);
+            CatSeedLogin.instance.runTaskAsync(() -> p.teleport(Config.Settings.SpawnLocation));
         }
     }
 

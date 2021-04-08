@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Config {
-    private static CatSeedLogin plugin = CatSeedLogin.getInstance();
+    private static CatSeedLogin plugin = CatSeedLogin.instance;
     private static Map<String, String> offlineLocations = new HashMap<>();
 
     public static class MySQL {
@@ -91,7 +91,7 @@ public class Config {
             config.set("CommandWhiteList", CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
             config.set("AutoKick", AutoKick);
             try {
-                config.save(new File(CatSeedLogin.getInstance().getDataFolder(), "settings.yml"));
+                config.save(new File(CatSeedLogin.instance.getDataFolder(), "settings.yml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

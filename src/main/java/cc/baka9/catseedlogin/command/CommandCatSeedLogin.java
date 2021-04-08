@@ -224,12 +224,12 @@ public class CommandCatSeedLogin implements CommandExecutor {
             String name = args[1];
             LoginPlayer lp = Cache.getIgnoreCase(name);
             if (lp != null) {
-                Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+                CatSeedLogin.instance.runTaskAsync(() -> {
                     try {
                         CatSeedLogin.sql.del(lp.getName());
                         LoginPlayerHelper.remove(lp);
                         sender.sendMessage("§e已删除账户 §a" + lp.getName());
-                        Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
+                        Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
                             Player p = Bukkit.getPlayerExact(lp.getName());
                             if (p != null && p.isOnline()) {
                                 p.kickPlayer("§c你的账户已被删除!");
@@ -261,7 +261,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 return true;
             }
             sender.sendMessage("§e设置中..");
-            Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+            CatSeedLogin.instance.runTaskAsync(() -> {
                 LoginPlayer lp = Cache.getIgnoreCase(name);
                 if (lp == null) {
                     lp = new LoginPlayer(name, pwd);
@@ -281,13 +281,12 @@ public class CommandCatSeedLogin implements CommandExecutor {
                         LoginPlayerHelper.remove(lp);
                         sender.sendMessage(String.join(" ", "§a玩家", lp.getName(), "密码已设置"));
                         LoginPlayer finalLp = lp;
-                        Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
+                        Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
                             Player p = Bukkit.getPlayer(finalLp.getName());
                             if (p != null && p.isOnline()) {
                                 p.sendMessage("§c密码已被管理员重新设置,请重新登录");
-                                //p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
                                 if (Config.Settings.CanTpSpawnLocation) {
-                                    p.teleport(Config.Settings.SpawnLocation);
+                                    CatSeedLogin.instance.runTaskAsync(() -> p.teleport(Config.Settings.SpawnLocation));
                                 }
                             }
 
@@ -309,14 +308,14 @@ public class CommandCatSeedLogin implements CommandExecutor {
     private boolean reload(CommandSender sender, String[] args){
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             Config.reload();
-            CatSeedLogin.sql = Config.MySQL.Enable ? new MySQL(CatSeedLogin.getInstance()) : new SQLite(CatSeedLogin.getInstance());
+            CatSeedLogin.sql = Config.MySQL.Enable ? new MySQL(CatSeedLogin.instance) : new SQLite(CatSeedLogin.instance);
             try {
 
                 CatSeedLogin.sql.init();
 
                 Cache.refreshAll();
             } catch (Exception e) {
-                CatSeedLogin.getInstance().getLogger().warning("§c加载数据库时出错");
+                CatSeedLogin.instance.getLogger().warning("§c加载数据库时出错");
                 e.printStackTrace();
             }
             sender.sendMessage("配置已重载!");

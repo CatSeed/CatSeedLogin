@@ -31,7 +31,7 @@ public abstract class Task implements Runnable {
 
     }
 
-    private static CatSeedLogin plugin = CatSeedLogin.getInstance();
+    private static CatSeedLogin plugin = CatSeedLogin.instance;
 
     public static void runAll(){
         runTaskTimer(Task.getTaskSendLoginMessage(), 20 * 5);

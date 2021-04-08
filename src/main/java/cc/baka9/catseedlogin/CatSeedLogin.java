@@ -10,6 +10,7 @@ import cc.baka9.catseedlogin.task.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,8 @@ import java.util.Collections;
 
 public class CatSeedLogin extends JavaPlugin {
 
-    private static CatSeedLogin instance;
+    public static CatSeedLogin instance;
+    public static BukkitScheduler scheduler = Bukkit.getScheduler();
     public static SQL sql;
 
     @Override
@@ -90,13 +92,6 @@ public class CatSeedLogin extends JavaPlugin {
         });
         PluginCommand catseedlogin = getServer().getPluginCommand("catseedlogin");
         catseedlogin.setExecutor(new CommandCatSeedLogin());
-//        catseedlogin.setTabCompleter((commandSender, command, s, args) -> {
-//            if (args.length == 1) {
-//                return Collections.singletonList("reload 重载配置文件");
-//            }
-//            return Collections.emptyList();
-//        });
-
 
         //Task
         Task.runAll();
@@ -121,8 +116,9 @@ public class CatSeedLogin extends JavaPlugin {
         super.onDisable();
     }
 
-    public static CatSeedLogin getInstance(){
-        return instance;
+    public void runTaskAsync(Runnable runnable){
+        scheduler.runTaskAsynchronously(this, runnable);
     }
+
 
 }

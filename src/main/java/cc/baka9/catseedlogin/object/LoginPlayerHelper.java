@@ -70,7 +70,7 @@ public class LoginPlayerHelper {
             ipsList.remove(0);
         }
         lp.setIps(String.join(";", ipsList.toArray(new String[0])));
-        Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+        CatSeedLogin.instance.runTaskAsync(() -> {
             try {
                 CatSeedLogin.sql.edit(lp);
             } catch (Exception e) {

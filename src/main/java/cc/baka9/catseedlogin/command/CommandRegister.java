@@ -42,7 +42,7 @@ public class CommandRegister implements CommandExecutor {
             return true;
         }
         sender.sendMessage("§e注册中..");
-        Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+        CatSeedLogin.instance.runTaskAsync(() -> {
             try {
                 String currentIp = player.getAddress().getHostName();
                 List<LoginPlayer> LoginPlayerListlikeByIp = CatSeedLogin.sql.getLikeByIp(currentIp);
@@ -55,7 +55,7 @@ public class CommandRegister implements CommandExecutor {
                     lp.crypt();
                     CatSeedLogin.sql.add(lp);
                     LoginPlayerHelper.add(lp);
-                    Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
+                    Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
                         CatSeedPlayerRegisterEvent event = new CatSeedPlayerRegisterEvent(Bukkit.getPlayer(sender.getName()));
                         Bukkit.getServer().getPluginManager().callEvent(event);
                     });
