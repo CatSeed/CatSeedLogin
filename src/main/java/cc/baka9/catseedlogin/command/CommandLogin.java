@@ -1,5 +1,6 @@
 package cc.baka9.catseedlogin.command;
 
+import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.event.CatSeedPlayerLoginEvent;
@@ -12,7 +13,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class CommandLogin implements CommandExecutor {
     @Override
@@ -34,6 +37,7 @@ public class CommandLogin implements CommandExecutor {
             CatSeedPlayerLoginEvent loginEvent = new CatSeedPlayerLoginEvent(player, lp.getEmail(), CatSeedPlayerLoginEvent.Result.SUCCESS);
             Bukkit.getServer().getPluginManager().callEvent(loginEvent);
             sender.sendMessage(Config.Language.LOGIN_SUCCESS);
+            LoginPlayerHelper.recordCurrentIP(player, lp);
             if (Config.Settings.AfterLoginBack && Config.Settings.CanTpSpawnLocation) {
                 Config.getOfflineLocation(player).ifPresent(player::teleport);
             }

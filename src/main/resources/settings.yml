@@ -1,3 +1,4 @@
+IpRegisterCountLimit: 2
 IpCountLimit: 2
 LimitChineseID: true
 MinLengthID: 2

@@ -39,7 +39,8 @@ commands:
       §a/<command> commandWhiteListAdd [指令] §9添加登陆之前允许执行的指令 (支持正则表达式)
       §a/<command> commandWhiteListDel [指令] §9删除登陆之前允许执行的指令 (支持正则表达式)
       §a/<command> commandWhiteListInfo §9查看登陆之前允许执行的指令 (支持正则表达式)
-      §b/<command> setIpCountLimit [数量] §9设置相同ip限制 （默认数量2）
+      §b/<command> setIpRegCountLimit [数量] §9设置相同ip注册限制 （默认数量2）
+      §b/<command> setIpCountLimit [数量] §9设置相同ip登录限制 （默认数量2）
       §b/<command> setIdLength [最短] [最长] §9设置游戏名最小和最大长度 (默认最小是2 最大是15)
       §b/<command> setReenterInterval [间隔] §9离开服务器重新进入间隔限制 单位：tick (1秒等于20tick) (默认60tick)
       §b/<command> setAutoKick [秒数] §9设置自动踢出未登录的玩家 (默认120秒，小于1秒则关闭此功能)

@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @ToString
@@ -14,6 +17,7 @@ public class LoginPlayer {
     private String name;
     private String password;
     private String email;
+    private String ips;
     private long lastAction;
 
     @Override
@@ -22,6 +26,14 @@ public class LoginPlayer {
         if (o == null || getClass() != o.getClass()) return false;
         LoginPlayer that = (LoginPlayer) o;
         return Objects.equals(name, that.name);
+    }
+
+    public List<String> getIpsList(){
+        List<String> ipList = new ArrayList<>();
+        if (this.ips != null) {
+            ipList.addAll(Arrays.asList(this.ips.split(";")));
+        }
+        return ipList;
     }
 
     @Override

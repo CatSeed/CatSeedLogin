@@ -1,11 +1,15 @@
 package cc.baka9.catseedlogin.object;
 
+import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.database.Cache;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LoginPlayerHelper {
     private static final Set<LoginPlayer> set = new HashSet<>();
@@ -54,5 +58,24 @@ public class LoginPlayerHelper {
 
         return Cache.getIgnoreCase(name) != null;
 
+    }
+
+    // 记录登录IP
+    public static void recordCurrentIP(Player player, LoginPlayer lp){
+        String currentIp = player.getAddress().getHostName();
+        List<String> ipsList = lp.getIpsList();
+        ipsList.add(currentIp);
+        ipsList = ipsList.stream().distinct().collect(Collectors.toList());
+        if (ipsList.size() > 5) {
+            ipsList.remove(0);
+        }
+        lp.setIps(String.join(";", ipsList.toArray(new String[0])));
+        Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
+            try {
+                CatSeedLogin.sql.edit(lp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

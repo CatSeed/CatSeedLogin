@@ -50,7 +50,9 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * /catseedlogin commandWhiteListDel 指令
 ### 查看登陆之前允许执行的指令 (支持正则表达式)
 * /catseedlogin commandWhiteListInfo
-### 设置相同ip限制 （默认数量2）
+### 设置相同ip注册数量限制 （默认数量2）
+* /catseedlogin setIpRegCountLimit 数量
+### 设置相同ip登录数量限制 （默认数量2）
 * /catseedlogin setIpCountLimit 数量
 ### 设置游戏名最小和最大长度 (默认最小是2 最大是15)
 * /catseedlogin setIdLength 最短 最长
@@ -78,7 +80,9 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * catseedlogin.command.catseedlogin 管理员指令/catseedlogin 使用权限
 ## 配置文件
 ### settings.yml
-> \#相同ip限制  
+> \#相同ip注册数量限制  
+IpRegisterCountLimit: 2  
+\#相同ip登录数量限制  
 IpCountLimit: 2  
 \#登录点,默认是world主世界出生点,推荐用指令设置  
 SpawnLocation: 世界名:x轴:y轴:z轴:yaw:pitch  

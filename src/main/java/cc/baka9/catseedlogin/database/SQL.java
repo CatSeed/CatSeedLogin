@@ -27,7 +27,7 @@ public abstract class SQL {
         }
         re.close();
         if (create) {
-            flush(new BufferStatement("CREATE TABLE accounts (name CHAR(255),password CHAR(255),email CHAR(255),lastAction TIMESTAMP)"));
+            flush(new BufferStatement("CREATE TABLE accounts (name CHAR(255),password CHAR(255),email CHAR(255),ips CHAR(255),lastAction TIMESTAMP)"));
         }
 
         try {
@@ -38,24 +38,31 @@ public abstract class SQL {
             }
         }
 
+        try {
+            flush(new BufferStatement("ALTER TABLE accounts ADD ips CHAR(255)"));
+        } catch (Exception e) {
+            if (!e.getMessage().toLowerCase().contains("duplicate column name")) {
+                throw e;
+            }
+        }
+
     }
 
 
     public void add(LoginPlayer lp) throws Exception{
-        flush(new BufferStatement("INSERT INTO accounts (name,password,lastAction,email) VALUES(?,?,?,?)",
-                lp.getName(), lp.getPassword(), new Date(), lp.getEmail()));
+        flush(new BufferStatement("INSERT INTO accounts (name,password,lastAction,email,ips) VALUES(?,?,?,?,?)",
+                lp.getName(), lp.getPassword(), new Date(), lp.getEmail(), lp.getIps()));
         Cache.refresh(lp.getName());
     }
 
     public void del(String name) throws Exception{
-        flush(new BufferStatement("DELETE FROM accounts WHERE name = ?",
-                name));
+        flush(new BufferStatement("DELETE FROM accounts WHERE name = ?", name));
         Cache.refresh(name);
     }
 
     public void edit(LoginPlayer lp) throws Exception{
-        flush(new BufferStatement("UPDATE accounts SET password = ?, lastAction = ?, email = ? WHERE name= ?"
-                , lp.getPassword(), new Date(), lp.getEmail(), lp.getName()));
+        flush(new BufferStatement("UPDATE accounts SET password = ?, lastAction = ?, email = ?, ips = ? WHERE name= ?"
+                , lp.getPassword(), new Date(), lp.getEmail(), lp.getIps(), lp.getName()));
         Cache.refresh(lp.getName());
     }
 
@@ -69,6 +76,7 @@ public abstract class SQL {
             lp = new LoginPlayer(name, resultSet.getString("password"));
             lp.setLastAction(resultSet.getLong("lastAction"));
             lp.setEmail(resultSet.getString("email"));
+            lp.setIps(resultSet.getString("ips"));
         }
         resultSet.close();
         ps.close();
@@ -84,26 +92,26 @@ public abstract class SQL {
             lp = new LoginPlayer(resultSet.getString("name"), resultSet.getString("password"));
             lp.setLastAction(resultSet.getLong("lastAction"));
             lp.setEmail(resultSet.getString("email"));
+            lp.setIps(resultSet.getString("ips"));
             lps.add(lp);
         }
         return lps;
 
     }
 
-    public LoginPlayer getLike(String name) throws Exception{
-        PreparedStatement ps = new BufferStatement("SELECT * FROM accounts WHERE name like ?",
-                name).prepareStatement(getConnection());
-
+    public List<LoginPlayer> getLikeByIp(String ip) throws Exception{
+        PreparedStatement ps = new BufferStatement("SELECT * FROM accounts WHERE ips like ?", "%" + ip + "%").prepareStatement(getConnection());
         ResultSet resultSet = ps.executeQuery();
-        LoginPlayer lp = null;
-        if (resultSet.next()) {
-            lp = new LoginPlayer(name, resultSet.getString("password"));
+        List<LoginPlayer> lps = new ArrayList<>();
+        LoginPlayer lp;
+        while (resultSet.next()) {
+            lp = new LoginPlayer(resultSet.getString("name"), resultSet.getString("password"));
             lp.setLastAction(resultSet.getLong("lastAction"));
             lp.setEmail(resultSet.getString("email"));
+            lp.setIps(resultSet.getString("ips"));
+            lps.add(lp);
         }
-        resultSet.close();
-        ps.close();
-        return lp;
+        return lps;
     }
 
     public abstract Connection getConnection() throws Exception;

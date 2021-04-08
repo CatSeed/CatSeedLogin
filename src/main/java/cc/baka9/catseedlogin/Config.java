@@ -39,6 +39,7 @@ public class Config {
     }
 
     public static class Settings {
+        public static int IpRegisterCountLimit;
         public static int IpCountLimit;
         public static Location SpawnLocation;
         public static boolean LimitChineseID;
@@ -55,6 +56,7 @@ public class Config {
             FileConfiguration config = getConfig("settings.yml");
             FileConfiguration resourceConfig = getResourceConfig("settings.yml");
 
+            IpRegisterCountLimit = config.getInt("IpRegisterCountLimit", resourceConfig.getInt("IpRegisterCountLimit"));
             IpCountLimit = config.getInt("IpCountLimit", resourceConfig.getInt("IpCountLimit"));
             SpawnLocation = str2Location(config.getString("SpawnLocation"));
 
@@ -75,6 +77,7 @@ public class Config {
 
         public static void save(){
             FileConfiguration config = getConfig("settings.yml");
+            config.set("IpRegisterCountLimit", IpRegisterCountLimit);
             config.set("IpCountLimit", IpCountLimit);
             config.set("SpawnWorld", null);
             config.set("SpawnLocation", loc2String(SpawnLocation));
@@ -124,6 +127,7 @@ public class Config {
         public static String CHANGEPASSWORD_PASSWORD_CONFIRM_FAIL;
         public static String CHANGEPASSWORD_SUCCESS;
         public static String AUTO_KICK;
+        public static String REGISTER_MORE;
 
         public static void load(){
             FileConfiguration resourceConfig = getResourceConfig("language.yml");

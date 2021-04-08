@@ -35,7 +35,8 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || commandWhiteListAdd(sender, args)
                 || commandWhiteListDel(sender, args)
                 || canTpSpawnLocation(sender, args)
-                || autoKick(sender, args);
+                || autoKick(sender, args)
+                || setIpRegCountLimit(sender, args);
     }
 
     private boolean autoKick(CommandSender sender, String[] args){
@@ -194,7 +195,21 @@ public class CommandCatSeedLogin implements CommandExecutor {
             try {
                 Config.Settings.IpCountLimit = Integer.valueOf(args[1]);
                 Config.Settings.save();
-                sender.sendMessage("§e相同ip限制数量为 " + Config.Settings.IpCountLimit);
+                sender.sendMessage("§e相同ip登录限制数量为 " + Config.Settings.IpCountLimit);
+            } catch (NumberFormatException e) {
+                sender.sendMessage("§c请输入数字");
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean setIpRegCountLimit(CommandSender sender, String[] args){
+        if (args.length > 1 && args[0].equalsIgnoreCase("setIpRegCountLimit")) {
+            try {
+                Config.Settings.IpRegisterCountLimit = Integer.valueOf(args[1]);
+                Config.Settings.save();
+                sender.sendMessage("§e相同ip注册限制数量为 " + Config.Settings.IpRegisterCountLimit);
             } catch (NumberFormatException e) {
                 sender.sendMessage("§c请输入数字");
             }
