@@ -7,6 +7,7 @@ import cc.baka9.catseedlogin.object.EmailCode;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import cc.baka9.catseedlogin.util.Mail;
+import cc.baka9.catseedlogin.util.PlayerTeleport;
 import cc.baka9.catseedlogin.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -88,7 +89,7 @@ public class CommandResetPassword implements CommandExecutor {
                                     Player p = Bukkit.getPlayer(lp.getName());
                                     if (p != null && p.isOnline()) {
                                         if (Config.Settings.CanTpSpawnLocation) {
-                                            CatSeedLogin.instance.runTaskAsync(() -> p.teleport(Config.Settings.SpawnLocation));
+                                            PlayerTeleport.teleport(p, Config.Settings.SpawnLocation);
                                         }
                                         p.sendMessage(Config.Language.RESETPASSWORD_SUCCESS);
                                     }

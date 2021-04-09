@@ -7,6 +7,7 @@ import cc.baka9.catseedlogin.database.MySQL;
 import cc.baka9.catseedlogin.database.SQLite;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
+import cc.baka9.catseedlogin.util.PlayerTeleport;
 import cc.baka9.catseedlogin.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -286,7 +287,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
                             if (p != null && p.isOnline()) {
                                 p.sendMessage("§c密码已被管理员重新设置,请重新登录");
                                 if (Config.Settings.CanTpSpawnLocation) {
-                                    CatSeedLogin.instance.runTaskAsync(() -> p.teleport(Config.Settings.SpawnLocation));
+                                    PlayerTeleport.teleport(p, Config.Settings.SpawnLocation);
                                 }
                             }
 

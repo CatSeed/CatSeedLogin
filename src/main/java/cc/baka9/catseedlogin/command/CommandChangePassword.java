@@ -3,6 +3,7 @@ package cc.baka9.catseedlogin.command;
 import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.util.Crypt;
+import cc.baka9.catseedlogin.util.PlayerTeleport;
 import cc.baka9.catseedlogin.util.Util;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
@@ -61,7 +62,7 @@ public class CommandChangePassword implements CommandExecutor {
                         player.sendMessage(Config.Language.CHANGEPASSWORD_SUCCESS);
                         Config.setOfflineLocation(player);
                         if (Config.Settings.CanTpSpawnLocation) {
-                            CatSeedLogin.instance.runTaskAsync(() -> player.teleport(Config.Settings.SpawnLocation));
+                            PlayerTeleport.teleport(player, Config.Settings.SpawnLocation);
                         }
 
                     }

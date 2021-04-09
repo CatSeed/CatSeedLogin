@@ -4,6 +4,7 @@ import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import cc.baka9.catseedlogin.task.Task;
+import cc.baka9.catseedlogin.util.PlayerTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -170,7 +171,7 @@ public class Listeners implements Listener {
         Player p = event.getPlayer();
         Cache.refresh(p.getName());
         if (Config.Settings.CanTpSpawnLocation) {
-            CatSeedLogin.instance.runTaskAsync(() -> p.teleport(Config.Settings.SpawnLocation));
+            PlayerTeleport.teleport(p, Config.Settings.SpawnLocation);
         }
     }
 
