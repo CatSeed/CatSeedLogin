@@ -44,7 +44,7 @@ public class CommandRegister implements CommandExecutor {
         sender.sendMessage("§e注册中..");
         CatSeedLogin.instance.runTaskAsync(() -> {
             try {
-                String currentIp = player.getAddress().getHostName();
+                String currentIp = player.getAddress().getAddress().getHostAddress();
                 List<LoginPlayer> LoginPlayerListlikeByIp = CatSeedLogin.sql.getLikeByIp(currentIp);
                 if (LoginPlayerListlikeByIp.size() >= Config.Settings.IpRegisterCountLimit) {
                     sender.sendMessage(Config.Language.REGISTER_MORE
