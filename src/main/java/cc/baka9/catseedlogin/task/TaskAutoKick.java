@@ -18,14 +18,17 @@ public class TaskAutoKick extends Task {
         long autoKickMs = Config.Settings.AutoKick * 1000;
         long now = System.currentTimeMillis();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!LoginPlayerHelper.isLogin(player.getName())) {
-                if (playerJoinTime.containsKey(player.getName())) {
-                    if (now - playerJoinTime.get(player.getName()) > autoKickMs) {
+            String playerName = player.getName();
+            if (!LoginPlayerHelper.isLogin(playerName)) {
+                if (playerJoinTime.containsKey(playerName)) {
+                    if (now - playerJoinTime.get(playerName) > autoKickMs) {
                         player.kickPlayer(Config.Language.AUTO_KICK.replace("{time}", Config.Settings.AutoKick + ""));
                     }
                 } else {
-                    playerJoinTime.put(player.getName(), now);
+                    playerJoinTime.put(playerName, now);
                 }
+            } else {
+                playerJoinTime.remove(playerName);
             }
         }
     }
