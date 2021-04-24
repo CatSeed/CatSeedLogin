@@ -21,13 +21,13 @@ import java.util.regex.Pattern;
 
 public class Listeners implements Listener {
 
-    private boolean playerIsCitizensNPC(Player p){
-        return p.getClass().getName().matches("^net\\.citizensnpcs.*?EntityHumanNPC.*");
+    private boolean playerIsNotMinecraftPlayer(Player p){
+        return !p.getClass().getName().matches("org\\.bukkit\\.craftbukkit.*?\\.entity\\.CraftPlayer");
     }
 
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event){
-        if (playerIsCitizensNPC(event.getPlayer())) return;
+        if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         String input = event.getMessage().toLowerCase();
         for (Pattern regex : Config.Settings.CommandWhiteList) {
@@ -71,14 +71,14 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event){
-        if (playerIsCitizensNPC(event.getPlayer())) return;
+        if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
-        if (playerIsCitizensNPC(event.getPlayer())) return;
+        if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
@@ -100,7 +100,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event){
         if (!(event.getDamager() instanceof Player)) return;
-        if (playerIsCitizensNPC((Player) event.getDamager())) return;
+        if (playerIsNotMinecraftPlayer((Player) event.getDamager())) return;
         if (LoginPlayerHelper.isLogin(event.getDamager().getName())) return;
         event.setCancelled(true);
     }
@@ -111,7 +111,7 @@ public class Listeners implements Listener {
         if (Config.Settings.BeforeLoginNoDamage) {
 
             Entity entity = event.getEntity();
-            if (entity instanceof Player && !playerIsCitizensNPC((Player) entity)) {
+            if (entity instanceof Player && !playerIsNotMinecraftPlayer((Player) entity)) {
                 if (!LoginPlayerHelper.isLogin(entity.getName())) {
                     event.setCancelled(true);
                 }
@@ -125,14 +125,14 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event){
         if (event.getTo().equals(Config.Settings.SpawnLocation)) return;
-        if (playerIsCitizensNPC(event.getPlayer())) return;
+        if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event){
-        if (playerIsCitizensNPC(event.getPlayer())) return;
+        if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
     }
@@ -141,14 +141,14 @@ public class Listeners implements Listener {
     public void onEntityPickupItem(EntityPickupItemEvent event){
         if (!(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
-        if (playerIsCitizensNPC(player)) return;
+        if (playerIsNotMinecraftPlayer(player)) return;
         if (LoginPlayerHelper.isLogin(player.getName())) return;
         event.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
-        if (playerIsCitizensNPC(event.getPlayer())) return;
+        if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         if ((Math.abs(event.getFrom().getZ()) - Math.abs(event.getTo().getZ())) == 0
                 && (Math.abs(event.getFrom().getX()) - Math.abs(event.getTo().getX())) == 0) return;

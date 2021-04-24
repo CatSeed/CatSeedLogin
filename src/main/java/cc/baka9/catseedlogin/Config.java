@@ -49,7 +49,7 @@ public class Config {
         public static long ReenterInterval;
         public static boolean AfterLoginBack;
         public static boolean CanTpSpawnLocation;
-        public static List<Pattern> CommandWhiteList;
+        public static List<Pattern> CommandWhiteList = new ArrayList<>();
         public static int AutoKick;
 
         public static void load(){
@@ -58,8 +58,6 @@ public class Config {
 
             IpRegisterCountLimit = config.getInt("IpRegisterCountLimit", resourceConfig.getInt("IpRegisterCountLimit"));
             IpCountLimit = config.getInt("IpCountLimit", resourceConfig.getInt("IpCountLimit"));
-            SpawnLocation = str2Location(config.getString("SpawnLocation"));
-
             LimitChineseID = config.getBoolean("LimitChineseID", resourceConfig.getBoolean("LimitChineseID"));
             MinLengthID = config.getInt("MinLengthID", resourceConfig.getInt("MinLengthID"));
             MaxLengthID = config.getInt("MaxLengthID", resourceConfig.getInt("MaxLengthID"));
@@ -71,8 +69,10 @@ public class Config {
             if (commandWhiteList.size() == 0) {
                 commandWhiteList = resourceConfig.getStringList("CommandWhiteList");
             }
-            Settings.CommandWhiteList = commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList());
+            Settings.CommandWhiteList.clear();
+            Settings.CommandWhiteList.addAll(commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList()));
             AutoKick = config.getInt("AutoKick", 120);
+            SpawnLocation = str2Location(config.getString("SpawnLocation"));
         }
 
         public static void save(){
@@ -80,7 +80,6 @@ public class Config {
             config.set("IpRegisterCountLimit", IpRegisterCountLimit);
             config.set("IpCountLimit", IpCountLimit);
             config.set("SpawnWorld", null);
-            config.set("SpawnLocation", loc2String(SpawnLocation));
             config.set("LimitChineseID", LimitChineseID);
             config.set("MinLengthID", MinLengthID);
             config.set("MaxLengthID", MaxLengthID);
@@ -88,8 +87,9 @@ public class Config {
             config.set("ReenterInterval", ReenterInterval);
             config.set("AfterLoginBack", AfterLoginBack);
             config.set("CanTpSpawnLocation", CanTpSpawnLocation);
-            config.set("CommandWhiteList", CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
             config.set("AutoKick", AutoKick);
+            config.set("SpawnLocation", loc2String(SpawnLocation));
+            config.set("CommandWhiteList", CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
             try {
                 config.save(new File(CatSeedLogin.instance.getDataFolder(), "settings.yml"));
             } catch (IOException e) {
