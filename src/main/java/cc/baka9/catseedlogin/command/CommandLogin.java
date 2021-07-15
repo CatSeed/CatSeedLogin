@@ -1,13 +1,11 @@
 package cc.baka9.catseedlogin.command;
 
-import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.Config;
 import cc.baka9.catseedlogin.database.Cache;
 import cc.baka9.catseedlogin.event.CatSeedPlayerLoginEvent;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import cc.baka9.catseedlogin.util.Crypt;
-import cc.baka9.catseedlogin.util.PlayerTeleport;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,7 +36,7 @@ public class CommandLogin implements CommandExecutor {
             sender.sendMessage(Config.Language.LOGIN_SUCCESS);
             LoginPlayerHelper.recordCurrentIP(player, lp);
             if (Config.Settings.AfterLoginBack && Config.Settings.CanTpSpawnLocation) {
-                Config.getOfflineLocation(player).ifPresent(loc -> PlayerTeleport.teleport(player, loc));
+                Config.getOfflineLocation(player).ifPresent(player::teleport);
             }
         } else {
             sender.sendMessage(Config.Language.LOGIN_FAIL);

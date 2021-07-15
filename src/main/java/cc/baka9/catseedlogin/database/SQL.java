@@ -74,7 +74,7 @@ public abstract class SQL {
         LoginPlayer lp = null;
         if (resultSet.next()) {
             lp = new LoginPlayer(name, resultSet.getString("password"));
-            lp.setLastAction(resultSet.getLong("lastAction"));
+            lp.setLastAction(resultSet.getTimestamp("lastAction").getTime());
             lp.setEmail(resultSet.getString("email"));
             lp.setIps(resultSet.getString("ips"));
         }
@@ -90,7 +90,7 @@ public abstract class SQL {
         LoginPlayer lp;
         while (resultSet.next()) {
             lp = new LoginPlayer(resultSet.getString("name"), resultSet.getString("password"));
-            lp.setLastAction(resultSet.getLong("lastAction"));
+            lp.setLastAction(resultSet.getTimestamp("lastAction").getTime());
             lp.setEmail(resultSet.getString("email"));
             lp.setIps(resultSet.getString("ips"));
             lps.add(lp);
@@ -106,7 +106,7 @@ public abstract class SQL {
         LoginPlayer lp;
         while (resultSet.next()) {
             lp = new LoginPlayer(resultSet.getString("name"), resultSet.getString("password"));
-            lp.setLastAction(resultSet.getLong("lastAction"));
+            lp.setLastAction(resultSet.getTimestamp("lastAction").getTime());
             lp.setEmail(resultSet.getString("email"));
             lp.setIps(resultSet.getString("ips"));
             lps.add(lp);

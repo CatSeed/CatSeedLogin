@@ -6,11 +6,10 @@
 
     <groupId>cc.baka9</groupId>
     <artifactId>CatSeedLogin</artifactId>
-    <version>1.3.4-SNAPSHOT</version>
+    <version>1.3.5-SNAPSHOT</version>
 
     <name>CatSeedLogin</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <url>https://www.mcbbs.net/thread-847859-1-1.html</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
