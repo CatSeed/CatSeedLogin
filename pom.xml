@@ -96,6 +96,7 @@
                             <exclude>mysql:mysql-connector-java</exclude>
                             <exclude>org.xerial:sqlite-jdbc</exclude>
                             <exclude>com.comphenix.protocol</exclude>
+                            <exclude>net.bytebuddy</exclude>
                         </excludes>
                     </artifactSet>
                     <filters>
