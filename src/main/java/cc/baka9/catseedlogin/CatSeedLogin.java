@@ -7,6 +7,8 @@ import cc.baka9.catseedlogin.database.SQL;
 import cc.baka9.catseedlogin.database.SQLite;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import cc.baka9.catseedlogin.task.Task;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,6 +23,7 @@ public class CatSeedLogin extends JavaPlugin {
     public static CatSeedLogin instance;
     public static BukkitScheduler scheduler = Bukkit.getScheduler();
     public static SQL sql;
+    public static boolean loadProtocolLib = false;
 
     @Override
     public void onEnable(){
@@ -45,6 +48,16 @@ public class CatSeedLogin extends JavaPlugin {
         }
         //Listeners
         getServer().getPluginManager().registerEvents(new Listeners(), this);
+
+        //ProtocolLibListeners
+        try {
+            ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+            protocolManager.addPacketListener(new ProtocolLibListeners());
+            loadProtocolLib = true;
+        } catch (NoClassDefFoundError ignored) {
+            getLogger().warning("§c服务器没有装载ProtocolLib插件，这将无法使用登录前隐藏背包");
+        }
+
         //Commands
         getServer().getPluginCommand("login").setExecutor(new CommandLogin());
         getServer().getPluginCommand("login").setTabCompleter((commandSender, command, s, args)

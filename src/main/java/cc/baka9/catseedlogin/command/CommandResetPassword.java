@@ -92,6 +92,9 @@ public class CommandResetPassword implements CommandExecutor {
                                             p.teleport(Config.Settings.SpawnLocation);
                                         }
                                         p.sendMessage(Config.Language.RESETPASSWORD_SUCCESS);
+                                        if (CatSeedLogin.loadProtocolLib) {
+                                            LoginPlayerHelper.sendBlankInventoryPacket(player);
+                                        }
                                     }
 
                                 });

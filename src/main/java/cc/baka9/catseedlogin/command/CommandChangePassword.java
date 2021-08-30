@@ -62,7 +62,9 @@ public class CommandChangePassword implements CommandExecutor {
                         Config.setOfflineLocation(player);
                         if (Config.Settings.CanTpSpawnLocation) {
                             player.teleport(Config.Settings.SpawnLocation);
-//                            PlayerTeleport.teleport(player, Config.Settings.SpawnLocation);
+                            if (CatSeedLogin.loadProtocolLib) {
+                                LoginPlayerHelper.sendBlankInventoryPacket(player);
+                            }
                         }
 
                     }

@@ -5,6 +5,7 @@ import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import cc.baka9.catseedlogin.task.Task;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -123,7 +124,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event){
-        if (event.getTo().equals(Config.Settings.SpawnLocation)) return;
+        if (Config.Settings.CanTpSpawnLocation && event.getTo().equals(Config.Settings.SpawnLocation)) return;
         if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         event.setCancelled(true);
@@ -147,11 +148,21 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event){
-        if (playerIsNotMinecraftPlayer(event.getPlayer())) return;
-        if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
-        if ((Math.abs(event.getFrom().getZ()) - Math.abs(event.getTo().getZ())) == 0
-                && (Math.abs(event.getFrom().getX()) - Math.abs(event.getTo().getX())) == 0) return;
-        event.setCancelled(true);
+        Player player = event.getPlayer();
+        if (playerIsNotMinecraftPlayer(player)) return;
+        if (LoginPlayerHelper.isLogin(player.getName())) return;
+        Location from = event.getFrom();
+        Location to = event.getTo();
+        if (from.getBlockX() == to.getBlockX() && from.getBlockZ() == to.getBlockZ() && from.getY() - to.getY() >= 0.0D) {
+            return;
+        }
+
+        if (Config.Settings.CanTpSpawnLocation) {
+            player.teleport(Config.Settings.SpawnLocation);
+        }else {
+            event.setCancelled(true);
+        }
+
     }
 
     @EventHandler
@@ -171,7 +182,6 @@ public class Listeners implements Listener {
         Cache.refresh(p.getName());
         if (Config.Settings.CanTpSpawnLocation) {
             p.teleport(Config.Settings.SpawnLocation);
-//            PlayerTeleport.teleport(p, Config.Settings.SpawnLocation);
         }
     }
 
