@@ -14,3 +14,4 @@ CommandWhiteList:
   - /(?i)repw?(\z| .*)
   - /(?i)worldedit cui
 AutoKick: 120
+DeathStateQuitRecordLocation: true

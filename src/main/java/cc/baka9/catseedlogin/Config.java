@@ -15,10 +15,21 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * 加载/保存/重载 yml配置文件
+ * config.yml 玩家退出服务器的位置
+ * emailVerify.yml 邮箱找回密码
+ * language.yml 语言，提示
+ * settings.yml 设置
+ * sql.yml 数据库
+ */
 public class Config {
     private static CatSeedLogin plugin = CatSeedLogin.instance;
     private static Map<String, String> offlineLocations = new HashMap<>();
 
+    /**
+     * 数据库
+     */
     public static class MySQL {
         public static boolean Enable;
         public static String Host;
@@ -38,6 +49,9 @@ public class Config {
         }
     }
 
+    /**
+     * 设置
+     */
     public static class Settings {
         public static int IpRegisterCountLimit;
         public static int IpCountLimit;
@@ -51,6 +65,8 @@ public class Config {
         public static boolean CanTpSpawnLocation;
         public static List<Pattern> CommandWhiteList = new ArrayList<>();
         public static int AutoKick;
+        // 死亡状态退出游戏是否记录退出位置 (玩家可以通过死亡时退出服务器然后重新进入，再复活，登录返回死亡地点)
+        public static boolean DeathStateQuitRecordLocation;
 
         public static void load(){
             FileConfiguration config = getConfig("settings.yml");
@@ -73,6 +89,7 @@ public class Config {
             Settings.CommandWhiteList.addAll(commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList()));
             AutoKick = config.getInt("AutoKick", 120);
             SpawnLocation = str2Location(config.getString("SpawnLocation"));
+            DeathStateQuitRecordLocation = config.getBoolean("DeathStateQuitRecordLocation", resourceConfig.getBoolean("DeathStateQuitRecordLocation"));
         }
 
         public static void save(){
@@ -90,6 +107,7 @@ public class Config {
             config.set("AutoKick", AutoKick);
             config.set("SpawnLocation", loc2String(SpawnLocation));
             config.set("CommandWhiteList", CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
+            config.set("DeathStateQuitRecordLocation", DeathStateQuitRecordLocation);
             try {
                 config.save(new File(CatSeedLogin.instance.getDataFolder(), "settings.yml"));
             } catch (IOException e) {
@@ -98,6 +116,9 @@ public class Config {
         }
     }
 
+    /**
+     * 语言，提示
+     */
     public static class Language {
         public static String LOGIN_REQUEST;
         public static String REGISTER_REQUEST;
@@ -145,6 +166,9 @@ public class Config {
 
     }
 
+    /**
+     * 邮箱找回密码
+     */
     public static class EmailVerify {
 
         public static boolean Enable;
@@ -169,7 +193,7 @@ public class Config {
         }
 
     }
-
+    // 获取插件文件夹中的配置文件，如果不存在则从插件jar包中获取配置文件保存到插件文件夹中
     public static FileConfiguration getConfig(String yamlFileName){
         File file = new File(plugin.getDataFolder(), yamlFileName);
         if (!file.exists()) {
@@ -178,6 +202,7 @@ public class Config {
         return YamlConfiguration.loadConfiguration(file);
     }
 
+    // 获取插件jar包中的配置文件
     public static FileConfiguration getResourceConfig(String yamlFileName){
         return YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource(yamlFileName), Charset.forName("UTF-8")));
     }
@@ -206,11 +231,13 @@ public class Config {
 
     }
 
+    // 获取玩家退出服务器时的位置
     public static Optional<Location> getOfflineLocation(Player player){
         String data = offlineLocations.get(player.getName());
         return data == null ? Optional.empty() : Optional.of(str2Location(data));
     }
 
+    // 保存玩家退出服务器的位置
     public static void setOfflineLocation(Player player){
         String name = player.getName();
         String data = loc2String(player.getLocation());
@@ -219,6 +246,7 @@ public class Config {
         plugin.saveConfig();
     }
 
+    // 字符串转成位置
     private static Location str2Location(String str){
         Location loc;
         try {
@@ -236,7 +264,7 @@ public class Config {
         return loc;
 
     }
-
+    // 位置转成字符串
     private static String loc2String(Location loc){
         try {
             return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch();
@@ -247,6 +275,7 @@ public class Config {
 
     }
 
+    // 获取默认世界
     private static World getDefaultWorld(){
         try (InputStream is = new BufferedInputStream(new FileInputStream(new File("server.properties")))) {
             Properties properties = new Properties();

@@ -159,7 +159,7 @@ public class Listeners implements Listener {
 
         if (Config.Settings.CanTpSpawnLocation) {
             player.teleport(Config.Settings.SpawnLocation);
-        }else {
+        } else {
             event.setCancelled(true);
         }
 
@@ -169,7 +169,9 @@ public class Listeners implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
         if (LoginPlayerHelper.isLogin(player.getName())) {
-            Config.setOfflineLocation(player);
+            if (!player.isDead() || Config.Settings.DeathStateQuitRecordLocation) {
+                Config.setOfflineLocation(player);
+            }
             Bukkit.getScheduler().runTaskLater(CatSeedLogin.instance, () -> LoginPlayerHelper.remove(player.getName()), Config.Settings.ReenterInterval);
         }
         Task.getTaskAutoKick().playerJoinTime.remove(player.getName());

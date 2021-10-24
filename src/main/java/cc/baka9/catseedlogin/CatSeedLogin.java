@@ -117,7 +117,9 @@ public class CatSeedLogin extends JavaPlugin {
         Task.cancelAll();
         Bukkit.getOnlinePlayers().forEach(p -> {
             if (!LoginPlayerHelper.isLogin(p.getName())) return;
-            Config.setOfflineLocation(p);
+            if (!p.isDead() || Config.Settings.DeathStateQuitRecordLocation){
+                Config.setOfflineLocation(p);
+            }
 
         });
         try {

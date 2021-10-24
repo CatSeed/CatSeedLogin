@@ -36,11 +36,22 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || commandWhiteListDel(sender, args)
                 || canTpSpawnLocation(sender, args)
                 || autoKick(sender, args)
-                || setIpRegCountLimit(sender, args);
+                || setIpRegCountLimit(sender, args)
+                || deathStateQuitRecordLocation(sender, args);
+    }
+
+    private boolean deathStateQuitRecordLocation(CommandSender sender, String[] args){
+        if (args.length > 0 && args[0].equalsIgnoreCase("deathStateQuitRecordLocation")) {
+            Config.Settings.DeathStateQuitRecordLocation = !Config.Settings.DeathStateQuitRecordLocation;
+            Config.Settings.save();
+            sender.sendMessage("§e死亡状态退出游戏记录退出位置" + (Config.Settings.DeathStateQuitRecordLocation ? "§a开启" : "§8关闭"));
+            return true;
+        }
+        return false;
     }
 
     private boolean autoKick(CommandSender sender, String[] args){
-        if (args.length > 0 && args[0].equalsIgnoreCase("setAutoKick")) {
+        if (args.length > 1 && args[0].equalsIgnoreCase("setAutoKick")) {
             try {
 
                 Config.Settings.AutoKick = Integer.parseInt(args[1]);
