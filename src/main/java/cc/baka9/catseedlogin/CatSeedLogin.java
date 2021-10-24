@@ -7,8 +7,6 @@ import cc.baka9.catseedlogin.database.SQL;
 import cc.baka9.catseedlogin.database.SQLite;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import cc.baka9.catseedlogin.task.Task;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,11 +49,11 @@ public class CatSeedLogin extends JavaPlugin {
 
         //ProtocolLibListeners
         try {
-            ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-            protocolManager.addPacketListener(new ProtocolLibListeners());
+            Class.forName("com.comphenix.protocol.ProtocolLib");
+            ProtocolLibListeners.enable();
             loadProtocolLib = true;
-        } catch (NoClassDefFoundError ignored) {
-            getLogger().warning("§c服务器没有装载ProtocolLib插件，这将无法使用登录前隐藏背包");
+        } catch (ClassNotFoundException e) {
+            getLogger().warning("服务器没有装载ProtocolLib插件，这将无法使用登录前隐藏背包");
         }
 
         //Commands
@@ -117,7 +115,7 @@ public class CatSeedLogin extends JavaPlugin {
         Task.cancelAll();
         Bukkit.getOnlinePlayers().forEach(p -> {
             if (!LoginPlayerHelper.isLogin(p.getName())) return;
-            if (!p.isDead() || Config.Settings.DeathStateQuitRecordLocation){
+            if (!p.isDead() || Config.Settings.DeathStateQuitRecordLocation) {
                 Config.setOfflineLocation(p);
             }
 

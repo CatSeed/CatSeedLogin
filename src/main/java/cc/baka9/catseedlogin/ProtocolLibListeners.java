@@ -2,6 +2,8 @@ package cc.baka9.catseedlogin;
 
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
@@ -9,6 +11,11 @@ import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.entity.Player;
 
 public class ProtocolLibListeners extends PacketAdapter {
+
+    public static void enable(){
+        ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new ProtocolLibListeners());
+    }
 
 
     public ProtocolLibListeners(){
