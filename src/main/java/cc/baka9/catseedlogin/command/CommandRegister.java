@@ -60,6 +60,7 @@ public class CommandRegister implements CommandExecutor {
                         Bukkit.getServer().getPluginManager().callEvent(event);
                     });
                     sender.sendMessage(Config.Language.REGISTER_SUCCESS);
+                    player.updateInventory();
                     LoginPlayerHelper.recordCurrentIP(player, lp);
                 }
 
