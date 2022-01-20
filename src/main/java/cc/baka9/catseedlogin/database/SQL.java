@@ -18,17 +18,8 @@ public abstract class SQL {
     }
 
     public void init() throws Exception{
-        boolean create = true;
-        ResultSet re = getConnection().getMetaData().getTables(null, null, null, null);
-        while (re.next()) {
-            if (re.getString("TABLE_NAME").equals("accounts")) {
-                create = false;
-            }
-        }
-        re.close();
-        if (create) {
-            flush(new BufferStatement("CREATE TABLE accounts (name CHAR(255),password CHAR(255),email CHAR(255),ips CHAR(255),lastAction TIMESTAMP)"));
-        }
+
+        flush(new BufferStatement("CREATE TABLE IF NOT EXISTS accounts (name CHAR(255),password CHAR(255),email CHAR(255),ips CHAR(255),lastAction TIMESTAMP)"));
 
         try {
             flush(new BufferStatement("ALTER TABLE accounts ADD email CHAR(255)"));
