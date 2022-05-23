@@ -25,7 +25,7 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 #### 如果是正常使用：
 * 插件放入plugins文件夹重启服务器
 #### 如果是配合BungeeCord连接多个子服使用：
-* 插件放入作为登录服的plugins文件夹重启服务器，然后在plugins文件夹下找到CatSeedLogin文件夹修改bungeecord.yml中的配置，然后执行重载指令
+* 插件放入作为登陆服的那个子服plugins文件夹重启服务器，然后在plugins文件夹下找到CatSeedLogin文件夹修改bungeecord.yml中的配置，然后执行重载指令
 * 复制一份插件再放入BungeeCord的plugins文件夹重启服务器，然后在plugins文件夹下找到CatSeedLogin-Bungee文件夹，修改bungeecord.yml中的配置，然后执行重载指令
 ## 指令
 ### 登录
@@ -144,7 +144,7 @@ SSLAuthVerify: true
 语言文件  
 内容省略...
 ## 配合BungeeCord连接多个子服
-插件可以在子服和bc端上运行，如果你是bc端连接多个子服的服务器架构，你需要在子服和bc端都装入这个插件，并设置bungeecord.yml配置文件
+插件可以在子服和bc端上运行，如果你是bc端连接多个子服的服务器架构，你需要在作为登陆服的那个子服和bc端都装入这个插件，并设置bungeecord.yml配置文件
 ### 子服配置文件
 #### bungeecord.yml
 > \#是否开启bungeecord模式（false = 不开启）  
