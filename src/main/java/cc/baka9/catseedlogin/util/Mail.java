@@ -1,7 +1,7 @@
 package cc.baka9.catseedlogin.util;
 
 
-import cc.baka9.catseedlogin.Config;
+import cc.baka9.catseedlogin.bukkit.Config;
 
 import javax.mail.Session;
 import javax.mail.Transport;

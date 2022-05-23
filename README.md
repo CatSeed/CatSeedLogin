@@ -17,11 +17,16 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 *  密码加密储存,Crypt默认加密方式
 *  进入游戏时游戏名的限制（由数字,字母和下划线组成 “可配置”长度的游戏名才能进入）
 *  绑定邮箱，邮箱重置密码功能
+*  支持bc端在没有登录时，禁止切换子服，登录后切换子服保持登录
 ## 下载
 * 最新版 https://www.mcbbs.net/thread-847859-1-1.html
 * 旧版 https://github.com/CatSeed/CatSeedLogin/tags
 ## 使用方式
-* 下载到的文件放入plugins文件夹重启服务器
+#### 如果是正常使用：
+* 插件放入plugins文件夹重启服务器
+#### 如果是配合BungeeCord连接多个子服使用：
+* 插件放入作为登录服的plugins文件夹重启服务器，然后在plugins文件夹下找到CatSeedLogin文件夹修改bungeecord.yml中的配置，然后执行重载指令
+* 复制一份插件再放入BungeeCord的plugins文件夹重启服务器，然后在plugins文件夹下找到CatSeedLogin-Bungee文件夹，修改bungeecord.yml中的配置，然后执行重载指令
 ## 指令
 ### 登录
 * /login 密码
@@ -138,6 +143,29 @@ SSLAuthVerify: true
 ### language.yml
 语言文件  
 内容省略...
+## 配合BungeeCord连接多个子服
+插件可以在子服和bc端上运行，如果你是bc端连接多个子服的服务器架构，你需要在子服和bc端都装入这个插件，并设置bungeecord.yml配置文件
+### 子服配置文件
+#### bungeecord.yml
+> \#是否开启bungeecord模式（false = 不开启）  
+Enable: false  
+\#设置IP（如果可以建议使用内网），会使用这个ip开启一个通讯服务与bc建立端通讯  
+Host: 127.0.0.1  
+\#设置端口  
+Port: 2333  
+\#验证密钥，类似设置密码一样，这里填写一串无法被人猜到无规律的字符（如果是内网可以不写）  
+AuthKey: ""  
+### bc端配置文件
+#### bungeecord.yml
+> \#设置IP，需要跟子服的一样（如果可以建议使用内网），从这个ip跟子服建立通讯  
+Host: 127.0.0.1  
+\#设置端口，需要跟子服一样  
+Port: 2333  
+\#作为登录服的服务器  
+LoginServerName: "lobby"  
+\#验证密钥，需要跟子服一样  
+AuthKey: ""
+
 ## 开发者部分
 ### 事件
 CatSeedPlayerLoginEvent

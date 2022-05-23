@@ -1,0 +1,4 @@
+Enable: false
+Host: 127.0.0.1
+Port: 2333
+AuthKey: ""

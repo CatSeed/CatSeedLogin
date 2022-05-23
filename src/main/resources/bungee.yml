@@ -1,0 +1,4 @@
+name: CatSeedLogin-Bungee
+main: cc.baka9.catseedlogin.bungee.PluginMain
+version: ${version}
+author: CatSeed
