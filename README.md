@@ -1,9 +1,5 @@
 # CatSeedLogin 猫种子登陆
-> 插件在Spigot API 1.13.2环境下开发的，
-由于现在很多登录插件功能配置非常多，配置起来麻烦并且有很多用不到的功能。
-crazylogin在高版本有各种匪夷所思的bug（总之我是被crazylogin从1.13.2的版本劝退自己开始造起了登陆插件）
-authme配置文件对一些经验不足的服主配置起来极其麻烦，甚至有人从入门到弃坑
-有人测试1.7.10 和 1.11版本的服务器可以用 理论上应该支持1.7 ~ 1.18.1 一般都是低版本向上兼容。
+> 插件在Spigot API 1.13.2环境下开发的， 理论上应该支持1.7 ~ 1.18.1 一般都是低版本向上兼容。
 ## 基础功能:
 *  注册 登录 修改密码 管理员设置密码
 *  防止英文id大小写登录bug
@@ -19,14 +15,13 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 *  绑定邮箱，邮箱重置密码功能
 *  支持bc端在没有登录时，禁止切换子服，登录后切换子服保持登录
 ## 下载
-* 最新版 https://www.mcbbs.net/thread-847859-1-1.html
-* 旧版 https://github.com/CatSeed/CatSeedLogin/tags
+*  https://github.com/CatSeed/CatSeedLogin/tags
 ## 使用方式
 #### 如果是正常使用：
 * 插件放入plugins文件夹重启服务器
 #### 如果是配合BungeeCord连接多个子服使用：
-* 插件放入作为登陆服的那个子服plugins文件夹重启服务器，然后在plugins文件夹下找到CatSeedLogin文件夹修改bungeecord.yml中的配置，然后执行重载指令
-* 复制一份插件再放入BungeeCord的plugins文件夹重启服务器，然后在plugins文件夹下找到CatSeedLogin-Bungee文件夹，修改bungeecord.yml中的配置，然后执行重载指令
+* 插件放入登陆服的plugins文件夹重启服务器
+* 插件再放入BungeeCord的plugins文件夹重启服务器
 ## 指令
 ### 登录
 * /login 密码
@@ -143,13 +138,15 @@ SSLAuthVerify: true
 ### language.yml
 语言文件  
 内容省略...
-## 配合BungeeCord连接多个子服
-插件可以在子服和bc端上运行，如果你是bc端连接多个子服的服务器架构，你需要在作为登陆服的那个子服和bc端都装入这个插件，并设置bungeecord.yml配置文件
+## BungeeCord使用
+你需要在登陆服和bc端装入这个插件，并设置它们的bungeecord.yml配置文件  
+注意事项1：只需要bc端和一个作为登录用途的服务器装就可以了，不需要全部服务器都装  
+注意事项2：不要与现有服务器端口冲突，或被占用，这是本插件自己需要占用的一个端口  
 ### 子服配置文件
 #### bungeecord.yml
 > \#是否开启bungeecord模式（false = 不开启）  
 Enable: false  
-\#设置IP（如果可以建议使用内网），会使用这个ip开启一个通讯服务与bc建立端通讯  
+\#设置IP（暂时只建议使用内网），会使用这个ip开启一个通讯服务与bc建立端通讯  
 Host: 127.0.0.1  
 \#设置端口  
 Port: 2333  
@@ -157,9 +154,9 @@ Port: 2333
 AuthKey: ""  
 ### bc端配置文件
 #### bungeecord.yml
-> \#设置IP，需要跟子服的一样（如果可以建议使用内网），从这个ip跟子服建立通讯  
+> \#设置IP，需要跟子服的一样（暂时只建议使用内网），从这个ip跟子服建立通讯  
 Host: 127.0.0.1  
-\#设置端口，需要跟子服一样  
+\#设置端口  
 Port: 2333  
 \#作为登录服的服务器  
 LoginServerName: "lobby"  

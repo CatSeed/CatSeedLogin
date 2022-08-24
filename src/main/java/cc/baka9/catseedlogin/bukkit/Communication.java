@@ -25,15 +25,19 @@ public class Communication {
      * 异步关闭 socket server
      */
     public static void socketServerStopAsync() {
-        CatSeedLogin.instance.runTaskAsync(() -> {
-            if (serverSocket != null && !serverSocket.isClosed()) {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        CatSeedLogin.instance.runTaskAsync(Communication::socketServerStop);
+    }
+
+    public static void socketServerStop() {
+
+        if (serverSocket != null && !serverSocket.isClosed()) {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+        }
+
     }
 
     /**
@@ -83,6 +87,7 @@ public class Communication {
                 String time = bufferedReader.readLine();
                 String sign = bufferedReader.readLine();
                 handleKeepLoggedInRequest(playerName, time, sign);
+                socket.close();
                 break;
             default:
                 break;
@@ -96,9 +101,9 @@ public class Communication {
             // 切换主线程给予登录状态
             Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
                 LoginPlayer lp = Cache.getIgnoreCase(playerName);
-                Player player = Bukkit.getPlayerExact(playerName);
-                if (lp != null && player != null && player.isOnline()) {
+                if (lp != null) {
                     LoginPlayerHelper.add(lp);
+                    Player player = Bukkit.getPlayerExact(playerName);
                     if (player != null) {
                         player.updateInventory();
                     }
@@ -117,6 +122,7 @@ public class Communication {
             CatSeedLogin.instance.runTaskAsync(() -> {
                 try {
                     socket.getOutputStream().write(result ? 1 : 0);
+                    socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

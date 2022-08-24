@@ -131,6 +131,7 @@ public class CatSeedLogin extends JavaPlugin {
             getLogger().warning("获取数据库连接时出错");
             e.printStackTrace();
         }
+        Communication.socketServerStop();
         super.onDisable();
     }
 

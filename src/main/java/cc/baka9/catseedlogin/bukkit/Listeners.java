@@ -192,7 +192,7 @@ public class Listeners implements Listener {
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event){
         String name = event.getName();
         if (Config.Settings.LimitChineseID) {
-            if (!name.matches("^[0-9a-zA-Z_]+$")) {
+            if (!name.matches("^\\w+$")) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                         "请使用由数字,字母和下划线组成的游戏名,才能进入游戏");
             }
