@@ -302,12 +302,12 @@ public class Config {
 
     // 修正Yaw数值防止崩服卡服
     private static float fixYaw(float yaw){
-        return yaw > 180 || yaw < -180 ? 0 : yaw;
+        return yaw > 180 || yaw < -180 ? 0 : (float)(Math.round(yaw * 100)) / 100;
     }
 
     // 修正Pitch数值防止崩服卡服
     private static float fixPitch(float pitch){
-        return pitch > 90 || pitch < -90 ? 0 : pitch;
+        return pitch > 90 || pitch < -90 ? 0 : (float)(Math.round(pitch * 100)) / 100;
     }
 
     // 获取默认世界
