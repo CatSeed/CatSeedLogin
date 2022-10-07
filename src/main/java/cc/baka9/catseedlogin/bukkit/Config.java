@@ -276,8 +276,8 @@ public class Config {
             double x = Double.parseDouble(locStrs[1]);
             double y = Double.parseDouble(locStrs[2]);
             double z = Double.parseDouble(locStrs[3]);
-            float yaw = Float.parseFloat(locStrs[4]);
-            float pitch = Float.parseFloat(locStrs[5]);
+            float yaw = fixYaw(Float.parseFloat(locStrs[4]));
+            float pitch = fixPitch(Float.parseFloat(locStrs[5]));
             loc = new Location(world, x, y, z, yaw, pitch);
         } catch (Exception ignored) {
             loc = getDefaultWorld().getSpawnLocation();
@@ -287,13 +287,27 @@ public class Config {
     }
     // 位置转成字符串
     private static String loc2String(Location loc){
+        loc.setYaw(fixYaw(loc.getYaw()));
+        loc.setPitch(fixPitch(loc.getPitch()));
         try {
             return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch();
         } catch (Exception ignored) {
             loc = getDefaultWorld().getSpawnLocation();
         }
+        loc.setYaw(fixYaw(loc.getYaw()));
+        loc.setPitch(fixPitch(loc.getPitch()));
         return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch();
 
+    }
+
+    // 修正Yaw数值防止崩服卡服
+    private static float fixYaw(float yaw){
+        return yaw > 180 || yaw < -180 ? 0 : yaw;
+    }
+
+    // 修正Pitch数值防止崩服卡服
+    private static float fixPitch(float pitch){
+        return pitch > 90 || pitch < -90 ? 0 : pitch;
     }
 
     // 获取默认世界
