@@ -132,7 +132,7 @@ public class Listeners implements Listener {
             loggedIn = loggedInPlayerList.contains(playerName);
         }
         if (loggedIn || Communication.sendConnectRequest(playerName) == 1) {
-            event.setCancelReason(new TextComponent(""));
+            event.setCancelReason(new TextComponent("§f您已有一个同名账号在线了."));
             event.setCancelled(true);
         }
 
