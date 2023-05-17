@@ -11,7 +11,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -103,10 +102,6 @@ public class LoginPlayerHelper {
             itemListModifier.write(0, Arrays.asList(blankInventory));
         }
 
-        try {
-            protocolManager.sendServerPacket(player, inventoryPacket, false);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        protocolManager.sendServerPacket(player, inventoryPacket, false);
     }
 }

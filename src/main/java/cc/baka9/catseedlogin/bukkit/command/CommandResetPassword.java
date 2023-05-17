@@ -14,6 +14,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class CommandResetPassword implements CommandExecutor {
@@ -46,7 +47,7 @@ public class CommandResetPassword implements CommandExecutor {
                     sender.sendMessage(Config.Language.RESETPASSWORD_EMAIL_SENDING_MESSAGE.replace("{email}", lp.getEmail()));
                     CatSeedLogin.instance.runTaskAsync(() -> {
                         try {
-                            Mail.sendMail(emailCode.getEmail(), "重置密码",
+                            Mail.sendMail(Objects.requireNonNull(emailCode).getEmail(), "重置密码",
                                     "你的验证码是 <strong>" + emailCode.getCode() + "</strong>" +
                                             "<br/>在服务器中使用帐号 " + name + " 输入指令<strong>/resetpassword re " + emailCode.getCode() + " 新密码</strong> 来重置新密码" +
                                             "<br/>此验证码有效期为 " + (emailCode.getDurability() / (1000 * 60)) + "分钟");
