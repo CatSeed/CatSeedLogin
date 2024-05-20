@@ -56,11 +56,13 @@ public class CommandBindEmail implements CommandExecutor {
                     sender.sendMessage("§6向邮箱发送验证码中...");
                     CatSeedLogin.instance.runTaskAsync(() -> {
                         try {
-                            Mail.sendMail(mail, "邮箱绑定",
-                                    "你的验证码是 <strong>" + bindEmail.getCode() + "</strong>" +
-                                            "<br/>在服务器中使用帐号 " + name + " 输入指令<strong>/bindemail verify " + bindEmail.getCode() + "</strong> 来绑定邮箱" +
-                                            "<br/>绑定邮箱之后可用于忘记密码时重置自己的密码" +
-                                            "<br/>此验证码有效期为 " + (bindEmail.getDurability() / (1000 * 60)) + "分钟");
+                            if (bindEmail != null) {
+                                Mail.sendMail(mail, "邮箱绑定",
+                                        "你的验证码是 <strong>" + bindEmail.getCode() + "</strong>" +
+                                                "<br/>在服务器中使用帐号 " + name + " 输入指令<strong>/bindemail verify " + bindEmail.getCode() + "</strong> 来绑定邮箱" +
+                                                "<br/>绑定邮箱之后可用于忘记密码时重置自己的密码" +
+                                                "<br/>此验证码有效期为 " + (bindEmail.getDurability() / (1000 * 60)) + "分钟");
+                            }
                             Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
                                 sender.sendMessage("§6已经向邮箱 " + mail + " 发送了一串绑定验证码，请检查你的邮箱的收件箱");
                                 sender.sendMessage("§c如果未收到，请检查邮箱的垃圾箱!");

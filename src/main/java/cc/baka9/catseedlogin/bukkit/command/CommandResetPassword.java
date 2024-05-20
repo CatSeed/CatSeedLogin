@@ -46,12 +46,17 @@ public class CommandResetPassword implements CommandExecutor {
                     sender.sendMessage(Config.Language.RESETPASSWORD_EMAIL_SENDING_MESSAGE.replace("{email}", lp.getEmail()));
                     CatSeedLogin.instance.runTaskAsync(() -> {
                         try {
-                            Mail.sendMail(emailCode.getEmail(), "重置密码",
-                                    "你的验证码是 <strong>" + emailCode.getCode() + "</strong>" +
-                                            "<br/>在服务器中使用帐号 " + name + " 输入指令<strong>/resetpassword re " + emailCode.getCode() + " 新密码</strong> 来重置新密码" +
-                                            "<br/>此验证码有效期为 " + (emailCode.getDurability() / (1000 * 60)) + "分钟");
-                            Bukkit.getScheduler().runTask(CatSeedLogin.instance, () ->
-                                    sender.sendMessage(Config.Language.RESETPASSWORD_EMAIL_SENT_MESSAGE.replace("{email}", emailCode.getEmail())));
+                            if (emailCode != null) {
+                                Mail.sendMail(emailCode.getEmail(), "重置密码",
+                                        "你的验证码是 <strong>" + emailCode.getCode() + "</strong>" +
+                                                "<br/>在服务器中使用帐号 " + name + " 输入指令<strong>/resetpassword re " + emailCode.getCode() + " 新密码</strong> 来重置新密码" +
+                                                "<br/>此验证码有效期为 " + (emailCode.getDurability() / (1000 * 60)) + "分钟");
+                            }
+                            Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
+                                if (emailCode != null) {
+                                    sender.sendMessage(Config.Language.RESETPASSWORD_EMAIL_SENT_MESSAGE.replace("{email}", emailCode.getEmail()));
+                                }
+                            });
                         } catch (Exception e) {
                             Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> sender.sendMessage(Config.Language.RESETPASSWORD_EMAIL_WARN));
                             e.printStackTrace();
@@ -72,7 +77,7 @@ public class CommandResetPassword implements CommandExecutor {
                     String code = args[1], pwd = args[2];
 
                     if (emailCode.getCode().equals(code)) {
-                        if (!Util.passwordIsDifficulty(pwd)) {
+                        if (Util.passwordIsDifficulty(pwd)) {
                             sender.sendMessage(Config.Language.COMMON_PASSWORD_SO_SIMPLE);
                             return true;
                         }

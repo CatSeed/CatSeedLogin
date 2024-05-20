@@ -15,7 +15,7 @@ public class TaskAutoKick extends Task {
     @Override
     public void run(){
         if (!Cache.isLoaded || Config.Settings.AutoKick < 1) return;
-        long autoKickMs = Config.Settings.AutoKick * 1000;
+        long autoKickMs = Config.Settings.AutoKick * 1000L;
         long now = System.currentTimeMillis();
         for (Player player : Bukkit.getOnlinePlayers()) {
             String playerName = player.getName();

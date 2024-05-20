@@ -13,7 +13,7 @@ public abstract class Task implements Runnable {
 
     private static TaskAutoKick taskAutoKick;
     private static TaskSendLoginMessage taskSendLoginMessage;
-    private static List<BukkitTask> bukkitTaskList = new ArrayList<>();
+    private static final List<BukkitTask> bukkitTaskList = new ArrayList<>();
 
     public static TaskAutoKick getTaskAutoKick(){
         if (taskAutoKick == null) {
@@ -31,7 +31,7 @@ public abstract class Task implements Runnable {
 
     }
 
-    private static CatSeedLogin plugin = CatSeedLogin.instance;
+    private static final CatSeedLogin plugin = CatSeedLogin.instance;
 
     public static void runAll(){
         runTaskTimer(Task.getTaskSendLoginMessage(), 20 * 5);

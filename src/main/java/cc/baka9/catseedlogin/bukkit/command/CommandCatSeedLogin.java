@@ -150,7 +150,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
     private boolean setReenterInterval(CommandSender sender, String[] args){
         if (args.length > 1 && args[0].equalsIgnoreCase("setReenterInterval")) {
             try {
-                Config.Settings.ReenterInterval = Long.valueOf(args[1]);
+                Config.Settings.ReenterInterval = Long.parseLong(args[1]);
                 Config.Settings.save();
                 sender.sendMessage("§e离开服务器重新进入的间隔限制 " + Config.Settings.ReenterInterval + "tick");
 
@@ -179,8 +179,8 @@ public class CommandCatSeedLogin implements CommandExecutor {
         if (args.length > 2 && args[0].equalsIgnoreCase("setIdLength")) {
 
             try {
-                Config.Settings.MinLengthID = Integer.valueOf(args[1]);
-                Config.Settings.MaxLengthID = Integer.valueOf(args[2]);
+                Config.Settings.MinLengthID = Integer.parseInt(args[1]);
+                Config.Settings.MaxLengthID = Integer.parseInt(args[2]);
                 Config.Settings.save();
                 sender.sendMessage("§e游戏名最小和最大长度为 " + Config.Settings.MinLengthID + " ~ " + Config.Settings.MaxLengthID);
             } catch (NumberFormatException e) {
@@ -205,7 +205,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
     private boolean setIpCountLimit(CommandSender sender, String[] args){
         if (args.length > 1 && args[0].equalsIgnoreCase("setIpCountLimit")) {
             try {
-                Config.Settings.IpCountLimit = Integer.valueOf(args[1]);
+                Config.Settings.IpCountLimit = Integer.parseInt(args[1]);
                 Config.Settings.save();
                 sender.sendMessage("§e相同ip登录限制数量为 " + Config.Settings.IpCountLimit);
             } catch (NumberFormatException e) {
@@ -219,7 +219,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
     private boolean setIpRegCountLimit(CommandSender sender, String[] args){
         if (args.length > 1 && args[0].equalsIgnoreCase("setIpRegCountLimit")) {
             try {
-                Config.Settings.IpRegisterCountLimit = Integer.valueOf(args[1]);
+                Config.Settings.IpRegisterCountLimit = Integer.parseInt(args[1]);
                 Config.Settings.save();
                 sender.sendMessage("§e相同ip注册限制数量为 " + Config.Settings.IpRegisterCountLimit);
             } catch (NumberFormatException e) {
@@ -268,7 +268,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
         if (args.length > 2 && args[0].equalsIgnoreCase("setpwd")) {
 
             String name = args[1], pwd = args[2];
-            if (!Util.passwordIsDifficulty(pwd)) {
+            if (Util.passwordIsDifficulty(pwd)) {
                 sender.sendMessage("§c密码必须是6~16位之间的数字和字母组成");
                 return true;
             }

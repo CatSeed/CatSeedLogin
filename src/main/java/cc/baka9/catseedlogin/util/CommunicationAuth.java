@@ -13,10 +13,8 @@ public class CommunicationAuth {
             byte[] arrayOfByte = messageDigest.digest();
             StringBuilder stringBuilder = new StringBuilder();
             for (byte value : arrayOfByte) {
-                byte b = value;
-                if (b < 0) b += 256;
-                if (b < 16) stringBuilder.append("0");
-                stringBuilder.append(Integer.toHexString(b));
+                if (value < 16) stringBuilder.append("0");
+                stringBuilder.append(Integer.toHexString(value));
             }
             String str = stringBuilder.toString();
             return str.toLowerCase();

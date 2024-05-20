@@ -40,7 +40,7 @@ public class CommandChangePassword implements CommandExecutor {
             sender.sendMessage(Config.Language.CHANGEPASSWORD_PASSWORD_CONFIRM_FAIL);
             return true;
         }
-        if (!Util.passwordIsDifficulty(args[1])) {
+        if (Util.passwordIsDifficulty(args[1])) {
             sender.sendMessage(Config.Language.COMMON_PASSWORD_SO_SIMPLE);
             return true;
         }

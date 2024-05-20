@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 /**
  * bukkit 与 bc 的通讯交流
@@ -97,7 +98,7 @@ public class Communication {
     private static void handleKeepLoggedInRequest(String playerName, String time, String sign) {
         // 验证请求的合法性
         // 对比玩家名，时间戳，和authKey加密的结果（加密是因为如果登录服不在内网环境下，则可能会被人使用这个功能给发包来直接绕过登录）
-        if (CommunicationAuth.encryption(playerName, time, Config.BungeeCord.AuthKey).equals(sign)) {
+        if (Objects.equals(CommunicationAuth.encryption(playerName, time, Config.BungeeCord.AuthKey), sign)) {
             // 切换主线程给予登录状态
             Bukkit.getScheduler().runTask(CatSeedLogin.instance, () -> {
                 LoginPlayer lp = Cache.getIgnoreCase(playerName);

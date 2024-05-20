@@ -1,5 +1,6 @@
 package cc.baka9.catseedlogin.bukkit.event;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -23,18 +24,12 @@ public class CatSeedPlayerLoginEvent extends Event {
         return handlers;
     }
 
-    private Player player;
-    private String email;
-    private Result result;
+    @Getter
+    private final Player player;
+    private final String email;
+    @Getter
+    private final Result result;
 
-
-    public Player getPlayer(){
-        return player;
-    }
-
-    public Result getResult(){
-        return result;
-    }
 
     public Optional<String> getEmail(){
         return Optional.ofNullable(email);

@@ -34,7 +34,7 @@ public class CommandRegister implements CommandExecutor {
             sender.sendMessage(Config.Language.REGISTER_PASSWORD_CONFIRM_FAIL);
             return true;
         }
-        if (!Util.passwordIsDifficulty(args[0])) {
+        if (Util.passwordIsDifficulty(args[0])) {
             sender.sendMessage(Config.Language.COMMON_PASSWORD_SO_SIMPLE);
             return true;
         }

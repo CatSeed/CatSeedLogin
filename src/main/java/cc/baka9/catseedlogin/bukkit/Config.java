@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -26,8 +25,8 @@ import java.util.stream.Collectors;
  * sql.yml 数据库
  */
 public class Config {
-    private static CatSeedLogin plugin = CatSeedLogin.instance;
-    private static Map<String, String> offlineLocations = new HashMap<>();
+    private static final CatSeedLogin plugin = CatSeedLogin.instance;
+    private static final Map<String, String> offlineLocations = new HashMap<>();
 
     /**
      * 数据库
@@ -100,7 +99,7 @@ public class Config {
             AfterLoginBack = config.getBoolean("AfterLoginBack", resourceConfig.getBoolean("AfterLoginBack"));
             CanTpSpawnLocation = config.getBoolean("CanTpSpawnLocation", resourceConfig.getBoolean("CanTpSpawnLocation"));
             List<String> commandWhiteList = config.getStringList("CommandWhiteList");
-            if (commandWhiteList.size() == 0) {
+            if (commandWhiteList.isEmpty()) {
                 commandWhiteList = resourceConfig.getStringList("CommandWhiteList");
             }
             Settings.CommandWhiteList.clear();
