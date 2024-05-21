@@ -33,13 +33,3 @@ jobs:
       with:
         name: CatSeedLogin
         path: target/CatSeedLogin.jar
-
-    - name: Automatic Releases
-      if: success()
-      uses: marvinpinto/actions@latest
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "dev"
-        prerelease: false
-        title: "CatSeedLogin 自动构建版本"
-        files: target/CatSeedLogin.jar
