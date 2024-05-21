@@ -71,7 +71,7 @@ public class LoginPlayerHelper {
         ipsList.add(currentIp);
         ipsList = ipsList.stream().distinct().collect(Collectors.toList());
         if (ipsList.size() > 5) {
-            ipsList.remove(0);
+            ipsList.removeFirst();
         }
         lp.setIps(String.join(";", ipsList.toArray(new String[0])));
         CatSeedLogin.instance.runTaskAsync(() -> {

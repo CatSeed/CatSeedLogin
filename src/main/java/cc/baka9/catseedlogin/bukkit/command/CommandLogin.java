@@ -17,8 +17,7 @@ import java.util.Objects;
 public class CommandLogin implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String lable, String[] args){
-        if (args.length == 0 || !(sender instanceof Player)) return false;
-        Player player = (Player) sender;
+        if (args.length == 0 || !(sender instanceof Player player)) return false;
         String name = player.getName();
         if (LoginPlayerHelper.isLogin(name)) {
             sender.sendMessage(Config.Language.LOGIN_REPEAT);

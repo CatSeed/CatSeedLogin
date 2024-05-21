@@ -22,8 +22,7 @@ public class CommandBindEmail implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
-        if (args.length == 0 || !(sender instanceof Player)) return false;
-        Player player = (Player) sender;
+        if (args.length == 0 || !(sender instanceof Player player)) return false;
         String name = player.getName();
         LoginPlayer lp = Cache.getIgnoreCase(name);
 

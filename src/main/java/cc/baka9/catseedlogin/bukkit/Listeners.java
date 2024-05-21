@@ -139,8 +139,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event){
-        if (!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
+        if (!(event.getEntity() instanceof Player player)) return;
         if (playerIsNotMinecraftPlayer(player)) return;
         if (LoginPlayerHelper.isLogin(player.getName())) return;
         event.setCancelled(true);

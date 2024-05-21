@@ -103,7 +103,7 @@ public class Config {
                 commandWhiteList = resourceConfig.getStringList("CommandWhiteList");
             }
             Settings.CommandWhiteList.clear();
-            Settings.CommandWhiteList.addAll(commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList()));
+            Settings.CommandWhiteList.addAll(commandWhiteList.stream().map(Pattern::compile).toList());
             AutoKick = config.getInt("AutoKick", 120);
             SpawnLocation = str2Location(config.getString("SpawnLocation"));
             DeathStateQuitRecordLocation = config.getBoolean("DeathStateQuitRecordLocation", resourceConfig.getBoolean("DeathStateQuitRecordLocation"));
@@ -306,7 +306,7 @@ public class Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Bukkit.getWorlds().get(0);
+        return Bukkit.getWorlds().getFirst();
     }
 
 

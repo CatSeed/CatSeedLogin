@@ -101,7 +101,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
             System.arraycopy(args, 1, cmd, 0, cmd.length);
             String regex = String.join(" ", cmd);
             Pattern pattern = Pattern.compile(regex);
-            List<String> collect = Config.Settings.CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList());
+            List<String> collect = Config.Settings.CommandWhiteList.stream().map(Pattern::toString).toList();
             if (collect.contains(regex)) {
                 sender.sendMessage("§c已经存在 " + regex);
             } else {

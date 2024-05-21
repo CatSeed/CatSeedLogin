@@ -39,7 +39,7 @@ public class BufferStatement {
 	 * 
 	 * @param con
 	 *            The connection to prepare this on using
-	 *            con.prepareStatement(..)
+	 *            con.prepareStatement(.)
 	 * @return The prepared statement, ready for execution.
 	 */
 	public PreparedStatement prepareStatement(Connection con) throws SQLException {
