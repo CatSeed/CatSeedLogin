@@ -77,6 +77,7 @@ public class Config {
         public static int MaxLengthID;
         public static int MinLengthID;
         public static boolean BeforeLoginNoDamage;
+        public static boolean FloodgatePrefixProtect;
         public static long ReenterInterval;
         public static boolean AfterLoginBack;
         public static boolean CanTpSpawnLocation;
@@ -109,6 +110,7 @@ public class Config {
             AutoKick = config.getInt("AutoKick", 120);
             SpawnLocation = str2Location(config.getString("SpawnLocation"));
             DeathStateQuitRecordLocation = config.getBoolean("DeathStateQuitRecordLocation", resourceConfig.getBoolean("DeathStateQuitRecordLocation"));
+            FloodgatePrefixProtect = config.getBoolean("FloodgatePrefixProtect", resourceConfig.getBoolean("FloodgatePrefixProtect"));
 
 
         }
@@ -130,6 +132,7 @@ public class Config {
             config.set("SpawnLocation", loc2String(SpawnLocation));
             config.set("CommandWhiteList", CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
             config.set("DeathStateQuitRecordLocation", DeathStateQuitRecordLocation);
+            config.set("FloodgatePrefixProtect", FloodgatePrefixProtect);
             try {
                 config.save(new File(CatSeedLogin.instance.getDataFolder(), "settings.yml"));
             } catch (IOException e) {

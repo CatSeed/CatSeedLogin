@@ -16,3 +16,4 @@ CommandWhiteList:
   - /(?i)worldedit cui
 AutoKick: 120
 DeathStateQuitRecordLocation: true
+FloodgatePrefixProtect: true

@@ -201,7 +201,7 @@ public class Listeners implements Listener {
                         "请使用由数字,字母和下划线组成的游戏名,才能进入游戏");
             }
         }
-        if (Config.Settings.BedrockLoginBypass && Bukkit.getPluginManager().getPlugin("floodgate") != null) {
+        if (Config.Settings.FloodgatePrefixProtect && Bukkit.getPluginManager().getPlugin("floodgate") != null) {
             String prefix = FloodgateApi.getInstance().getPlayerPrefix();
             if (event.getName().startsWith(prefix) && !FloodgateApi.getInstance().isFloodgatePlayer(event.getUniqueId())) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
