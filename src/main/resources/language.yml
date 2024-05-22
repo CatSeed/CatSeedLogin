@@ -27,5 +27,5 @@ CHANGEPASSWORD_OLDPASSWORD_INCORRECT: "&c旧密码输入错误!"
 CHANGEPASSWORD_PASSWORD_CONFIRM_FAIL: "&c你两次输入的密码不一样!"
 CHANGEPASSWORD_SUCCESS: "&a修改成功! 请重新登录~"
 AUTO_KICK: "&a你因{time}秒内没有登陆，已被系统踢出服务器"
-
+BEDROCK_LOGIN_BYPASS: "&a检测到基岩版玩家,已跳过登录"
 

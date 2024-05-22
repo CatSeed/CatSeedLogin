@@ -21,6 +21,9 @@ public class CommandResetPassword implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args){
         if (args.length == 0 || !(sender instanceof Player player)) return false;
         String name = player.getName();
+        if (Config.Settings.BedrockLoginBypass && LoginPlayerHelper.isFloodgatePlayer(player)){
+            return true;
+        }
         LoginPlayer lp = Cache.getIgnoreCase(name);
 
         if (lp == null) {

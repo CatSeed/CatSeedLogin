@@ -22,6 +22,9 @@ public class CommandChangePassword implements CommandExecutor {
             return false;
         }
         String name = sender.getName();
+        if (Config.Settings.BedrockLoginBypass && LoginPlayerHelper.isFloodgatePlayer((Player) sender)){
+            return true;
+        }
         LoginPlayer lp = Cache.getIgnoreCase(name);
         if (lp == null) {
             sender.sendMessage(Config.Language.CHANGEPASSWORD_NOREGISTER);

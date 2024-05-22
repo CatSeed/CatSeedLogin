@@ -27,6 +27,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || delPlayer(sender, args)
                 || setIpCountLimit(sender, args)
                 || limitChineseID(sender, args)
+                || bedrockLoginBypass(sender, args)
                 || setIdLength(sender, args)
                 || beforeLoginNoDamage(sender, args)
                 || setReenterInterval(sender, args)
@@ -197,6 +198,16 @@ public class CommandCatSeedLogin implements CommandExecutor {
             Config.Settings.LimitChineseID = !Config.Settings.LimitChineseID;
             Config.Settings.save();
             sender.sendMessage("§e限制中文游戏名 " + (Config.Settings.LimitChineseID ? "§a开启" : "§8关闭"));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean bedrockLoginBypass(CommandSender sender, String[] args){
+        if (args.length > 0 && args[0].equalsIgnoreCase("bedrockLoginBypass")) {
+            Config.Settings.BedrockLoginBypass = !Config.Settings.BedrockLoginBypass;
+            Config.Settings.save();
+            sender.sendMessage("§e基岩版玩家登录跳过 " + (Config.Settings.BedrockLoginBypass ? "§a开启" : "§8关闭"));
             return true;
         }
         return false;

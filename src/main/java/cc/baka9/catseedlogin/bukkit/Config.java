@@ -84,6 +84,7 @@ public class Config {
         public static int AutoKick;
         // 死亡状态退出游戏是否记录退出位置 (玩家可以通过死亡时退出服务器然后重新进入，再复活，登录返回死亡地点)
         public static boolean DeathStateQuitRecordLocation;
+        public static boolean BedrockLoginBypass;
 
         public static void load(){
             FileConfiguration config = getConfig("settings.yml");
@@ -93,6 +94,7 @@ public class Config {
             IpCountLimit = config.getInt("IpCountLimit", resourceConfig.getInt("IpCountLimit"));
             LimitChineseID = config.getBoolean("LimitChineseID", resourceConfig.getBoolean("LimitChineseID"));
             MinLengthID = config.getInt("MinLengthID", resourceConfig.getInt("MinLengthID"));
+            BedrockLoginBypass = config.getBoolean("BedrockLoginBypass", resourceConfig.getBoolean("BedrockLoginBypass"));
             MaxLengthID = config.getInt("MaxLengthID", resourceConfig.getInt("MaxLengthID"));
             BeforeLoginNoDamage = config.getBoolean("BeforeLoginNoDamage", resourceConfig.getBoolean("BeforeLoginNoDamage"));
             ReenterInterval = config.getLong("ReenterInterval", resourceConfig.getLong("ReenterInterval"));
@@ -118,6 +120,7 @@ public class Config {
             config.set("SpawnWorld", null);
             config.set("LimitChineseID", LimitChineseID);
             config.set("MinLengthID", MinLengthID);
+            config.set("BedrockLoginBypass", BedrockLoginBypass);
             config.set("MaxLengthID", MaxLengthID);
             config.set("BeforeLoginNoDamage", BeforeLoginNoDamage);
             config.set("ReenterInterval", ReenterInterval);
@@ -168,6 +171,7 @@ public class Config {
         public static String CHANGEPASSWORD_SUCCESS;
         public static String AUTO_KICK;
         public static String REGISTER_MORE;
+        public static String BEDROCK_LOGIN_BYPASS;
 
         public static void load(){
             FileConfiguration resourceConfig = getResourceConfig("language.yml");

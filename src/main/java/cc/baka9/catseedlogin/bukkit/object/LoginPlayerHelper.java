@@ -1,15 +1,18 @@
 package cc.baka9.catseedlogin.bukkit.object;
 
 import cc.baka9.catseedlogin.bukkit.CatSeedLogin;
+import cc.baka9.catseedlogin.bukkit.Config;
 import cc.baka9.catseedlogin.bukkit.database.Cache;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.StructureModifier;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.geysermc.floodgate.api.FloodgateApi;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -49,6 +52,9 @@ public class LoginPlayerHelper {
 
     public static boolean isLogin(String name){
         synchronized (set) {
+            if (Config.Settings.BedrockLoginBypass && isFloodgatePlayer(name)){
+                return true;
+            }
             for (LoginPlayer lp : set) {
                 if (lp.getName().equals(name)) {
                     return true;
@@ -59,9 +65,20 @@ public class LoginPlayerHelper {
     }
 
     public static boolean isRegister(String name){
-
+        if (Config.Settings.BedrockLoginBypass && isFloodgatePlayer(name)){
+            return true;
+        }
         return Cache.getIgnoreCase(name) != null;
 
+    }
+
+    public static boolean isFloodgatePlayer(String name) {
+        Player player = Bukkit.getPlayerExact(name);
+        return player != null && isFloodgatePlayer(player);
+    }
+
+    public static boolean isFloodgatePlayer(Player player) {
+        return Bukkit.getPluginManager().getPlugin("floodgate") != null && FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId());
     }
 
     // 记录登录IP

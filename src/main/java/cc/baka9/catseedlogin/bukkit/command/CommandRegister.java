@@ -22,6 +22,9 @@ public class CommandRegister implements CommandExecutor {
         if (args.length != 2) return false;
         Player player = (Player) sender;
         String name = sender.getName();
+        if (Config.Settings.BedrockLoginBypass && LoginPlayerHelper.isFloodgatePlayer(player)){
+            return true;
+        }
         if (LoginPlayerHelper.isLogin(name)) {
             sender.sendMessage(Config.Language.REGISTER_AFTER_LOGIN_ALREADY);
             return true;
