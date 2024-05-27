@@ -42,11 +42,12 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || deathStateQuitRecordLocation(sender, args);
     }
 
-    private boolean deathStateQuitRecordLocation(CommandSender sender, String[] args){
+    private boolean deathStateQuitRecordLocation(CommandSender sender, String[] args) {
         if (args.length > 0 && args[0].equalsIgnoreCase("deathStateQuitRecordLocation")) {
             Config.Settings.DeathStateQuitRecordLocation = !Config.Settings.DeathStateQuitRecordLocation;
             Config.Settings.save();
-            sender.sendMessage("§e死亡状态退出游戏记录退出位置" + (Config.Settings.DeathStateQuitRecordLocation ? "§a开启" : "§8关闭"));
+            String message = "死亡状态退出游戏记录退出位置" + (Config.Settings.DeathStateQuitRecordLocation ? "开启" : "关闭");
+            sender.sendMessage("§e" + message);
             return true;
         }
         return false;
