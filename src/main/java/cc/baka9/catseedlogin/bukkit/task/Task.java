@@ -33,10 +33,9 @@ public abstract class Task implements Runnable {
 
     private static final CatSeedLogin plugin = CatSeedLogin.instance;
 
-    public static void runAll(){
-        runTaskTimer(Task.getTaskSendLoginMessage(), 20 * 5);
-        runTaskTimer(Task.getTaskAutoKick(), 20 * 5);
-
+    public static void runAll() {
+        runTaskTimer(Task.getTaskSendLoginMessage(), 0, 20 * 5);
+        runTaskTimer(Task.getTaskAutoKick(), 0, 20 * 5);
     }
 
     public static void cancelAll(){
@@ -48,7 +47,7 @@ public abstract class Task implements Runnable {
 
     }
 
-    public static void runTaskTimer(Runnable runnable, long l){
+    public static void runTaskTimer(Runnable runnable, long l, int i){
         bukkitTaskList.add(plugin.getServer().getScheduler().runTaskTimer(plugin, runnable, 0, l));
 
     }
