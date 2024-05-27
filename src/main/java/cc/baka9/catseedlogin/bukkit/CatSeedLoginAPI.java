@@ -16,7 +16,7 @@ public class CatSeedLoginAPI {
         try {
             return LoginPlayerHelper.isRegister(name);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("检查玩家注册时发生了错误: " + e.getMessage());
             return false;
         }
     }
