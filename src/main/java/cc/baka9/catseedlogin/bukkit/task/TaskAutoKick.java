@@ -6,14 +6,14 @@ import cc.baka9.catseedlogin.bukkit.object.LoginPlayerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TaskAutoKick extends Task {
-    public Map<String, Long> playerJoinTime = new HashMap<>();
+    public Map<String, Long> playerJoinTime = new ConcurrentHashMap<>();
 
     @Override
-    public void run(){
+    public void run() {
         if (!Cache.isLoaded || Config.Settings.AutoKick < 1) return;
         long autoKickMs = Config.Settings.AutoKick * 1000L;
         long now = System.currentTimeMillis();
