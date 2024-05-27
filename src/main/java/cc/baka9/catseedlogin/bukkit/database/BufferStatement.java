@@ -45,8 +45,8 @@ public class BufferStatement {
 	public PreparedStatement prepareStatement(Connection con) throws SQLException {
 		PreparedStatement ps;
 		ps = con.prepareStatement(query);
-		for (int i = 1; i <= values.length; i++) {
-			ps.setObject(i, values[i - 1]);
+		for (int i = 0; i < values.length; i++) {
+			ps.setObject(i + 1, values[i]);
 		}
 		return ps;
 	}
