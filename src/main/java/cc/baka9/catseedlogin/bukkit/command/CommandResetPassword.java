@@ -14,6 +14,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 public class CommandResetPassword implements CommandExecutor {
@@ -100,7 +101,11 @@ public class CommandResetPassword implements CommandExecutor {
                                             }
                                             p.sendMessage(Config.Language.RESETPASSWORD_SUCCESS);
                                             if (CatSeedLogin.loadProtocolLib) {
-                                                LoginPlayerHelper.sendBlankInventoryPacket(player);
+                                                try {
+                                                    LoginPlayerHelper.sendBlankInventoryPacket(player);
+                                                } catch (InvocationTargetException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                             }
                                         }
 

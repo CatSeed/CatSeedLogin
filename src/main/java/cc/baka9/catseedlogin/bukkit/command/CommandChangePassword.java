@@ -13,6 +13,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 public class CommandChangePassword implements CommandExecutor {
@@ -66,7 +67,11 @@ public class CommandChangePassword implements CommandExecutor {
                         if (Config.Settings.CanTpSpawnLocation) {
                             player.teleport(Config.Settings.SpawnLocation);
                             if (CatSeedLogin.loadProtocolLib) {
-                                LoginPlayerHelper.sendBlankInventoryPacket(player);
+                                try {
+                                    LoginPlayerHelper.sendBlankInventoryPacket(player);
+                                } catch (InvocationTargetException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
                         }
 

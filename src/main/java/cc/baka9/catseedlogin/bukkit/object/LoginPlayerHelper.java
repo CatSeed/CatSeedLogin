@@ -53,7 +53,7 @@ public class LoginPlayerHelper {
         }
     }
 
-    public static boolean isLogin(String name, Set<LoginPlayer> set) {
+    public static boolean isLogin(String name) {
         if (name == null) {
             return false;
         }

@@ -15,6 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -312,7 +313,11 @@ public class CommandCatSeedLogin implements CommandExecutor {
                                 if (Config.Settings.CanTpSpawnLocation) {
                                     p.teleport(Config.Settings.SpawnLocation);
                                     if (CatSeedLogin.loadProtocolLib) {
-                                        LoginPlayerHelper.sendBlankInventoryPacket(p);
+                                        try {
+                                            LoginPlayerHelper.sendBlankInventoryPacket(p);
+                                        } catch (InvocationTargetException e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
                                 }
                             }
