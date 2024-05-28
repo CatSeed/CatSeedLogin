@@ -21,17 +21,17 @@ public class LoginPlayer {
     private long lastAction;
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LoginPlayer that = (LoginPlayer) o;
         return Objects.equals(name, that.name);
     }
 
-    public List<String> getIpsList(){
+    public List<String> getIpsList() {
         List<String> ipList = new ArrayList<>();
         if (this.ips != null) {
-            ipList.addAll(Arrays.asList(this.ips.split(";")));
+            ipList = new ArrayList<>(Arrays.asList(this.ips.split(";")));
         }
         return ipList;
     }
