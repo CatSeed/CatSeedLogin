@@ -40,11 +40,13 @@ public class LoginPlayerHelper {
         }
     }
 
-    public static void remove(String name){
+    public static void remove(String name) {
         synchronized (set) {
-            for (LoginPlayer lp : set) {
+            Iterator<LoginPlayer> iterator = set.iterator();
+            while (iterator.hasNext()) {
+                LoginPlayer lp = iterator.next();
                 if (lp.getName().equals(name)) {
-                    set.remove(lp);
+                    iterator.remove();
                     break;
                 }
             }
