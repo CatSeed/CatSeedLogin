@@ -12,36 +12,37 @@ import org.bukkit.entity.Player;
 
 public class ProtocolLibListeners extends PacketAdapter {
 
-    public static void enable(){
+    public static void enable() {
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-        protocolManager.addPacketListener(new ProtocolLibListeners());
+        ProtocolLibListeners listener = new ProtocolLibListeners(); // 创建PacketAdapter实例
+        protocolManager.addPacketListener(listener); // 将listener注册到protocolManager
     }
 
-
-    public ProtocolLibListeners(){
+    public ProtocolLibListeners() {
         super(CatSeedLogin.instance, ListenerPriority.HIGHEST,
                 PacketType.Play.Server.SET_SLOT,
                 PacketType.Play.Server.WINDOW_ITEMS
         );
-
     }
 
     @Override
-    public void onPacketSending(PacketEvent event){
+    public void onPacketSending(PacketEvent event) {
         PacketType packetType = event.getPacketType();
         if (packetType == PacketType.Play.Server.SET_SLOT || packetType == PacketType.Play.Server.WINDOW_ITEMS) {
             Player player = event.getPlayer();
             PacketContainer packet = event.getPacket();
-            int windowId = packet.getIntegers().read(0);
-            if (windowId == 0 && !LoginPlayerHelper.isLogin(player.getName())) {
-                event.setCancelled(true);
+
+            if (player != null && packet != null) { // 添加对player和packet是否为null的检查
+                int windowId = packet.getIntegers().read(0);
+                if (windowId == 0 && !LoginPlayerHelper.isLogin(player.getName())) {
+                    event.setCancelled(true);
+                }
             }
         }
     }
 
     @Override
-    public void onPacketReceiving(PacketEvent event){
+    public void onPacketReceiving(PacketEvent event) {
+        // 需要实现接收数据包的逻辑
     }
-
-
 }

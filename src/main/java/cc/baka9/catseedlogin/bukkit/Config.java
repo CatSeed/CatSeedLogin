@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
@@ -26,8 +25,8 @@ import java.util.stream.Collectors;
  * sql.yml 数据库
  */
 public class Config {
-    private static CatSeedLogin plugin = CatSeedLogin.instance;
-    private static Map<String, String> offlineLocations = new HashMap<>();
+    private static final CatSeedLogin plugin = CatSeedLogin.instance;
+    private static final Map<String, String> offlineLocations = new HashMap<>();
 
     /**
      * 数据库
@@ -78,6 +77,7 @@ public class Config {
         public static int MaxLengthID;
         public static int MinLengthID;
         public static boolean BeforeLoginNoDamage;
+        public static boolean FloodgatePrefixProtect;
         public static long ReenterInterval;
         public static boolean AfterLoginBack;
         public static boolean CanTpSpawnLocation;
@@ -85,6 +85,7 @@ public class Config {
         public static int AutoKick;
         // 死亡状态退出游戏是否记录退出位置 (玩家可以通过死亡时退出服务器然后重新进入，再复活，登录返回死亡地点)
         public static boolean DeathStateQuitRecordLocation;
+        public static boolean BedrockLoginBypass;
 
         public static void load(){
             FileConfiguration config = getConfig("settings.yml");
@@ -94,20 +95,22 @@ public class Config {
             IpCountLimit = config.getInt("IpCountLimit", resourceConfig.getInt("IpCountLimit"));
             LimitChineseID = config.getBoolean("LimitChineseID", resourceConfig.getBoolean("LimitChineseID"));
             MinLengthID = config.getInt("MinLengthID", resourceConfig.getInt("MinLengthID"));
+            BedrockLoginBypass = config.getBoolean("BedrockLoginBypass", resourceConfig.getBoolean("BedrockLoginBypass"));
             MaxLengthID = config.getInt("MaxLengthID", resourceConfig.getInt("MaxLengthID"));
             BeforeLoginNoDamage = config.getBoolean("BeforeLoginNoDamage", resourceConfig.getBoolean("BeforeLoginNoDamage"));
             ReenterInterval = config.getLong("ReenterInterval", resourceConfig.getLong("ReenterInterval"));
             AfterLoginBack = config.getBoolean("AfterLoginBack", resourceConfig.getBoolean("AfterLoginBack"));
             CanTpSpawnLocation = config.getBoolean("CanTpSpawnLocation", resourceConfig.getBoolean("CanTpSpawnLocation"));
             List<String> commandWhiteList = config.getStringList("CommandWhiteList");
-            if (commandWhiteList.size() == 0) {
+            if (commandWhiteList.isEmpty()) {
                 commandWhiteList = resourceConfig.getStringList("CommandWhiteList");
             }
             Settings.CommandWhiteList.clear();
-            Settings.CommandWhiteList.addAll(commandWhiteList.stream().map(Pattern::compile).collect(Collectors.toList()));
+            Settings.CommandWhiteList.addAll(commandWhiteList.stream().map(Pattern::compile).toList());
             AutoKick = config.getInt("AutoKick", 120);
             SpawnLocation = str2Location(config.getString("SpawnLocation"));
             DeathStateQuitRecordLocation = config.getBoolean("DeathStateQuitRecordLocation", resourceConfig.getBoolean("DeathStateQuitRecordLocation"));
+            FloodgatePrefixProtect = config.getBoolean("FloodgatePrefixProtect", resourceConfig.getBoolean("FloodgatePrefixProtect"));
 
 
         }
@@ -119,6 +122,7 @@ public class Config {
             config.set("SpawnWorld", null);
             config.set("LimitChineseID", LimitChineseID);
             config.set("MinLengthID", MinLengthID);
+            config.set("BedrockLoginBypass", BedrockLoginBypass);
             config.set("MaxLengthID", MaxLengthID);
             config.set("BeforeLoginNoDamage", BeforeLoginNoDamage);
             config.set("ReenterInterval", ReenterInterval);
@@ -128,6 +132,7 @@ public class Config {
             config.set("SpawnLocation", loc2String(SpawnLocation));
             config.set("CommandWhiteList", CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList()));
             config.set("DeathStateQuitRecordLocation", DeathStateQuitRecordLocation);
+            config.set("FloodgatePrefixProtect", FloodgatePrefixProtect);
             try {
                 config.save(new File(CatSeedLogin.instance.getDataFolder(), "settings.yml"));
             } catch (IOException e) {
@@ -169,6 +174,7 @@ public class Config {
         public static String CHANGEPASSWORD_SUCCESS;
         public static String AUTO_KICK;
         public static String REGISTER_MORE;
+        public static String BEDROCK_LOGIN_BYPASS;
 
         public static void load(){
             FileConfiguration resourceConfig = getResourceConfig("language.yml");
@@ -307,7 +313,7 @@ public class Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Bukkit.getWorlds().get(0);
+        return Bukkit.getWorlds().getFirst();
     }
 
 

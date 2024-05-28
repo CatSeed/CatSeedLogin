@@ -44,7 +44,9 @@ public class Communication {
             bufferedWriter.newLine();
             // 根据玩家名，时间戳，和authKey加密的结果（加密是因为如果登录服不在内网环境下，则可能会被人使用这个功能给发包来绕过登录）
             String sign = CommunicationAuth.encryption(playerName, time, Config.AuthKey);
-            bufferedWriter.write(sign);
+            if (sign != null) {
+                bufferedWriter.write(sign);
+            }
             bufferedWriter.newLine();
 
             bufferedWriter.flush();

@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 public class BufferStatement {
-	private Object[] values;
-	private String query;
-	private Exception stacktrace;
+	private final Object[] values;
+	private final String query;
+	private final Exception stacktrace;
 
 	/**
 	 * Represents a PreparedStatement in a state before preparing it (E.g. No
@@ -34,19 +34,19 @@ public class BufferStatement {
 	 * Returns a prepared statement using the given connection. Will try to
 	 * return an empty statement if something went wrong. If that fails, returns
 	 * null.
-	 * 
+	 * <p>
 	 * This method escapes everything automatically.
 	 * 
 	 * @param con
 	 *            The connection to prepare this on using
-	 *            con.prepareStatement(..)
+	 *            con.prepareStatement(.)
 	 * @return The prepared statement, ready for execution.
 	 */
 	public PreparedStatement prepareStatement(Connection con) throws SQLException {
 		PreparedStatement ps;
 		ps = con.prepareStatement(query);
-		for (int i = 1; i <= values.length; i++) {
-			ps.setObject(i, values[i - 1]);
+		for (int i = 0; i < values.length; i++) {
+			ps.setObject(i + 1, values[i]);
 		}
 		return ps;
 	}

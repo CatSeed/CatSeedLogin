@@ -3,8 +3,7 @@ package cc.baka9.catseedlogin.util;
 
 import cc.baka9.catseedlogin.bukkit.Config;
 
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
@@ -16,7 +15,7 @@ public class Mail {
     }
 
 
-    public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception{
+    public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception {
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -51,7 +50,13 @@ public class Mail {
 
         // 发送
         Transport transport = session.getTransport();
-        transport.connect(emailAccount, emailPassword);
+
+        if (Config.EmailVerify.SSLAuthVerify) {
+            transport.connect(emailAccount, emailPassword);
+        } else {
+            transport.connect();
+        }
+
         transport.sendMessage(message, message.getAllRecipients());
         transport.close();
 

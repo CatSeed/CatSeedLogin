@@ -2,7 +2,7 @@ name: CatSeedLogin
 main: cc.baka9.catseedlogin.bukkit.CatSeedLogin
 author: CatSeed
 version: ${version}
-softdepend: [Multiverse-Core, Citizens, Essentials, EssentialsSpawn, ProtocolLib]
+softdepend: [Multiverse-Core, Citizens, Essentials, EssentialsSpawn, ProtocolLib, floodgate]
 api-version: 1.13
 commands:
   login:
@@ -46,6 +46,7 @@ commands:
       §b/<command> setAutoKick [秒数] §9设置自动踢出未登录的玩家 (默认120秒，小于1秒则关闭此功能)
       §b/<command> setSpawnLocation §9设置玩家登陆地点为你站着的位置 (默认登陆地点为world世界的出生点)
       §c/<command> limitChineseID  §9打开/关闭 限制中文游戏名 (默认打开)
+      §c/<command> bedrockLoginBypass §9打开/关闭 基岩版登录跳过 (默认打开)
       §c/<command> beforeLoginNoDamage §9打开/关闭 登陆之前是否受到伤害 (默认登陆之前不受到伤害)
       §c/<command> afterLoginBack §9打开/关闭 登陆之后是否返回退出地点 (默认打开)
       §c/<command> canTpSpawnLocation §9打开/关闭 登录之前是否强制在登陆地点 (默认打开)

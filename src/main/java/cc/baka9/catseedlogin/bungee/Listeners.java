@@ -27,8 +27,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onChat(ChatEvent event) {
         Connection sender = event.getSender();
-        if (!event.isProxyCommand() || !(sender instanceof ProxiedPlayer)) return;
-        ProxiedPlayer proxiedPlayer = (ProxiedPlayer) sender;
+        if (!event.isProxyCommand() || !(sender instanceof ProxiedPlayer proxiedPlayer)) return;
         String message = event.getMessage();
         boolean loggedIn;
         String playerName = proxiedPlayer.getName();

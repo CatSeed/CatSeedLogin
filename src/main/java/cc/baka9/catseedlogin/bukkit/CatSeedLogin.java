@@ -61,6 +61,11 @@ public class CatSeedLogin extends JavaPlugin {
             Communication.socketServerStartAsync();
         }
 
+        // Floodgate
+        if (Bukkit.getPluginManager().getPlugin("floodgate") != null && Config.Settings.BedrockLoginBypass){
+            getLogger().info("检测到floodgate，基岩版兼容已装载");
+        }
+
         //Commands
         getServer().getPluginCommand("login").setExecutor(new CommandLogin());
         getServer().getPluginCommand("login").setTabCompleter((commandSender, command, s, args)

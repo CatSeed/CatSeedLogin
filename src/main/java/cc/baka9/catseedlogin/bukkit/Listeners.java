@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
+import org.geysermc.floodgate.api.FloodgateApi;
 
 import java.util.regex.Pattern;
 
@@ -139,8 +140,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event){
-        if (!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
+        if (!(event.getEntity() instanceof Player player)) return;
         if (playerIsNotMinecraftPlayer(player)) return;
         if (LoginPlayerHelper.isLogin(player.getName())) return;
         event.setCancelled(true);
@@ -181,6 +181,10 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
+        if (Config.Settings.BedrockLoginBypass && LoginPlayerHelper.isFloodgatePlayer(p)) {
+            p.sendMessage(Config.Language.BEDROCK_LOGIN_BYPASS);
+            return;
+        }
         Cache.refresh(p.getName());
         if (Config.Settings.CanTpSpawnLocation) {
             p.teleport(Config.Settings.SpawnLocation);
@@ -195,6 +199,13 @@ public class Listeners implements Listener {
             if (!name.matches("^\\w+$")) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
                         "请使用由数字,字母和下划线组成的游戏名,才能进入游戏");
+            }
+        }
+        if (Config.Settings.FloodgatePrefixProtect && Bukkit.getPluginManager().getPlugin("floodgate") != null) {
+            String prefix = FloodgateApi.getInstance().getPlayerPrefix();
+            if (event.getName().startsWith(prefix) && !FloodgateApi.getInstance().isFloodgatePlayer(event.getUniqueId())) {
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
+                        "非法的基岩版玩家名称,请非基岩版玩家的名称不要以" + prefix + "开头");
             }
         }
         if (name.length() < Config.Settings.MinLengthID) {

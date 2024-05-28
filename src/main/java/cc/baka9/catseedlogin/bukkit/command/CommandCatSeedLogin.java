@@ -15,6 +15,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || delPlayer(sender, args)
                 || setIpCountLimit(sender, args)
                 || limitChineseID(sender, args)
+                || bedrockLoginBypass(sender, args)
                 || setIdLength(sender, args)
                 || beforeLoginNoDamage(sender, args)
                 || setReenterInterval(sender, args)
@@ -41,11 +43,12 @@ public class CommandCatSeedLogin implements CommandExecutor {
                 || deathStateQuitRecordLocation(sender, args);
     }
 
-    private boolean deathStateQuitRecordLocation(CommandSender sender, String[] args){
+    private boolean deathStateQuitRecordLocation(CommandSender sender, String[] args) {
         if (args.length > 0 && args[0].equalsIgnoreCase("deathStateQuitRecordLocation")) {
             Config.Settings.DeathStateQuitRecordLocation = !Config.Settings.DeathStateQuitRecordLocation;
             Config.Settings.save();
-            sender.sendMessage("§e死亡状态退出游戏记录退出位置" + (Config.Settings.DeathStateQuitRecordLocation ? "§a开启" : "§8关闭"));
+            String message = "死亡状态退出游戏记录退出位置" + (Config.Settings.DeathStateQuitRecordLocation ? "开启" : "关闭");
+            sender.sendMessage("§e" + message);
             return true;
         }
         return false;
@@ -101,7 +104,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
             System.arraycopy(args, 1, cmd, 0, cmd.length);
             String regex = String.join(" ", cmd);
             Pattern pattern = Pattern.compile(regex);
-            List<String> collect = Config.Settings.CommandWhiteList.stream().map(Pattern::toString).collect(Collectors.toList());
+            List<String> collect = Config.Settings.CommandWhiteList.stream().map(Pattern::toString).toList();
             if (collect.contains(regex)) {
                 sender.sendMessage("§c已经存在 " + regex);
             } else {
@@ -150,7 +153,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
     private boolean setReenterInterval(CommandSender sender, String[] args){
         if (args.length > 1 && args[0].equalsIgnoreCase("setReenterInterval")) {
             try {
-                Config.Settings.ReenterInterval = Long.valueOf(args[1]);
+                Config.Settings.ReenterInterval = Long.parseLong(args[1]);
                 Config.Settings.save();
                 sender.sendMessage("§e离开服务器重新进入的间隔限制 " + Config.Settings.ReenterInterval + "tick");
 
@@ -179,8 +182,8 @@ public class CommandCatSeedLogin implements CommandExecutor {
         if (args.length > 2 && args[0].equalsIgnoreCase("setIdLength")) {
 
             try {
-                Config.Settings.MinLengthID = Integer.valueOf(args[1]);
-                Config.Settings.MaxLengthID = Integer.valueOf(args[2]);
+                Config.Settings.MinLengthID = Integer.parseInt(args[1]);
+                Config.Settings.MaxLengthID = Integer.parseInt(args[2]);
                 Config.Settings.save();
                 sender.sendMessage("§e游戏名最小和最大长度为 " + Config.Settings.MinLengthID + " ~ " + Config.Settings.MaxLengthID);
             } catch (NumberFormatException e) {
@@ -202,10 +205,20 @@ public class CommandCatSeedLogin implements CommandExecutor {
         return false;
     }
 
+    private boolean bedrockLoginBypass(CommandSender sender, String[] args){
+        if (args.length > 0 && args[0].equalsIgnoreCase("bedrockLoginBypass")) {
+            Config.Settings.BedrockLoginBypass = !Config.Settings.BedrockLoginBypass;
+            Config.Settings.save();
+            sender.sendMessage("§e基岩版玩家登录跳过 " + (Config.Settings.BedrockLoginBypass ? "§a开启" : "§8关闭"));
+            return true;
+        }
+        return false;
+    }
+
     private boolean setIpCountLimit(CommandSender sender, String[] args){
         if (args.length > 1 && args[0].equalsIgnoreCase("setIpCountLimit")) {
             try {
-                Config.Settings.IpCountLimit = Integer.valueOf(args[1]);
+                Config.Settings.IpCountLimit = Integer.parseInt(args[1]);
                 Config.Settings.save();
                 sender.sendMessage("§e相同ip登录限制数量为 " + Config.Settings.IpCountLimit);
             } catch (NumberFormatException e) {
@@ -219,7 +232,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
     private boolean setIpRegCountLimit(CommandSender sender, String[] args){
         if (args.length > 1 && args[0].equalsIgnoreCase("setIpRegCountLimit")) {
             try {
-                Config.Settings.IpRegisterCountLimit = Integer.valueOf(args[1]);
+                Config.Settings.IpRegisterCountLimit = Integer.parseInt(args[1]);
                 Config.Settings.save();
                 sender.sendMessage("§e相同ip注册限制数量为 " + Config.Settings.IpRegisterCountLimit);
             } catch (NumberFormatException e) {
@@ -268,7 +281,7 @@ public class CommandCatSeedLogin implements CommandExecutor {
         if (args.length > 2 && args[0].equalsIgnoreCase("setpwd")) {
 
             String name = args[1], pwd = args[2];
-            if (!Util.passwordIsDifficulty(pwd)) {
+            if (Util.passwordIsDifficulty(pwd)) {
                 sender.sendMessage("§c密码必须是6~16位之间的数字和字母组成");
                 return true;
             }
@@ -300,7 +313,11 @@ public class CommandCatSeedLogin implements CommandExecutor {
                                 if (Config.Settings.CanTpSpawnLocation) {
                                     p.teleport(Config.Settings.SpawnLocation);
                                     if (CatSeedLogin.loadProtocolLib) {
-                                        LoginPlayerHelper.sendBlankInventoryPacket(p);
+                                        try {
+                                            LoginPlayerHelper.sendBlankInventoryPacket(p);
+                                        } catch (InvocationTargetException e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
                                 }
                             }
