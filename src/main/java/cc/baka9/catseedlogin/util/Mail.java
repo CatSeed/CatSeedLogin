@@ -15,7 +15,7 @@ public class Mail {
     }
 
 
-    public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception{
+    public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception {
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -50,7 +50,13 @@ public class Mail {
 
         // 发送
         Transport transport = session.getTransport();
-        transport.connect(emailAccount, emailPassword);
+
+        if (Config.EmailVerify.SSLAuthVerify) {
+            transport.connect(emailAccount, emailPassword);
+        } else {
+            transport.connect();
+        }
+
         transport.sendMessage(message, message.getAllRecipients());
         transport.close();
 
