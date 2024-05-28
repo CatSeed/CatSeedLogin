@@ -3,8 +3,7 @@ package cc.baka9.catseedlogin.util;
 
 import cc.baka9.catseedlogin.bukkit.Config;
 
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
@@ -16,45 +15,45 @@ public class Mail {
     }
 
 
-    public static void sendMail(String receiveMailAccount, String subject, String content) throws Exception{
+    public static void sendMail(String receiveMailAccount, String subject, String content, String smtpHost, String smtpPort, boolean sslAuthVerify, String emailAccount, String emailPassword, String fromPersonal) throws Exception {
 
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.smtp.host", Config.EmailVerify.EmailSmtpHost);
+        props.setProperty("mail.smtp.host", smtpHost);
         props.setProperty("mail.smtp.auth", "true");
 
-        final String smtpPort = Config.EmailVerify.EmailSmtpPort;
         props.setProperty("mail.smtp.port", smtpPort);
 
-        if (Config.EmailVerify.SSLAuthVerify) {
+        if (sslAuthVerify) {
             props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
             props.setProperty("mail.smtp.socketFactory.fallback", "false");
             props.setProperty("mail.smtp.socketFactory.port", smtpPort);
         }
 
-        String emailAccount = Config.EmailVerify.EmailAccount;
-        String emailPassword = Config.EmailVerify.EmailPassword;
-
-        Session session = Session.getInstance(props);
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(emailAccount, emailPassword);
+            }
+        });
 
         // 设置为debug模式, 查看详细的发送 log
         session.setDebug(true);
 
         // 创建邮件
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(emailAccount, Config.EmailVerify.FromPersonal, "UTF-8"));
-        message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiveMailAccount, "", "UTF-8"));
+        message.setFrom(new InternetAddress(emailAccount, fromPersonal, "UTF-8"));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiveMailAccount, "", "UTF-8"));
         message.setSubject(subject, "UTF-8");
-        message.setContent(content, Util.isOSLinux() ? "text/html; charset=UTF-8" : "text/html; charset=GBK");
+        message.setContent(content, getContentType());
         message.setSentDate(new Date());
         message.saveChanges();
 
         // 发送
-        Transport transport = session.getTransport();
-        transport.connect(emailAccount, emailPassword);
-        transport.sendMessage(message, message.getAllRecipients());
-        transport.close();
+        Transport.send(message);
+    }
 
+    private static String getContentType() {
+        return Util.isOSLinux() ? "text/html; charset=UTF-8" : "text/html; charset=GBK";
     }
 
 }
