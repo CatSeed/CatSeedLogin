@@ -9,17 +9,17 @@ import java.sql.SQLException;
 public class SQLite extends SQL {
     private Connection connection;
 
-    public SQLite(JavaPlugin javaPlugin){
+    public SQLite(JavaPlugin javaPlugin) {
         super(javaPlugin);
     }
 
-
     @Override
-    public Connection getConnection() throws SQLException{
+    public Connection getConnection() throws SQLException {
 
         if (this.connection != null && !this.connection.isClosed()) {
             return this.connection;
         }
+
         if (plugin.getDataFolder().exists()) {
             try {
                 Class.forName("org.sqlite.JDBC");
@@ -30,9 +30,11 @@ public class SQLite extends SQL {
                 return null;
             }
         } else {
-            final boolean mkdir = plugin.getDataFolder().mkdir();
-            return this.getConnection();
+            if (plugin.getDataFolder().mkdir()) {
+                return this.getConnection();
+            } else {
+                return null;
+            }
         }
     }
-
 }
