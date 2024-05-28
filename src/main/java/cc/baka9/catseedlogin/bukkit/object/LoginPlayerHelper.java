@@ -51,13 +51,19 @@ public class LoginPlayerHelper {
         }
     }
 
-    public static boolean isLogin(String name){
+    public static boolean isLogin(String name, Set<LoginPlayer> set) {
+        if (name == null) {
+            return false;
+        }
+
         synchronized (set) {
-            if (Config.Settings.BedrockLoginBypass && isFloodgatePlayer(name)){
+            // Check for BedrockLoginBypass or FloodgatePlayer
+            if (Config.Settings.BedrockLoginBypass && isFloodgatePlayer(name)) {
                 return true;
             }
+
             for (LoginPlayer lp : set) {
-                if (lp.getName().equals(name)) {
+                if (lp != null && lp.getName() != null && lp.getName().equals(name)) {
                     return true;
                 }
             }
@@ -65,12 +71,14 @@ public class LoginPlayerHelper {
         }
     }
 
-    public static boolean isRegister(String name){
-        if (Config.Settings.BedrockLoginBypass && isFloodgatePlayer(name)){
+    public static boolean isRegister(String name) {
+        if (name == null || name.isEmpty()) {
+            return false;
+        }
+        if (Config.Settings.BedrockLoginBypass && isFloodgatePlayer(name)) {
             return true;
         }
         return Cache.getIgnoreCase(name) != null;
-
     }
 
     public static boolean isFloodgatePlayer(String name) {
