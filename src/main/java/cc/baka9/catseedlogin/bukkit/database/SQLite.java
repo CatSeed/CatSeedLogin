@@ -31,7 +31,7 @@ public class SQLite extends SQL {
             }
         } else {
             if (plugin.getDataFolder().mkdir()) {
-                return this.getConnection();
+                return null;
             } else {
                 return null;
             }
