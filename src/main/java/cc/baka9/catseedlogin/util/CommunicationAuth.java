@@ -14,7 +14,7 @@ public class CommunicationAuth {
             StringBuilder stringBuilder = new StringBuilder();
             for (byte value : arrayOfByte) {
                 if (value < 16) stringBuilder.append("0");
-                stringBuilder.append(Integer.toHexString(value));
+                stringBuilder.append(Integer.toHexString(value & 0xff));
             }
             String str = stringBuilder.toString();
             return str.toLowerCase();
