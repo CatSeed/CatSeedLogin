@@ -1,33 +1,17 @@
-# 相同ip注册数量限制
 IpRegisterCountLimit: 2
-# 相同ip登录数量限制
 IpCountLimit: 2
-# 登录点,默认是world主世界出生点,可以使用指令设置(使用命令会清除注释！)
-SpawnLocation: 世界名:x轴:y轴:z轴:yaw:pitch
-# 是否限制中文ID
 LimitChineseID: true
-# 游戏ID最小长度
 MinLengthID: 2
-# 游戏ID最大长度
 MaxLengthID: 15
-# 登陆之前不受到伤害
 BeforeLoginNoDamage: true
-# 离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）
 ReenterInterval: 60
-# 登陆后是否返回上次退出地点
 AfterLoginBack: true
-# 登录前是否强制在登陆地点
 CanTpSpawnLocation: true
-# 登陆前允许执行的指令 (支持正则表达式)
 CommandWhiteList:
   - /(?i)l(ogin)?(\z| .*)
   - /(?i)reg(ister)?(\z| .*)
   - /(?i)resetpassword?(\z| .*)
   - /(?i)repw?(\z| .*)
   - /(?i)worldedit cui
-# 自动踢出未登录的玩家 (默认120秒，小于1秒则关闭此功能)
 AutoKick: 120
-# 死亡状态退出游戏是否记录退出位置
 DeathStateQuitRecordLocation: true
-# 是否记录玩家上次退出的地点(群组登录服建议关闭)
-OfflineLocations: true

@@ -1,6 +1,7 @@
 package cc.baka9.catseedlogin.bungee;
 
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.scheduler.ScheduledTask;
 
 /**
  * Bungee Cord 主类
@@ -17,8 +18,8 @@ public class PluginMain extends Plugin {
 
     }
 
-    public static void runAsync(Runnable runnable) {
-        instance.getProxy().getScheduler().runAsync(instance, runnable);
+    public static ScheduledTask runAsync(Runnable runnable) {
+        return instance.getProxy().getScheduler().runAsync(instance, runnable);
     }
 
 }

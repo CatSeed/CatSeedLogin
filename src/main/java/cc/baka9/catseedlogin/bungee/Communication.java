@@ -7,7 +7,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.Objects;
 
 /**
  * bc 与 bukkit 的通讯交流
@@ -15,8 +14,7 @@ import java.util.Objects;
 public class Communication {
 
     public static int sendConnectRequest(String playerName) {
-        try (Socket socket = getSocket();
-                BufferedWriter bufferedWriter = getSocketBufferedWriter(socket)) {
+        try (Socket socket = getSocket(); BufferedWriter bufferedWriter = getSocketBufferedWriter(socket)) {
             // 请求类型
             bufferedWriter.write("Connect");
             bufferedWriter.newLine();
@@ -46,7 +44,7 @@ public class Communication {
             bufferedWriter.newLine();
             // 根据玩家名，时间戳，和authKey加密的结果（加密是因为如果登录服不在内网环境下，则可能会被人使用这个功能给发包来绕过登录）
             String sign = CommunicationAuth.encryption(playerName, time, Config.AuthKey);
-            bufferedWriter.write(Objects.requireNonNull(sign));
+            bufferedWriter.write(sign);
             bufferedWriter.newLine();
 
             bufferedWriter.flush();

@@ -14,7 +14,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -58,7 +57,7 @@ public class CommandBindEmail implements CommandExecutor {
                     CatSeedLogin.instance.runTaskAsync(() -> {
                         try {
                             Mail.sendMail(mail, "邮箱绑定",
-                                    "你的验证码是 <strong>" + Objects.requireNonNull(bindEmail).getCode() + "</strong>" +
+                                    "你的验证码是 <strong>" + bindEmail.getCode() + "</strong>" +
                                             "<br/>在服务器中使用帐号 " + name + " 输入指令<strong>/bindemail verify " + bindEmail.getCode() + "</strong> 来绑定邮箱" +
                                             "<br/>绑定邮箱之后可用于忘记密码时重置自己的密码" +
                                             "<br/>此验证码有效期为 " + (bindEmail.getDurability() / (1000 * 60)) + "分钟");
