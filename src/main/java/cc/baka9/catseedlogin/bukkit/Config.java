@@ -287,18 +287,32 @@ public class Config {
         } catch (Exception ignored) {
             loc = getDefaultWorld().getSpawnLocation();
         }
+        fixLocation(loc);
         return loc;
 
     }
     // 位置转成字符串
     private static String loc2String(Location loc){
+        fixLocation(loc);
         try {
             return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch();
         } catch (Exception ignored) {
             loc = getDefaultWorld().getSpawnLocation();
         }
+        fixLocation(loc);
         return loc.getWorld().getName() + ":" + loc.getX() + ":" + loc.getY() + ":" + loc.getZ() + ":" + loc.getYaw() + ":" + loc.getPitch();
 
+    }
+
+    // 修正位置坐标防止崩服卡服
+    private static void fixLocation(Location location){
+        float yaw = location.getYaw();
+        float pitch = location.getPitch();
+        location.setYaw(yaw > 180 || yaw < -180 ? 0 : (float)(Math.round(yaw * 100)) / 100);
+        location.setPitch(pitch > 90 || pitch < -90 ? 0 : (float)(Math.round(pitch * 100)) / 100);
+        location.setX((double)(Math.round(location.getX() * 10000)) / 10000);
+        location.setY((double)(Math.round(location.getY() * 10000)) / 10000);
+        location.setZ((double)(Math.round(location.getZ() * 10000)) / 10000);
     }
 
     // 获取默认世界
