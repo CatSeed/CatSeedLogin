@@ -1,7 +1,6 @@
 package cc.baka9.catseedlogin.bungee;
 
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.Connection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -121,22 +120,20 @@ public class Listeners implements Listener {
         });
     }
 
-    /**
-     * 玩家在登录之前，检查bc端和子服的登录状态，如果是其中一项是已登录，则禁止连接
-     */
-    @EventHandler
-    public void onPreLogin(PreLoginEvent event) {
-        String playerName = event.getConnection().getName();
-        boolean loggedIn;
-        synchronized (loggedInPlayerList) {
-            loggedIn = loggedInPlayerList.contains(playerName);
-        }
-        if (loggedIn || Communication.sendConnectRequest(playerName) == 1) {
-            event.setCancelReason(new TextComponent(""));
-            event.setCancelled(true);
-        }
-
-    }
-
-
+//    /**
+//     * 玩家在登录之前，检查bc端和子服的登录状态，如果是其中一项是已登录，则禁止连接
+//     */
+//    @EventHandler
+//    public void onPreLogin(PreLoginEvent event) {
+//        TextComponent zh = new TextComponent("§c您已经有一个账号在线了.");
+//        String playerName = event.getConnection().getName();
+//        boolean loggedIn;
+//        synchronized (loggedInPlayerList) {
+//            loggedIn = loggedInPlayerList.contains(playerName);
+//        }
+//        if (loggedIn || Communication.sendConnectRequest(playerName) == 1) {
+//            event.setCancelReason(zh);
+//            event.setCancelled(true);
+//        }
+//    }
 }
