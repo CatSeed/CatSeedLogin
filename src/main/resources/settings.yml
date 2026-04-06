@@ -15,3 +15,5 @@ CommandWhiteList:
   - /(?i)worldedit cui
 AutoKick: 120
 DeathStateQuitRecordLocation: true
+# 允许跳过登录的玩家名字前缀列表 (例如：["Admin", "VIP"])
+SkipLoginPrefixes: []

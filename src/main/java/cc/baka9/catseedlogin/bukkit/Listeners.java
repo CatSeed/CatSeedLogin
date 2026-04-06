@@ -44,6 +44,19 @@ public class Listeners implements Listener {
             return;
         }
         String name = event.getName();
+        
+        // 检查玩家名字是否包含指定前缀，如果是则跳过登录
+        boolean shouldSkipLogin = false;
+        for (String prefix : Config.Settings.SkipLoginPrefixes) {
+            if (name.startsWith(prefix)) {
+                shouldSkipLogin = true;
+                break;
+            }
+        }
+        if (shouldSkipLogin) {
+            return; // 跳过登录验证，直接允许进入
+        }
+        
         LoginPlayer lp = Cache.getIgnoreCase(name);
         if (lp == null) return;
         if (!lp.getName().equals(name)) {
