@@ -31,7 +31,7 @@ public class Listeners implements Listener {
         if (LoginPlayerHelper.isLogin(event.getPlayer().getName())) return;
         String input = event.getMessage().toLowerCase();
         for (Pattern regex : Config.Settings.CommandWhiteList) {
-            if (regex.matcher(input).find()) return;
+            if (regex.matcher(input).matches()) return;
         }
         event.setCancelled(true);
 
