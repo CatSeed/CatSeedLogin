@@ -92,6 +92,11 @@
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
+        <!-- BungeeCord snapshot fallback -->
+        <repository>
+            <id>phoenix616-repo</id>
+            <url>https://repo.phoenix616.dev/</url>
+        </repository>
     </repositories>
     <build>
         <resources>
